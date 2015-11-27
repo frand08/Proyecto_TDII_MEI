@@ -119,6 +119,13 @@ static void Motor(void * p)
 		vTaskDelay(StepPeriod / portTICK_RATE_MS);
 	}
 }
+
+static void StartUpMotor(void* p)
+{
+	Start_Up_Brushless();
+	vTaskSuspend(StartUpMotor);
+}
+
 /*==================[external functions definition]==========================*/
 
 int main(void)
@@ -137,13 +144,14 @@ int main(void)
 	 */
 	initHardware();
 
-	Start_Up_Brushless();
 
 	xTaskCreate(task, (signed const char *)"task1", 1024, (void *)str1, tskIDLE_PRIORITY+1, 0);
 
 	xTaskCreate(task, (signed const char *)"task2", 1024, (void *)str2, tskIDLE_PRIORITY+1, 0);
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,0,tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+1,0);
 
