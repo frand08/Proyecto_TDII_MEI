@@ -55,6 +55,16 @@
 #define	LED1		22
 #define	LED0		17
 
+
+
+
+
+struct StartParams_s {		// params for startup seq.
+	long duration; 			// duration of accel phase of startup, us
+	long periodRange[2]; 	// commutation period range for startup, us
+	long powerRange[2];  	// frac of full power over startup accel
+};
+
 //FUNCIONES
 //-----------------------------------------------------------------------------------------------
 
