@@ -105,6 +105,11 @@ static void taskLED(void * p)
 	}
 }
 
+
+static void Motor1(void * p)
+{
+	while(1);
+}
 /*==================[external functions definition]==========================*/
 
 int main(void)
@@ -126,6 +131,8 @@ int main(void)
 	xTaskCreate(task, (signed const char *)"task2", 1024, (void *)str2, tskIDLE_PRIORITY+1, 0);
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
+
+	xTaskCreate(Motor1, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+2,0);
 
 	sem = xSemaphoreCreateMutex();
 
