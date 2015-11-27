@@ -128,6 +128,7 @@ extern "C" {
 #define LPC_TIMER1                ((LPC_TIMER_T            *) LPC_TIMER1_BASE)
 #define LPC_TIMER2                ((LPC_TIMER_T            *) LPC_TIMER2_BASE)
 #define LPC_TIMER3                ((LPC_TIMER_T            *) LPC_TIMER3_BASE)
+#define LPC_PWM1 				  ((LPC_PWM_T 			   *) LPC_PWM1_BASE)
 #define LPC_MCPWM                 ((LPC_MCPWM_T            *) LPC_MCPWM_BASE)
 #define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C0_BASE)
 #define LPC_I2C1                  ((LPC_I2C_T              *) LPC_I2C1_BASE)
@@ -168,6 +169,7 @@ extern "C" {
 #include "gpioint_17xx_40xx.h"
 #include "i2c_17xx_40xx.h"
 #include "i2s_17xx_40xx.h"
+#include "pwm_17xx_40xx.h"
 #include "mcpwm_17xx_40xx.h"
 #include "pmu_17xx_40xx.h"
 #include "qei_17xx_40xx.h"
