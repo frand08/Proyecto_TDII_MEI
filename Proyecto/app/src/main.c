@@ -61,7 +61,7 @@ static void taskLED(void * p)
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 0);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED3 , 1);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 1);
+			//Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 1);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 0);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 1);
 			i=0;
@@ -74,7 +74,7 @@ static void taskLED(void * p)
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 1);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED3, LED3 , 0);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 0);
+			//Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 0);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 1);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 0);
 			i=1;
@@ -92,7 +92,7 @@ int main(void)
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED2, LED2 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED3, LED3 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED4, LED4 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED5, LED5 , SALIDA);	//Configuro el pin como salida
+	//Chip_GPIO_WriteDirBit(LPC_GPIO, PLED5, LED5 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED6, LED6 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED7, LED7 , SALIDA);	//Configuro el pin como salida
 
