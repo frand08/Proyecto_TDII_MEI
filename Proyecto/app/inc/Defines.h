@@ -38,7 +38,7 @@
 
 #define	PLED7		2
 #define	PLED6		2
-#define	PLED5		0
+//#define	PLED5		0		//NO ANDA EN LA RUBENBOARD QUE TENEMOS
 #define	PLED4		2
 #define	PLED3		2
 #define	PLED2		2
@@ -48,7 +48,7 @@
 
 #define	LED7		12
 #define	LED6		11
-#define	LED5		4
+//#define	LED5		4			//NO ANDA
 #define	LED4		4
 #define	LED3		3
 #define	LED2		2
