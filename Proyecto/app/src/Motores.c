@@ -6,11 +6,7 @@ extern uint32_t Match_Cnt, Cycle, AntiRebo,PORT_Qa[3],PIN_Qa[3],PORT_Qb[3],PIN_Q
 
 extern volatile uint8_t CruceZero[3], CruceZero0[3];
 
-struct StartParams_s {		// params for startup seq.
-	long duration; 			// duration of accel phase of startup, us
-	long periodRange[2]; 	// commutation period range for startup, us
-	long powerRange[2];  	// frac of full power over startup accel
-} start= { 150,   {500, 300},   {60, 150} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
+extern struct StartParams_s start;	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 												//-----> 50*20microseg = 1mSeg
 extern long StepPeriod;     			// step duration, us
 extern volatile uint16_t DutyCycle, DutyCycle0; 	// fraction of period hi pins are high
