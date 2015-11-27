@@ -31,6 +31,30 @@
 #define REBOTE_ 	100000
 #define SALIDA		1
 
+
+
+/*==================[auxiliar]=================================*/
+
+
+#define	PLED1		2
+#define	PLED2		2
+#define	PLED3		0
+#define	PLED4		2
+#define	PLED5		3
+#define	PLED6		2
+#define	PLED7		0
+#define	PLED8		0
+
+
+#define	LED1		12
+#define	LED2		11
+#define	LED3		4
+#define	LED4		4
+#define	LED5		3
+#define	LED6		2
+#define	LED7		22
+#define	LED8		17
+
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
 uint32_t Match_Cnt=0, Cycle=0, AntiRebo=REBOTE_,
