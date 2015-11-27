@@ -132,7 +132,7 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(Motor1, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+2,0);
+	xTaskCreate(Motor1, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+1,0);
 
 	sem = xSemaphoreCreateMutex();
 
