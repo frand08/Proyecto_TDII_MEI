@@ -32,28 +32,16 @@
 
 #ifndef _MAIN_H_
 #define _MAIN_H_
-/** @brief Brief for this header file.
- **
- ** Full description for this header file.
- **
- **/
-
-/** \addtogroup TD2 Técnicas Digitales II
- ** @{ */
-
-/*
- * Initials    Name
- * ---------------------------
- * PR          Pablo Ridolfi
- */
-
-/*
- * modification history (new versions first)
- * -----------------------------------------------------------
- * 20150421 v0.0.1 PR Initial release.
- */
 
 /*==================[inclusions]=============================================*/
+
+#include "FreeRTOS.h"
+#include "board.h"
+#include "chip.h"
+#include "task.h"
+#include "semphr.h"
+
+#include "Defines.h"
 
 /*==================[cplusplus]==============================================*/
 
