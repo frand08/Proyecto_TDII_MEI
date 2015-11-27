@@ -36,24 +36,24 @@
 /*==================[auxiliar]=================================*/
 
 
-#define	PLED1		2
-#define	PLED2		2
-#define	PLED3		0
-#define	PLED4		2
-#define	PLED5		3
+#define	PLED7		2
 #define	PLED6		2
-#define	PLED7		0
-#define	PLED8		0
+#define	PLED5		0
+#define	PLED4		2
+#define	PLED3		2
+#define	PLED2		2
+#define	PLED1		0
+#define	PLED0		0
 
 
-#define	LED1		12
-#define	LED2		11
-#define	LED3		4
+#define	LED7		12
+#define	LED6		11
+#define	LED5		4
 #define	LED4		4
-#define	LED5		3
-#define	LED6		2
-#define	LED7		22
-#define	LED8		17
+#define	LED3		3
+#define	LED2		2
+#define	LED1		22
+#define	LED0		17
 
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
