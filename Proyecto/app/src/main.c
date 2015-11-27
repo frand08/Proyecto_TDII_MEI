@@ -56,22 +56,26 @@ static void taskLED(void * p)
 	{
 		if (i==1)
 		{
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 12 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 11 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 0, 4 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 4 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 3, 3 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 2 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED1, LED1 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED3, LED3 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED8, LED8 , 1);
 			i=0;
 		}
 		else
 		{
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 12 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 11 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 0, 4 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 4 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 3, 3 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 2 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED1, LED1 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED3, LED3 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, PLED8, LED8 , 0);
 			i=1;
 		}
 		vTaskDelay(200 / portTICK_RATE_MS);
