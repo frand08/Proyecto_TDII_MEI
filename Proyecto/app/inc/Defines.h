@@ -7,18 +7,19 @@
 
 //DEFINICIONES PUERTOS SALIDAS ENTRADAS
 //-----------------------------------------------------------------------------------------------
+#define PORT_Q0		2//1
 #define PORT_Q1		2//1
 #define PORT_Q2		2//1
 #define PORT_Q3		2//1
 #define PORT_Q4		2//1
-#define PORT_Q5		2//1
-#define PORT_Q0		0//1
+#define PORT_Q5		0//1
+
 #define PIN_Q0		12//24
 #define PIN_Q1		11//26
 #define PIN_Q2		4//21
 #define PIN_Q3		3//23
 #define PIN_Q4		2//18
-#define PIN_Q5		22//20
+#define PIN_Q5		17//20
 #define PULS1 		18
 #define PULS2 		1
 #define PULS_PORT 	0
