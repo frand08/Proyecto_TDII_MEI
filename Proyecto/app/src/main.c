@@ -36,6 +36,9 @@ PIN_Qb[6]={PIN_Q0,PIN_Q2,PIN_Q4},
 PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
 PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
 
+struct StartParams_s  start= { 150,   {500, 300},   {60, 150} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
+
+
 volatile uint8_t CruceZero[3]={0,0,0}, CruceZero0[3]={0,0,0};
 												//-----> 50*20microseg = 1mSeg
 long StepPeriod;     			// step duration, us
@@ -113,6 +116,7 @@ static void Motor(void * p)
 	while(1)
 	{
 		NextPWM();
+		vTaskDelay(StepPeriod / portTICK_RATE_MS);
 	}
 }
 /*==================[external functions definition]==========================*/
@@ -147,10 +151,7 @@ int main(void)
 
 	vTaskStartScheduler();
 
-	while(1)
-	{
-		NextPWM();
-	}
+	while(1);
 
 }
 
