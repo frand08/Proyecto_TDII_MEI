@@ -44,6 +44,8 @@ volatile uint16_t DutyCycle, DutyCycle0; 	// fraction of period hi pins are high
 volatile int StepID=0;  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
+uint8_t mot_1 = 1;
+
 
 /*==================[internal functions definition]==========================*/
 
@@ -76,7 +78,7 @@ static void taskLED(void * p)
 	int i = 1;
 	while(1)
 	{
-		if (i==1)
+/*		if (i==1)
 		{
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED0, LED0 , 0);
 			Chip_GPIO_WritePortBit(LPC_GPIO, PLED1, LED1 , 1);
@@ -102,18 +104,23 @@ static void taskLED(void * p)
 			i=1;
 		}
 		vTaskDelay(200 / portTICK_RATE_MS);
-	}
+*/	}
 }
 
 
-static void Motor1(void * p)
+static void Motor(void * p)
 {
-	while(1);
+	while(1)
+	{
+		NextPWM();
+	}
 }
 /*==================[external functions definition]==========================*/
 
 int main(void)
 {
+	/*
+
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED0, LED0 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED1, LED1 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED2, LED2 , SALIDA);	//Configuro el pin como salida
@@ -123,8 +130,10 @@ int main(void)
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED6, LED6 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED7, LED7 , SALIDA);	//Configuro el pin como salida
 
-
+	 */
 	initHardware();
+
+	Start_Up_Brushless();
 
 	xTaskCreate(task, (signed const char *)"task1", 1024, (void *)str1, tskIDLE_PRIORITY+1, 0);
 
@@ -132,7 +141,7 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(Motor1, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+1,0);
 
 	sem = xSemaphoreCreateMutex();
 
