@@ -8,14 +8,7 @@
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data declaration]==============================*/
-/*
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q0, PIN_Q0 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q1, PIN_Q1 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q2, PIN_Q2 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q3, PIN_Q3 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q4, PIN_Q4 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Q5, PIN_Q5 , SALIDA);	//Configuro el pin como salida
-*/
+
 
 /*==================[internal functions declaration]=========================*/
 
@@ -58,9 +51,29 @@ static void task(void * p)
 
 static void taskLED(void * p)
 {
+	int i = 1;
 	while(1)
 	{
-		Board_LED_Toggle(0);
+		if (i==1)
+		{
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 12 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 11 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 0, 4 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 4 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 3, 3 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 2 , 1);
+			i=0;
+		}
+		else
+		{
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 12 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 11 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 0, 4 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 4 , 0);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 3, 3 , 1);
+			Chip_GPIO_WritePortBit(LPC_GPIO, 2, 2 , 0);
+			i=1;
+		}
 		vTaskDelay(200 / portTICK_RATE_MS);
 	}
 }
@@ -69,6 +82,14 @@ static void taskLED(void * p)
 
 int main(void)
 {
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 12 , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 11 , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 0, 4 , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 4 , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 3, 3 , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 2 , SALIDA);	//Configuro el pin como salida
+
+
 	initHardware();
 
 	xTaskCreate(task, (signed const char *)"task1", 1024, (void *)str1, tskIDLE_PRIORITY+1, 0);
