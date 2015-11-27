@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------------------------
 extern uint32_t Match_Cnt, Cycle, AntiRebo,PORT_Qa[3],PIN_Qa[3],PORT_Qb[3],PIN_Qb[3],PORT_Z[3],PIN_Z[3];
 
+
 extern volatile uint8_t CruceZero[3], CruceZero0[3];
+
 
 extern struct StartParams_s start;	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 												//-----> 50*20microseg = 1mSeg

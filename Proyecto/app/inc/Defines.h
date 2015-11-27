@@ -7,6 +7,8 @@
 
 //DEFINICIONES PUERTOS SALIDAS ENTRADAS
 //-----------------------------------------------------------------------------------------------
+
+
 #define PORT_Q0		2//1
 #define PORT_Q1		2//1
 #define PORT_Q2		2//1
@@ -31,7 +33,6 @@
 #define PIN_Z3		25
 #define REBOTE_ 	100000
 #define SALIDA		1
-
 
 
 /*==================[auxiliar]=================================*/
