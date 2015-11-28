@@ -163,6 +163,8 @@ static void StartUpMotor(void* p)
 
 int main(void)
 {
+
+	unsigned int motor[4]={0,1,2,3};
 	/*
 
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED0, LED0 , SALIDA);	//Configuro el pin como salida
@@ -184,10 +186,22 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,0,tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,(void*)motor[0],tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor0",1024,0,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor0",1024,(void*)motor[0],tskIDLE_PRIORITY+1,0);
+/*
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,0);
 
+	xTaskCreate(Motor, (signed const char *)"Motor1",1024,(void*)motor[1],tskIDLE_PRIORITY+1,0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",1024,(void*)motor[2],tskIDLE_PRIORITY+2,0);
+
+	xTaskCreate(Motor, (signed const char *)"Motor2",1024,(void*)motor[2],tskIDLE_PRIORITY+1,0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",1024,(void*)motor[3],tskIDLE_PRIORITY+2,0);
+
+	xTaskCreate(Motor, (signed const char *)"Motor3",1024,(void*)motor[3],tskIDLE_PRIORITY+1,0);
+*/
 	sem = xSemaphoreCreateMutex();
 
 	vTaskStartScheduler();
