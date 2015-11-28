@@ -154,7 +154,8 @@ static void Motor(void * p)
 
 static void StartUpMotor(void* p)
 {
-	Start_Up_Brushless(0);
+	uint8_t *motor_number=(uint8_t*)p;
+	Start_Up_Brushless(*motor_number);
 	vTaskSuspend(NULL);
 }
 
@@ -183,9 +184,9 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,0,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,0,tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor1",1024,0,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor0",1024,0,tskIDLE_PRIORITY+1,0);
 
 	sem = xSemaphoreCreateMutex();
 
