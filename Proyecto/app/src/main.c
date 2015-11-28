@@ -26,24 +26,57 @@ static xSemaphoreHandle sem;
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
 
-uint32_t Match_Cnt=0, Cycle=0, AntiRebo=REBOTE_,
-PORT_Qa[3]={PORT_Q1,PORT_Q3,PORT_Q5},
-PIN_Qa[6]={PIN_Q1,PIN_Q3,PIN_Q5},
-PORT_Qb[6]={PORT_Q0,PORT_Q2,PORT_Q4},
-PIN_Qb[6]={PIN_Q0,PIN_Q2,PIN_Q4},
+uint32_t Match_Cnt=0, Cycle=0, AntiRebo=REBOTE_;
+/*
+uint32_t PORT_Qa[3]={PORT_Q1,PORT_Q3,PORT_Q5},
+PIN_Qa[3]={PIN_Q1,PIN_Q3,PIN_Q5},
+PORT_Qb[3]={PORT_Q0,PORT_Q2,PORT_Q4},
+PIN_Qb[3]={PIN_Q0,PIN_Q2,PIN_Q4},
 PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
 PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
+*/
 
+uint32_t PORT_Qa_[4][3]={{PORT_Q1,PORT_Q3,PORT_Q5},
+		{PORT_Q1,PORT_Q3,PORT_Q5},
+		{PORT_Q1,PORT_Q3,PORT_Q5},
+		{PORT_Q1,PORT_Q3,PORT_Q5}
+};
+uint32_t PIN_Qa_[4][3]={{PIN_Q1,PIN_Q3,PIN_Q5},
+		{PIN_Q1,PIN_Q3,PIN_Q5},
+		{PIN_Q1,PIN_Q3,PIN_Q5},
+		{PIN_Q1,PIN_Q3,PIN_Q5}
+};
+uint32_t PORT_Qb_[4][3]={{PORT_Q0,PORT_Q2,PORT_Q4},
+		{PORT_Q0,PORT_Q2,PORT_Q4},
+		{PORT_Q0,PORT_Q2,PORT_Q4},
+		{PORT_Q0,PORT_Q2,PORT_Q4}
+};
+uint32_t PIN_Qb_[4][3]={{PIN_Q0,PIN_Q2,PIN_Q4},
+		{PIN_Q0,PIN_Q2,PIN_Q4},
+		{PIN_Q0,PIN_Q2,PIN_Q4},
+		{PIN_Q0,PIN_Q2,PIN_Q4}
+};
+uint32_t PORT_Z_[4][3]={{PORT_Z1, PORT_Z2, PORT_Z3},
+		{PORT_Z1, PORT_Z2, PORT_Z3},
+		{PORT_Z1, PORT_Z2, PORT_Z3},
+		{PORT_Z1, PORT_Z2, PORT_Z3}
+};
+uint32_t PIN_Z_[4][3]={{PIN_Z1, PIN_Z2, PIN_Z3},
+		{PIN_Z1, PIN_Z2, PIN_Z3},
+		{PIN_Z1, PIN_Z2, PIN_Z3},
+		{PIN_Z1, PIN_Z2, PIN_Z3},
+};
 
 struct StartParams_s  start= { 150,   {300, 100},   {60, 150} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 
 
-volatile uint8_t CruceZero[3]={0,0,0}, CruceZero0[3]={0,0,0};
+volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+		CruceZero0[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 												//-----> 50*20microseg = 1mSeg
-long StepPeriod;     			// step duration, us
-volatile uint16_t DutyCycle, DutyCycle0; 	// fraction of period hi pins are high
+long StepPeriod[4];     			// step duration, us
+volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins are high
 
-volatile int StepID=0;  		// commutation step counter, 0..5
+volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
 uint8_t mot_1 = 1;
@@ -115,7 +148,7 @@ static void Motor(void * p)
 	while(1)
 	{
 		NextPWM();
-		vTaskDelay(StepPeriod / portTICK_RATE_MS);
+		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
 	}
 }
 
