@@ -90,7 +90,7 @@ static void initHardware(void)
 
     Board_Init();
 
-	Stop_and_Default();	//Condiciones iniciales
+	Stop_and_Default(0);	//Condiciones iniciales
 	InitGPIO();			//Llamo función para inicializar GPIO
 	InitPWM();			//Función inicialización modulo PWM
 
@@ -110,7 +110,7 @@ static void task(void * p)
 
 static void taskLED(void * p)
 {
-	int i = 1;
+//	int i = 1;
 	while(1)
 	{
 /*		if (i==1)
@@ -147,14 +147,14 @@ static void Motor(void * p)
 {
 	while(1)
 	{
-		NextPWM();
+		NextPWM(0);
 		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
 	}
 }
 
 static void StartUpMotor(void* p)
 {
-	Start_Up_Brushless();
+	Start_Up_Brushless(0);
 	vTaskSuspend(NULL);
 }
 
