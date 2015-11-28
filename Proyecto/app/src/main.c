@@ -20,6 +20,7 @@ const char str1[] = ">1111111111111111111111111111111111111111111111111111111111
 const char str2[] = ">222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222<\r\n";
 
 static xSemaphoreHandle sem;
+static xTaskHandle stup_motor0_task,stup_motor1_task,stup_motor2_task,stup_motor3_task;
 
 /*==================[external data definition]===============================*/
 
@@ -37,34 +38,34 @@ PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
 */
 
 uint32_t PORT_Qa_[4][3]={{PORT_Q1,PORT_Q3,PORT_Q5},
-		{PORT_Q1,PORT_Q3,PORT_Q5},
-		{PORT_Q1,PORT_Q3,PORT_Q5},
-		{PORT_Q1,PORT_Q3,PORT_Q5}
+		{0,0,0},
+		{0,0,0},
+		{0,0,0}
 };
 uint32_t PIN_Qa_[4][3]={{PIN_Q1,PIN_Q3,PIN_Q5},
-		{PIN_Q1,PIN_Q3,PIN_Q5},
-		{PIN_Q1,PIN_Q3,PIN_Q5},
-		{PIN_Q1,PIN_Q3,PIN_Q5}
+		{0,0,0},
+		{0,0,0},
+		{0,0,0}
 };
 uint32_t PORT_Qb_[4][3]={{PORT_Q0,PORT_Q2,PORT_Q4},
-		{PORT_Q0,PORT_Q2,PORT_Q4},
-		{PORT_Q0,PORT_Q2,PORT_Q4},
-		{PORT_Q0,PORT_Q2,PORT_Q4}
+		{0,0,0},
+		{0,0,0},
+		{0,0,0}
 };
 uint32_t PIN_Qb_[4][3]={{PIN_Q0,PIN_Q2,PIN_Q4},
-		{PIN_Q0,PIN_Q2,PIN_Q4},
-		{PIN_Q0,PIN_Q2,PIN_Q4},
-		{PIN_Q0,PIN_Q2,PIN_Q4}
+		{0,0,0},
+		{0,0,0},
+		{0,0,0}
 };
 uint32_t PORT_Z_[4][3]={{PORT_Z1, PORT_Z2, PORT_Z3},
-		{PORT_Z1, PORT_Z2, PORT_Z3},
-		{PORT_Z1, PORT_Z2, PORT_Z3},
-		{PORT_Z1, PORT_Z2, PORT_Z3}
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0}
 };
 uint32_t PIN_Z_[4][3]={{PIN_Z1, PIN_Z2, PIN_Z3},
-		{PIN_Z1, PIN_Z2, PIN_Z3},
-		{PIN_Z1, PIN_Z2, PIN_Z3},
-		{PIN_Z1, PIN_Z2, PIN_Z3},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
 };
 
 struct StartParams_s  start= { 150,   {300, 100},   {60, 150} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
@@ -156,6 +157,26 @@ static void StartUpMotor(void* p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
 	Start_Up_Brushless(*motor_number);
+/*
+	switch (*motor_number)
+	{
+	case 0:
+		vTaskSuspend(stup_motor0_task);
+		break;
+	case 1:
+		vTaskSuspend(stup_motor1_task);
+		break;
+	case 2:
+		vTaskSuspend(stup_motor2_task);
+		break;
+	case 3:
+		vTaskSuspend(stup_motor3_task);
+		break;
+	default:
+		break;
+	}
+	*/
+
 	vTaskSuspend(NULL);
 }
 
@@ -186,22 +207,24 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,(void*)motor[0],tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,(void*)motor[0],tskIDLE_PRIORITY+2,stup_motor0_task);
 
 	xTaskCreate(Motor, (signed const char *)"Motor0",1024,(void*)motor[0],tskIDLE_PRIORITY+1,0);
-/*
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,0);
+
+	/*
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,stup_motor1_task);
 
 	xTaskCreate(Motor, (signed const char *)"Motor1",1024,(void*)motor[1],tskIDLE_PRIORITY+1,0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",1024,(void*)motor[2],tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",1024,(void*)motor[2],tskIDLE_PRIORITY+2,stup_motor2_task);
 
 	xTaskCreate(Motor, (signed const char *)"Motor2",1024,(void*)motor[2],tskIDLE_PRIORITY+1,0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",1024,(void*)motor[3],tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",1024,(void*)motor[3],tskIDLE_PRIORITY+2,stup_motor3_task);
 
 	xTaskCreate(Motor, (signed const char *)"Motor3",1024,(void*)motor[3],tskIDLE_PRIORITY+1,0);
-*/
+	*/
+
 	sem = xSemaphoreCreateMutex();
 
 	vTaskStartScheduler();
