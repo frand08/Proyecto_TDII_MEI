@@ -88,7 +88,7 @@ static void initHardware(void)
 {
     //SystemCoreClockUpdate();
 
-    //Board_Init();
+    Board_Init();
 
 	Stop_and_Default(0);	//Condiciones iniciales
 	InitGPIO();			//Llamo función para inicializar GPIO
