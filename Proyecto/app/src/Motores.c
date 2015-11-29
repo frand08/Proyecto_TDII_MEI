@@ -59,29 +59,29 @@ void InitPWM(void)
 	NVIC_EnableIRQ(PWM1_IRQn);
 }
 
-void InitGPIO(void)
+void InitGPIO(uint8_t num_motor)
 {
 	//CONFIGURAR SALIDAS
 	//-----------------------------------------------------------------------------------------------
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[0][0], PIN_Qa_[0][0] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[0][1], PIN_Qa_[0][1] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[0][2], PIN_Qa_[0][2] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[0][0], PIN_Qb_[0][0] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[0][1], PIN_Qb_[0][1] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[0][2], PIN_Qb_[0][2] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][0], PIN_Qb_[num_motor][0] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][1], PIN_Qb_[num_motor][1] , SALIDA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2] , SALIDA);	//Configuro el pin como salida
 	//APAGAR TRANSISTORES
 	//-----------------------------------------------------------------------------------------------
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[0][0], PIN_Qa_[0][0], 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[0][1], PIN_Qa_[0][1], 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[0][2], PIN_Qa_[0][2], 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[0][0], PIN_Qb_[0][0], 1);		//NMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[0][1], PIN_Qb_[0][1], 1);		//NMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[0][2], PIN_Qb_[0][2], 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][0], PIN_Qb_[num_motor][0], 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][1], PIN_Qb_[num_motor][1], 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2], 1);		//NMOS
 	//CONFIGURAR ENTRADAS
 	//-----------------------------------------------------------------------------------------------
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z1, PIN_Z1, 0);
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z2, PIN_Z2, 0);
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z3, PIN_Z3, 0);
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][0], PIN_Z_[num_motor][0], 0);
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][1], PIN_Z_[num_motor][1], 0);
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2], 0);
 }
 
 void Stop_and_Default(uint8_t num_motor)
@@ -93,12 +93,12 @@ void Stop_and_Default(uint8_t num_motor)
 	DutyCycle0[num_motor] = DutyCycle[num_motor];
 	//Shut Down All
 	//-----------------------------------------------------------------------------------------------
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q1, PIN_Q1, 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q2, PIN_Q2, 1);		//NMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q3, PIN_Q3, 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q4, PIN_Q4, 1);		//NMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q5, PIN_Q5, 0);		//PMOS
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q0, PIN_Q0, 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2], 0);		//PMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][0], PIN_Qb_[num_motor][0], 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][1], PIN_Qb_[num_motor][1], 1);		//NMOS
+	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2], 1);		//NMOS
 }
 
 void Start_Up_Brushless(uint8_t num_motor)

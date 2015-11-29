@@ -9,40 +9,64 @@
 //-----------------------------------------------------------------------------------------------
 
 
-#define PORT_Q0		1//3//0//2//1//1
-#define PORT_Q1		1//0//0//2//0//1
-#define PORT_Q2		0//0//0//2//1//1
-#define PORT_Q3		0//0//2//1//1
-#define PORT_Q4		0//0//2//1//1
-#define PORT_Q5		3//0//2//1//1
+#define 	PORT_Q10		2//3//0//2//1//1
+#define 	PORT_Q11		2//0//0//2//0//1
+#define 	PORT_Q12		2//0//0//2//1//1
+#define 	PORT_Q13		2//0//0//2//1//1
+#define 	PORT_Q14		2//0//0//2//1//1
+#define 	PORT_Q15		2//3//0//2//1//1
 
-#define PIN_Q0		27//25//20//2//26//24
-#define PIN_Q1		25//28//17//5//10//26
-#define PIN_Q2		25//29//21//1//25//21
-#define PIN_Q3		25//18//4//28//23
-#define PIN_Q4		30//22//0//24//18
-#define PIN_Q5		26//19//3//27//20
-#define PULS1 		18
-#define PULS2 		1
-#define PULS_PORT 	0
-#define PORT_Z1		1
-#define PORT_Z2		1
-#define PORT_Z3		1
-#define PIN_Z1		19
-#define PIN_Z2		22
-#define PIN_Z3		25
-#define REBOTE_ 	100000
-#define SALIDA		1
+#define 	PIN_Q10			2//25//20//2//26//24
+#define 	PIN_Q11			5//28//17//5//10//26
+#define 	PIN_Q12			1//29//21//1//25//21
+#define 	PIN_Q13			4//25//18//4//28//23
+#define 	PIN_Q14			0//30//22//0//24//18
+#define 	PIN_Q15			3//26//19//3//27//20
+#define 	PORT_Z11		1
+#define 	PORT_Z12		1
+#define 	PORT_Z13		1
+#define 	PIN_Z11			19
+#define 	PIN_Z12			22
+#define 	PIN_Z13			25
+
+#define 	PORT_Q20		3//0//2//1//1
+#define 	PORT_Q21		0//0//2//0//1
+#define 	PORT_Q22		0//0//2//1//1
+#define 	PORT_Q23		0//0//2//1//1
+#define 	PORT_Q24		0//0//2//1//1
+#define 	PORT_Q25		3//0//2//1//1
+
+#define 	PIN_Q20			25//20//2//26//24
+#define 	PIN_Q21			28//17//5//10//26
+#define 	PIN_Q22			29//21//1//25//21
+#define 	PIN_Q23			25//18//4//28//23
+#define 	PIN_Q24			30//22//0//24//18
+#define 	PIN_Q25			26//19//3//27//20
+#define 	PORT_Z21		1
+#define 	PORT_Z22		1
+#define 	PORT_Z23		1
+#define 	PIN_Z21			19
+#define 	PIN_Z22			22
+#define 	PIN_Z23			25
+
+
+
+#define 	PULS1 			18
+#define 	PULS2 			1
+#define 	PULS_PORT 		0
+
+#define 	REBOTE_ 		100000
+#define 	SALIDA			1
 
 /*========[Prueba para ver por que no andan los pines]=========*/
 
 
-#define PORT_NOANDA1	1
-#define PORT_NOANDA2	1
-#define PORT_NOANDA3	0
-#define PIN_NOANDA1		27
-#define PIN_NOANDA2		25
-#define PIN_NOANDA3		25
+#define 	PORT_NOANDA1	1
+#define 	PORT_NOANDA2	1
+#define 	PORT_NOANDA3	0
+#define 	PIN_NOANDA1		27
+#define 	PIN_NOANDA2		25
+#define 	PIN_NOANDA3		25
 
 
 
@@ -85,7 +109,7 @@ struct StartParams_s {		// params for startup seq.
 
 void PWM1_IRQHandler(void);
 void InitPWM(void);
-void InitGPIO(void);
+void InitGPIO(uint8_t);
 void Stop_and_Default(uint8_t);
 void Start_Up_Brushless(uint8_t);
 void NextPWM(uint8_t);

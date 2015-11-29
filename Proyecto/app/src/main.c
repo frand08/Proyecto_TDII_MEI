@@ -36,33 +36,33 @@ PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
 PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
 */
 
-uint32_t PORT_Qa_[4][3]={{PORT_Q1,PORT_Q3,PORT_Q5},
-		{0,0,0},
-		{0,0,0},
-		{0,0,0}
-};
-uint32_t PIN_Qa_[4][3]={{PIN_Q1,PIN_Q3,PIN_Q5},
-		{0,0,0},
+uint32_t PORT_Qa_[4][3]={{PORT_Q11,PORT_Q13,PORT_Q15},
+		{PORT_Q21,PORT_Q23,PORT_Q25},
 		{0,0,0},
 		{0,0,0}
 };
-uint32_t PORT_Qb_[4][3]={{PORT_Q0,PORT_Q2,PORT_Q4},
-		{0,0,0},
-		{0,0,0},
-		{0,0,0}
-};
-uint32_t PIN_Qb_[4][3]={{PIN_Q0,PIN_Q2,PIN_Q4},
-		{0,0,0},
+uint32_t PIN_Qa_[4][3]={{PIN_Q11,PIN_Q13,PIN_Q15},
+		{PIN_Q21,PIN_Q23,PIN_Q25},
 		{0,0,0},
 		{0,0,0}
 };
-uint32_t PORT_Z_[4][3]={{PORT_Z1, PORT_Z2, PORT_Z3},
-		{0, 0, 0},
+uint32_t PORT_Qb_[4][3]={{PORT_Q10,PORT_Q12,PORT_Q14},
+		{PORT_Q20,PORT_Q22,PORT_Q24},
+		{0,0,0},
+		{0,0,0}
+};
+uint32_t PIN_Qb_[4][3]={{PIN_Q10,PIN_Q12,PIN_Q14},
+		{PIN_Q20,PIN_Q22,PIN_Q24},
+		{0,0,0},
+		{0,0,0}
+};
+uint32_t PORT_Z_[4][3]={{PORT_Z11, PORT_Z12, PORT_Z13},
+		{PORT_Z21, PORT_Z22, PORT_Z23},
 		{0, 0, 0},
 		{0, 0, 0}
 };
-uint32_t PIN_Z_[4][3]={{PIN_Z1, PIN_Z2, PIN_Z3},
-		{0, 0, 0},
+uint32_t PIN_Z_[4][3]={{PIN_Z11, PIN_Z12, PIN_Z13},
+		{PIN_Z21, PIN_Z22, PIN_Z23},
 		{0, 0, 0},
 		{0, 0, 0},
 };
@@ -91,7 +91,7 @@ static void initHardware(void)
     Board_Init();
 
 	Stop_and_Default(0);	//Condiciones iniciales
-	InitGPIO();			//Llamo función para inicializar GPIO
+	InitGPIO(0);			//Llamo función para inicializar GPIO
 	InitPWM();			//Función inicialización modulo PWM
 
 }
@@ -145,9 +145,10 @@ static void taskLED(void * p)
 
 static void Motor(void * p)
 {
+	uint8_t *motor_number=(uint8_t*)p;
 	while(1)
 	{
-		NextPWM(0);
+		NextPWM(*motor_number);
 		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
 	}
 }
