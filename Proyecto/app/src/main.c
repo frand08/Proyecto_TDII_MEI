@@ -36,35 +36,35 @@ PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
 PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
 */
 
-uint32_t PORT_Qa_[4][3]={{PORT_Q11,PORT_Q13,PORT_Q15},
+uint32_t PORT_Qa_[4][3]={{PORT_Q01,PORT_Q03,PORT_Q05},
+		{PORT_Q11,PORT_Q13,PORT_Q15},
 		{PORT_Q21,PORT_Q23,PORT_Q25},
-		{0,0,0},
-		{0,0,0}
+		{PORT_Q31,PORT_Q33,PORT_Q35}
 };
-uint32_t PIN_Qa_[4][3]={{PIN_Q11,PIN_Q13,PIN_Q15},
+uint32_t PIN_Qa_[4][3]={{PIN_Q01,PIN_Q03,PIN_Q05},
+		{PIN_Q11,PIN_Q13,PIN_Q15},
 		{PIN_Q21,PIN_Q23,PIN_Q25},
-		{0,0,0},
-		{0,0,0}
+		{PIN_Q31,PIN_Q33,PIN_Q35}
 };
-uint32_t PORT_Qb_[4][3]={{PORT_Q10,PORT_Q12,PORT_Q14},
+uint32_t PORT_Qb_[4][3]={{PORT_Q00,PORT_Q02,PORT_Q04},
+		{PORT_Q10,PORT_Q12,PORT_Q14},
 		{PORT_Q20,PORT_Q22,PORT_Q24},
-		{0,0,0},
-		{0,0,0}
+		{PORT_Q30,PORT_Q32,PORT_Q34}
 };
-uint32_t PIN_Qb_[4][3]={{PIN_Q10,PIN_Q12,PIN_Q14},
+uint32_t PIN_Qb_[4][3]={{PIN_Q00,PIN_Q02,PIN_Q04},
+		{PIN_Q10,PIN_Q12,PIN_Q14},
 		{PIN_Q20,PIN_Q22,PIN_Q24},
-		{0,0,0},
-		{0,0,0}
+		{PIN_Q30,PIN_Q32,PIN_Q34}
 };
-uint32_t PORT_Z_[4][3]={{PORT_Z11, PORT_Z12, PORT_Z13},
+uint32_t PORT_Z_[4][3]={{PORT_Z01, PORT_Z02, PORT_Z03},
+		{PORT_Z11, PORT_Z12, PORT_Z13},
 		{PORT_Z21, PORT_Z22, PORT_Z23},
-		{0, 0, 0},
-		{0, 0, 0}
+		{PORT_Z31, PORT_Z32, PORT_Z33}
 };
-uint32_t PIN_Z_[4][3]={{PIN_Z11, PIN_Z12, PIN_Z13},
+uint32_t PIN_Z_[4][3]={{PIN_Z01, PIN_Z02, PIN_Z03},
+		{PIN_Z11, PIN_Z12, PIN_Z13},
 		{PIN_Z21, PIN_Z22, PIN_Z23},
-		{0, 0, 0},
-		{0, 0, 0},
+		{PIN_Z31, PIN_Z32, PIN_Z33}
 };
 
 struct StartParams_s  start= { 150,   {300, 100},   {60, 150} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
@@ -91,7 +91,7 @@ static void initHardware(void)
     Board_Init();
 
 	Stop_and_Default(0);	//Condiciones iniciales
-	InitGPIO(0);			//Llamo función para inicializar GPIO
+	InitGPIO(1);			//Llamo función para inicializar GPIO
 	InitPWM();			//Función inicialización modulo PWM
 
 }

@@ -79,9 +79,13 @@ void InitGPIO(uint8_t num_motor)
 	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2], 1);		//NMOS
 	//CONFIGURAR ENTRADAS
 	//-----------------------------------------------------------------------------------------------
+/*=============[TODAVIA NO ESTA IMPLEMENTADO]========================*/
+/*
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][0], PIN_Z_[num_motor][0], 0);
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][1], PIN_Z_[num_motor][1], 0);
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2], 0);
+*/
+/*===================================================================*/
 }
 
 void Stop_and_Default(uint8_t num_motor)
