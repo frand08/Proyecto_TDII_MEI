@@ -76,7 +76,7 @@ static void initHardware(void)
 {
     SystemCoreClockUpdate();
 
-    Board_Init();
+    //Board_Init();
 
 
 	InitPWM();			//Función inicialización modulo PWM
