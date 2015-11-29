@@ -10,14 +10,14 @@
 
 
 #define PORT_Q0		1//1
-#define PORT_Q1		0//1
+#define PORT_Q1		1//1
 #define PORT_Q2		1//1
 #define PORT_Q3		1//1
 #define PORT_Q4		1//1
 #define PORT_Q5		1//1
 
 #define PIN_Q0		26//24
-#define PIN_Q1		10//26
+#define PIN_Q1		0//26
 #define PIN_Q2		25//21
 #define PIN_Q3		28//23
 #define PIN_Q4		24//18
