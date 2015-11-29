@@ -88,6 +88,7 @@ static void initHardware(void)
 
 	InitPWM();			//Función inicialización modulo PWM
 	InitGPIO(0);			//Llamo función para inicializar GPIO
+	Stop_and_Default(0);	//Condiciones iniciales
 
 
 }
