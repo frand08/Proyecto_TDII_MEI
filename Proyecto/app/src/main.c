@@ -86,16 +86,16 @@ uint8_t mot_1 = 1;
 
 static void initHardware(void)
 {
-    SystemCoreClockUpdate();
+    //SystemCoreClockUpdate();
 
-    Board_Init();
+    //Board_Init();
 
 	Stop_and_Default(0);	//Condiciones iniciales
 	InitGPIO();			//Llamo función para inicializar GPIO
 	InitPWM();			//Función inicialización modulo PWM
 
 }
-
+/*
 static void task(void * p)
 {
 	char * str = (char *)p;
@@ -107,7 +107,7 @@ static void task(void * p)
 	   xSemaphoreGive(sem);
    }
 }
-
+*/
 static void taskLED(void * p)
 {
 //	int i = 1;
@@ -199,11 +199,11 @@ int main(void)
 	 */
 	initHardware();
 
-
+/*
 	xTaskCreate(task, (signed const char *)"task1", 1024, (void *)str1, tskIDLE_PRIORITY+1, 0);
 
 	xTaskCreate(task, (signed const char *)"task2", 1024, (void *)str2, tskIDLE_PRIORITY+1, 0);
-
+*/
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 1024, 0, tskIDLE_PRIORITY+1, 0);
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,(void*)motor[0],tskIDLE_PRIORITY+2,0);
