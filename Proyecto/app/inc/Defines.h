@@ -9,19 +9,19 @@
 //-----------------------------------------------------------------------------------------------
 
 /*===========================[P8]====================================*/
-#define 	PORT_Q00		1//3
-#define 	PORT_Q01		0//0
-#define 	PORT_Q02		1//0
-#define 	PORT_Q03		1//0
-#define 	PORT_Q04		1//0
-#define 	PORT_Q05		1//3
+#define 	PORT_Q00		3
+#define 	PORT_Q01		0
+#define 	PORT_Q02		0
+#define 	PORT_Q03		0
+#define 	PORT_Q04		0
+#define 	PORT_Q05		3
 
-#define 	PIN_Q00			26//25
-#define 	PIN_Q01			10//28
-#define 	PIN_Q02			25//29
-#define 	PIN_Q03			28//27
-#define 	PIN_Q04			24//30
-#define 	PIN_Q05			27//26
+#define 	PIN_Q00			25
+#define 	PIN_Q01			28
+#define 	PIN_Q02			29
+#define 	PIN_Q03			27
+#define 	PIN_Q04			30
+#define 	PIN_Q05			26
 
 #define 	PORT_Z01		0
 #define 	PORT_Z02		0
