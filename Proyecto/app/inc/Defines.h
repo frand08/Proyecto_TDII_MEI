@@ -9,19 +9,19 @@
 //-----------------------------------------------------------------------------------------------
 
 
-#define PORT_Q0		0//2//1//1
-#define PORT_Q1		0//2//0//1
-#define PORT_Q2		0//2//1//1
-#define PORT_Q3		0//2//1//1
-#define PORT_Q4		0//2//1//1
-#define PORT_Q5		0//2//1//1
+#define PORT_Q0		3//0//2//1//1
+#define PORT_Q1		0//0//2//0//1
+#define PORT_Q2		0//0//2//1//1
+#define PORT_Q3		0//0//2//1//1
+#define PORT_Q4		0//0//2//1//1
+#define PORT_Q5		3//0//2//1//1
 
-#define PIN_Q0		20//2//26//24
-#define PIN_Q1		17//5//10//26
-#define PIN_Q2		21//1//25//21
-#define PIN_Q3		18//4//28//23
-#define PIN_Q4		22//0//24//18
-#define PIN_Q5		19//3//27//20
+#define PIN_Q0		25//20//2//26//24
+#define PIN_Q1		28//17//5//10//26
+#define PIN_Q2		29//21//1//25//21
+#define PIN_Q3		25//18//4//28//23
+#define PIN_Q4		30//22//0//24//18
+#define PIN_Q5		26//19//3//27//20
 #define PULS1 		18
 #define PULS2 		1
 #define PULS_PORT 	0
