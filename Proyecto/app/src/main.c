@@ -86,7 +86,7 @@ uint8_t mot_1 = 1;
 
 static void initHardware(void)
 {
-    //SystemCoreClockUpdate();
+    SystemCoreClockUpdate();
 
     Board_Init();
 
