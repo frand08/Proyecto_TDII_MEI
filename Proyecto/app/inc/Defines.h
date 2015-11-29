@@ -39,7 +39,7 @@
 #define 	PIN_Q20			25//20//2//26//24
 #define 	PIN_Q21			28//17//5//10//26
 #define 	PIN_Q22			29//21//1//25//21
-#define 	PIN_Q23			25//18//4//28//23
+#define 	PIN_Q23			27//18//4//28//23
 #define 	PIN_Q24			30//22//0//24//18
 #define 	PIN_Q25			26//19//3//27//20
 #define 	PORT_Z21		1
