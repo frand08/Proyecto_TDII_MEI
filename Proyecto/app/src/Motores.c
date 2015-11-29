@@ -1,6 +1,6 @@
 #include "main.h"
 
-//GLOBALES
+/*==========================[GLOBALES]==========================*/
 //-----------------------------------------------------------------------------------------------
 extern uint32_t Match_Cnt, Cycle, AntiRebo;
 //extern uint32_t PORT_Qa[3],PIN_Qa[3],PORT_Qb[3],PIN_Qb[3],PORT_Z[3],PIN_Z[3];
