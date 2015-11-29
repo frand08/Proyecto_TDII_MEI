@@ -240,9 +240,9 @@ int main(void)
 */
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 128, 0, tskIDLE_PRIORITY+1, 0);
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",1024,(void*)motor[1],tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)motor[1],tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor0",1024,(void*)motor[1],tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)motor[1],tskIDLE_PRIORITY+1,0);
 
 
 
