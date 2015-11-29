@@ -22,14 +22,7 @@ static void initHardware(void);
 //-----------------------------------------------------------------------------------------------
 
 uint32_t Match_Cnt=0, Cycle=0, AntiRebo=REBOTE_;
-/*
-uint32_t PORT_Qa[3]={PORT_Q1,PORT_Q3,PORT_Q5},
-PIN_Qa[3]={PIN_Q1,PIN_Q3,PIN_Q5},
-PORT_Qb[3]={PORT_Q0,PORT_Q2,PORT_Q4},
-PIN_Qb[3]={PIN_Q0,PIN_Q2,PIN_Q4},
-PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
-PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
-*/
+
 
 uint32_t PORT_Qa_[4][3]={{PORT_Q01,PORT_Q03,PORT_Q05},
 		{PORT_Q11,PORT_Q13,PORT_Q15},

@@ -106,6 +106,7 @@
 
 #define 	REBOTE_ 		100000
 #define 	SALIDA			1
+#define 	ENTRADA			0
 
 /*========[Prueba para ver por que no andan los pines]=========*/
 
