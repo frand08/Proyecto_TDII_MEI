@@ -158,7 +158,8 @@ void NextPWM(uint8_t num_motor)
 		break;
 	case 1:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1], 0);	//Apago Q3
-		Cycle = 2;													//Prendo Q5
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2], 1); //Prendo Q5
+		Cycle = 2;
 		break;
 	case 2:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][0], PIN_Qb_[num_motor][0], 1);	//Apago Q0
@@ -166,7 +167,8 @@ void NextPWM(uint8_t num_motor)
 		break;
 	case 3:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2], 0);	//Apago Q5
-		Cycle = 0;													//Prendo Q1
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0], 1); //Prendo Q1
+		Cycle = 0;
 		break;
 	case 4:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][1], PIN_Qb_[num_motor][1], 1);	//Apago Q2
@@ -174,8 +176,8 @@ void NextPWM(uint8_t num_motor)
 		break;
 	default:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0], 0);	//Apago Q1
-		Cycle = 1;													//Prendo Q3
-	}
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1], 1);	//Prendo Q3
+		Cycle = 1;	}
 
 	if (StepID[num_motor] > 4)	//Si StepID es mayor a 4 reseteo variable StepID
 	{
