@@ -147,8 +147,8 @@ static void Motor(void * p)
 {
 	while(1)
 	{
-		//NextPWM(0);
-		//vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
+		NextPWM(0);
+		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
 	}
 }
 
@@ -180,7 +180,7 @@ static void StartUpMotor(void* p)
 }
 
 /*============[prueba para pines que no andan]=======================*/
-
+/*
 static void Prueba(void* p)
 {
 	while(1)
@@ -198,7 +198,7 @@ static void Prueba(void* p)
 	}
 
 }
-
+*/
 /*===================================================================*/
 
 /*==================[external functions definition]==========================*/
@@ -225,11 +225,11 @@ int main(void)
 	initHardware();
 
 	/*============[prueba para pines que no andan]=======================*/
-
+/*
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2 , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3 , SALIDA);	//Configuro el pin como salida
-
+*/
 	/*===================================================================*/
 
 /*
@@ -246,9 +246,9 @@ int main(void)
 
 
 	/*============[prueba para pines que no andan]=======================*/
-
+/*
 	xTaskCreate(Prueba, (signed const char *)"Prueba",1024,0,tskIDLE_PRIORITY+4,0);
-
+*/
 	/*===================================================================*/
 	/*
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,stup_motor1_task);
