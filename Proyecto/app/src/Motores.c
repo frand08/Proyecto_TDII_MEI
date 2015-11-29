@@ -65,7 +65,7 @@ void InitGPIO(uint8_t num_motor)
 	//-----------------------------------------------------------------------------------------------
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0] , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1] , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2] , ENTRADA);	//Configuro el pin como salida
+	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2] , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][0], PIN_Qb_[num_motor][0] , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][1], PIN_Qb_[num_motor][1] , SALIDA);	//Configuro el pin como salida
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2] , SALIDA);	//Configuro el pin como salida
