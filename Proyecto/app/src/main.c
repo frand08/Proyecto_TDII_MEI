@@ -183,13 +183,16 @@ static void StartUpMotor(void* p)
 
 static void Prueba(void* p)
 {
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 1);
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 1);
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 1);
-	vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 0);
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 0);
-	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 0);
+	while(1)
+	{
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 1);
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 1);
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 1);
+		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 0);
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 0);
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 0);
+	}
 
 }
 
