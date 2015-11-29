@@ -17,7 +17,7 @@
 #define PORT_Q5		1//1
 
 #define PIN_Q0		26//24
-#define PIN_Q1		8//26
+#define PIN_Q1		10//26
 #define PIN_Q2		25//21
 #define PIN_Q3		28//23
 #define PIN_Q4		24//18
