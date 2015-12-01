@@ -43,7 +43,7 @@ void InitPWM(uint8_t PWM_num)
 
 	//Configure match value for channel PWM_number[sel_motor]
 	//-----------------------------------------------------------------------------------------------
-	Chip_PWM_SetMatch(LPC_PWM1, PWM_num, 20);		//Establezco el valor en clock del Duty (canal 5) / 20 -> 2%Duty
+	Chip_PWM_SetMatch(LPC_PWM1, PWM_num, 20);		//Establezco el valor en clock del Duty (canal PWM_num) / 20 -> 2%Duty
 	Chip_PWM_MatchEnableInt(LPC_PWM1, PWM_num);		//Habilito interrupción
 	Chip_PWM_ResetOnMatchDisable(LPC_PWM1, PWM_num);	//No reset auto
 	Chip_PWM_StopOnMatchDisable(LPC_PWM1, PWM_num);	//No stop
@@ -183,7 +183,8 @@ void NextPWM(uint8_t num_motor,uint8_t PWM_num)
 	default:
 		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0], 0);	//Apago Q1
 																							//Prendo Q3
-		Cycle = 1;	}
+		Cycle = 1;
+	}
 
 	if (StepID[num_motor] > 4)	//Si StepID es mayor a 4 reseteo variable StepID
 	{

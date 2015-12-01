@@ -87,55 +87,7 @@ static void initHardware(void)
 
 
 }
-/*
-static void task(void * p)
-{
-	char * str = (char *)p;
 
-   while (1)
-   {
-	   xSemaphoreTake(sem, portMAX_DELAY);
-	   DEBUGSTR(str);
-	   xSemaphoreGive(sem);
-   }
-}
-*/
-
-/*
-static void taskLED(void * p)
-{
-	int i = 1;
-	while(1)
-	{
-		if (i==1)
-		{
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED0, LED0 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED1, LED1 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED3 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 0);
-			//Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 1);
-			i=0;
-		}
-		else
-		{
-
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED0, LED0 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED1, LED1 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED2, LED2 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED3, LED3 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED4, LED4 , 1);
-			//Chip_GPIO_WritePortBit(LPC_GPIO, PLED5, LED5 , 0);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED6, LED6 , 1);
-			Chip_GPIO_WritePortBit(LPC_GPIO, PLED7, LED7 , 0);
-			i=1;
-		}
-		vTaskDelay(200 / portTICK_RATE_MS);
-	}
-}
-*/
 
 static void Motor(void * p)
 {
@@ -151,50 +103,9 @@ static void StartUpMotor(void* p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
 	Start_Up_Brushless(motor[*motor_number],PWM_number[*motor_number]);
-/*
-	switch (*motor_number)
-	{
-	case 0:
-		vTaskSuspend(stup_motor0_task);
-		break;
-	case 1:
-		vTaskSuspend(stup_motor1_task);
-		break;
-	case 2:
-		vTaskSuspend(stup_motor2_task);
-		break;
-	case 3:
-		vTaskSuspend(stup_motor3_task);
-		break;
-	default:
-		break;
-	}
-	*/
 
 	vTaskSuspend(NULL);
 }
-
-/*============[prueba para pines que no andan]=======================*/
-/*
-static void Prueba(void* p)
-{
-	while(1)
-	{
-
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q0, PIN_Q0, 1);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 1);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 1);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 1);
-		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Q0, PIN_Q0, 0);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1, 0);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2, 0);
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3, 0);
-	}
-
-}
-*/
-/*===================================================================*/
 
 
 /*==================[external functions definition]==========================*/
@@ -203,64 +114,11 @@ int main(void)
 {
 
 
-	/*
-
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED0, LED0 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED1, LED1 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED2, LED2 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED3, LED3 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED4, LED4 , SALIDA);	//Configuro el pin como salida
-	//Chip_GPIO_WriteDirBit(LPC_GPIO, PLED5, LED5 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED6, LED6 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED7, LED7 , SALIDA);	//Configuro el pin como salida
-
-	 */
-
-
-
 	initHardware();
 
-	/*============[prueba para pines que no andan]=======================*/
-/*
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA1, PIN_NOANDA1 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA2, PIN_NOANDA2 , SALIDA);	//Configuro el pin como salida
-	Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_NOANDA3, PIN_NOANDA3 , SALIDA);	//Configuro el pin como salida
-*/
-	/*===================================================================*/
-
-/*
-	xTaskCreate(task, (signed const char *)"task1", 1024, (void *)str1, tskIDLE_PRIORITY+1, 0);
-
-	xTaskCreate(task, (signed const char *)"task2", 1024, (void *)str2, tskIDLE_PRIORITY+1, 0);
-
-	xTaskCreate(taskLED, (signed const char *)"taskLED", 128, 0, tskIDLE_PRIORITY+1, 0);
-*/
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)motor[sel_motor],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)motor[sel_motor],tskIDLE_PRIORITY+1,0);
-
-
-
-	/*============[prueba para pines que no andan]=======================*/
-/*
-	xTaskCreate(Prueba, (signed const char *)"Prueba",1024,0,tskIDLE_PRIORITY+4,0);
-*/
-	/*===================================================================*/
-	/*
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,stup_motor1_task);
-
-	xTaskCreate(Motor, (signed const char *)"Motor1",1024,(void*)motor[1],tskIDLE_PRIORITY+1,0);
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",1024,(void*)motor[2],tskIDLE_PRIORITY+2,stup_motor2_task);
-
-	xTaskCreate(Motor, (signed const char *)"Motor2",1024,(void*)motor[2],tskIDLE_PRIORITY+1,0);
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",1024,(void*)motor[3],tskIDLE_PRIORITY+2,stup_motor3_task);
-
-	xTaskCreate(Motor, (signed const char *)"Motor3",1024,(void*)motor[3],tskIDLE_PRIORITY+1,0);
-	*/
-
-//	sem = xSemaphoreCreateMutex();
 
 	vTaskStartScheduler();
 
