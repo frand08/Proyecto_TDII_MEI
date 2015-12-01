@@ -67,7 +67,7 @@ volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins ar
 volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
-unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=0;	//motor: cada uno de los motores
+unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=1;	//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
 																//sel_motor: elijo cual motor voy a ver
 
