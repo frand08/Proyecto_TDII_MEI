@@ -62,12 +62,12 @@
 #define 	PORT_Q24		0
 #define 	PORT_Q25		0
 
-#define 	PIN_Q20			20
-#define 	PIN_Q21			17
-#define 	PIN_Q22			21
-#define 	PIN_Q23			18
-#define 	PIN_Q24			22
-#define 	PIN_Q25			19
+#define 	PIN_Q20			19
+#define 	PIN_Q21			22
+#define 	PIN_Q22			18
+#define 	PIN_Q23			21
+#define 	PIN_Q24			17
+#define 	PIN_Q25			20
 
 #define 	PORT_Z21		0
 #define 	PORT_Z22		0
@@ -85,12 +85,12 @@
 #define 	PORT_Q34		2
 #define 	PORT_Q35		2
 
-#define 	PIN_Q30			2
-#define 	PIN_Q31			5
-#define 	PIN_Q32			1
-#define 	PIN_Q33			4
-#define 	PIN_Q34			0
-#define 	PIN_Q35			3
+#define 	PIN_Q30			3
+#define 	PIN_Q31			0
+#define 	PIN_Q32			4
+#define 	PIN_Q33			1
+#define 	PIN_Q34			5
+#define 	PIN_Q35			2
 
 #define 	PORT_Z31		0
 #define 	PORT_Z32		0
