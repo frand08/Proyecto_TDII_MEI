@@ -24,7 +24,7 @@ extern uint8_t motor[4],PWM_number[4],sel_motor;
 
 
 
-void InitPWM(uint8_t PWM_number)
+void InitPWM(uint8_t PWM_num)
 {
 	//Initialize PWM peipheral, timer mode
 	//-----------------------------------------------------------------------------------------------
@@ -39,14 +39,14 @@ void InitPWM(uint8_t PWM_number)
 
 	//Configure PWM channel edge (single) CHANNEL PWM_number[sel_motor]={3,4,5,6} (depende el caso)
 	//-----------------------------------------------------------------------------------------------
-	Chip_PWM_SetControlMode(LPC_PWM1, PWM_number, PWM_SINGLE_EDGE_CONTROL_MODE, PWM_OUT_DISABLED);
+	Chip_PWM_SetControlMode(LPC_PWM1, PWM_num, PWM_SINGLE_EDGE_CONTROL_MODE, PWM_OUT_DISABLED);
 
 	//Configure match value for channel PWM_number[sel_motor]
 	//-----------------------------------------------------------------------------------------------
-	Chip_PWM_SetMatch(LPC_PWM1, PWM_number, 20);		//Establezco el valor en clock del Duty (canal 5) / 20 -> 2%Duty
-	Chip_PWM_MatchEnableInt(LPC_PWM1, PWM_number);		//Habilito interrupción
-	Chip_PWM_ResetOnMatchDisable(LPC_PWM1, PWM_number);	//No reset auto
-	Chip_PWM_StopOnMatchDisable(LPC_PWM1, PWM_number);	//No stop
+	Chip_PWM_SetMatch(LPC_PWM1, PWM_num, 20);		//Establezco el valor en clock del Duty (canal 5) / 20 -> 2%Duty
+	Chip_PWM_MatchEnableInt(LPC_PWM1, PWM_num);		//Habilito interrupción
+	Chip_PWM_ResetOnMatchDisable(LPC_PWM1, PWM_num);	//No reset auto
+	Chip_PWM_StopOnMatchDisable(LPC_PWM1, PWM_num);	//No stop
 
 	//Reset and Start Counter
 	//-----------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ void InitGPIO(uint8_t num_motor)
 /*===================================================================*/
 }
 
-void Stop_and_Default(uint8_t num_motor)
+void Stop_and_Default(uint8_t num_motor,uint8_t PWM_num)
 {
 	//Set Period and PWM
 	//-----------------------------------------------------------------------------------------------
@@ -107,18 +107,18 @@ void Stop_and_Default(uint8_t num_motor)
 	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], PIN_Qb_[num_motor][2], 1);		//NMOS
 }
 
-void Start_Up_Brushless(uint8_t num_motor)
+void Start_Up_Brushless(uint8_t num_motor,uint8_t PWM_num)
 {
 	uint32_t t = 1, dr, dPwr;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
 	Count = 0;
-	NextPWM(num_motor);	//Siguiente conmutación
+	NextPWM(num_motor,PWM_num);	//Siguiente conmutación
 	while (Count < 10)				//Primeras 3 conmutaciones a período inicial (lentas) por sincronizmo
 	{
 		while (Match_Cnt < StepPeriod[num_motor]);	//Delay hasta sig conmutación
-		NextPWM(num_motor);						//Siguiente conmutación
+		NextPWM(num_motor,PWM_num);						//Siguiente conmutación
 	}
 	//Set variables para ecuaciones de arranque
 	//-----------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ void Start_Up_Brushless(uint8_t num_motor)
 	while (StepPeriod[num_motor] > start.periodRange[num_motor])
 	{
 		while (Match_Cnt < StepPeriod[0]);//Delay hasta la siguiente conmutación (bloqueante solo durante arranque)
-		NextPWM(num_motor);						//Siguiente conmutación
+		NextPWM(num_motor,PWM_num);						//Siguiente conmutación
 
 		DutyCycle[num_motor] = start.powerRange[0] + t * dPwr;//Incremento Duty de manera lineal desde powerRange0 a powerRange1
 		StepPeriod[num_motor] =start.periodRange[0] - t * dr;	//Disminuye período entre conmutaciones de manera exponencial decreciente
@@ -140,17 +140,17 @@ void Start_Up_Brushless(uint8_t num_motor)
 
 	DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
 
-	Chip_PWM_SetMatch(LPC_PWM1, 5, DutyCycle[num_motor]);
+	Chip_PWM_SetMatch(LPC_PWM1, PWM_num, DutyCycle[num_motor]);
 	Chip_PWM_Reset(LPC_PWM1);
 }
 
-void NextPWM(uint8_t num_motor)
+void NextPWM(uint8_t num_motor,uint8_t PWM_num)
 {
 	//Actualizar DutyCycle
 	//-----------------------------------------------------------------------------------------------
 	if (DutyCycle[num_motor] != DutyCycle0[num_motor])
 	{
-		Chip_PWM_SetMatch(LPC_PWM1, 5, DutyCycle[num_motor]);
+		Chip_PWM_SetMatch(LPC_PWM1, PWM_num, DutyCycle[num_motor]);
 		Chip_PWM_Reset(LPC_PWM1);
 		DutyCycle0[num_motor] = DutyCycle[num_motor];
 	}
