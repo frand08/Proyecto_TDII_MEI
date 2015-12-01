@@ -259,7 +259,7 @@ void PWM1_IRQHandler(void)
 	}
 
 
-	if (Chip_PWM_MatchPending(LPC_PWM1, 6)) //Reviso interrupción pendiente canal PWM 65
+	if (Chip_PWM_MatchPending(LPC_PWM1, 6)) //Reviso interrupción pendiente canal PWM 6
 	{
 		Chip_PWM_ClearMatch(LPC_PWM1, 6);	//Limpio interrupción canal PWM 6
 
