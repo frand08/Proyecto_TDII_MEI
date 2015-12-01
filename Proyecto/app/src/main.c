@@ -82,9 +82,9 @@ static void initHardware(void)
     //Board_Init();
 
 
-	InitPWM(PWM_number[sel_motor]);			//Función inicialización modulo PWM
+	InitPWM(motor[sel_motor]);			//Función inicialización modulo PWM
 	InitGPIO(motor[sel_motor]);			//Llamo función para inicializar GPIO
-	Stop_and_Default(motor[sel_motor],PWM_number[sel_motor]);	//Condiciones iniciales
+	Stop_and_Default(motor[sel_motor]);	//Condiciones iniciales
 
 
 }
@@ -95,7 +95,7 @@ static void Motor(void * p)
 	uint8_t *motor_number=(uint8_t*)p;
 	while(1)
 	{
-		NextPWM(motor[*motor_number],PWM_number[*motor_number]);
+		NextPWM(motor[*motor_number]);
 		vTaskDelay(100 / portTICK_RATE_MS);
 	}
 }
@@ -103,7 +103,7 @@ static void Motor(void * p)
 static void StartUpMotor(void* p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
-	Start_Up_Brushless(motor[*motor_number],PWM_number[*motor_number]);
+	Start_Up_Brushless(motor[*motor_number]);
 
 	vTaskSuspend(NULL);
 }
