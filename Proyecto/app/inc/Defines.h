@@ -108,20 +108,6 @@
 #define 	SALIDA			1
 #define 	ENTRADA			0
 
-/*========[Prueba para ver por que no andan los pines]=========*/
-
-/*
-#define 	PORT_NOANDA1	1
-#define 	PORT_NOANDA2	1
-#define 	PORT_NOANDA3	0
-#define 	PIN_NOANDA1		27
-#define 	PIN_NOANDA2		25
-#define 	PIN_NOANDA3		25
-*/
-
-
-/*=============================================================*/
-
 /*==================[auxiliar]=================================*/
 
 

@@ -21,8 +21,9 @@ static void initHardware(void);
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
 
-uint32_t Match_Cnt=0, Cycle=0, AntiRebo=REBOTE_;
+uint32_t  Cycle=0, AntiRebo=REBOTE_;
 
+volatile uint32_t Match_Cnt=0;
 
 uint32_t PORT_Qa_[4][3]={{PORT_Q01,PORT_Q03,PORT_Q05},
 		{PORT_Q11,PORT_Q13,PORT_Q15},

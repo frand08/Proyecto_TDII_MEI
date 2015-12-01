@@ -2,8 +2,9 @@
 
 /*==========================[GLOBALES]==========================*/
 //-----------------------------------------------------------------------------------------------
-extern uint32_t Match_Cnt, Cycle, AntiRebo;
-//extern uint32_t PORT_Qa[3],PIN_Qa[3],PORT_Qb[3],PIN_Qb[3],PORT_Z[3],PIN_Z[3];
+extern uint32_t Cycle, AntiRebo;
+
+extern volatile uint32_t Match_Cnt;
 
 extern uint32_t PORT_Qa_[4][3],PIN_Qa_[4][3],PORT_Qb_[4][3],PIN_Qb_[4][3],PORT_Z_[4][3],PIN_Z_[4][3];
 
@@ -20,7 +21,7 @@ extern uint8_t Count;  					// no full commutation cycles completed
 
 
 
-extern uint8_t motor[4],PWM_number[4],sel_motor;
+extern unsigned int motor[4],PWM_number[4],sel_motor;
 
 
 
