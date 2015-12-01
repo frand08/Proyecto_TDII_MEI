@@ -103,7 +103,7 @@ STATIC INLINE void Chip_GPIO_SetPinState(LPC_GPIO_T *pGPIO, uint8_t port, uint8_
  * @param	setting	: true for high, false for low
  * @return	Nothing
  */
-STATIC INLINE void Chip_GPIO_WritePortBit(LPC_GPIO_T *pGPIO, uint32_t port, uint8_t pin, bool setting)
+STATIC INLINE void Chip_GPIO_WritePortBit(LPC_GPIO_T *pGPIO, uint32_t port, uint32_t pin, bool setting)
 {
 	Chip_GPIO_SetPinState(pGPIO, port, pin, setting);
 }
@@ -187,7 +187,7 @@ STATIC INLINE void Chip_GPIO_SetPinDIR(LPC_GPIO_T *pGPIO, uint8_t port, uint8_t 
  * Chip_GPIO_SetPinDIRInput() or Chip_GPIO_SetPinDIR() functions instead
  * of this function.
  */
-STATIC INLINE void Chip_GPIO_WriteDirBit(LPC_GPIO_T *pGPIO, uint8_t port, uint8_t bit, bool setting)
+STATIC INLINE void Chip_GPIO_WriteDirBit(LPC_GPIO_T *pGPIO, uint32_t port, uint32_t bit, bool setting)
 {
 	Chip_GPIO_SetPinDIR(pGPIO, port, bit, setting);
 }
