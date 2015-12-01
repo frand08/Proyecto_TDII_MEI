@@ -82,8 +82,8 @@ static void initHardware(void)
     //Board_Init();
 
 
-	InitPWM(motor[sel_motor]);			//Función inicialización modulo PWM
-	InitGPIO(motor[sel_motor]);			//Llamo función para inicializar GPIO
+	InitPWM();			//Función inicialización modulo PWM
+	InitGPIO();			//Llamo función para inicializar GPIO
 	Stop_and_Default(motor[sel_motor]);	//Condiciones iniciales
 
 
