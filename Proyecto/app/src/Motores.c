@@ -130,7 +130,7 @@ void Start_Up_Brushless(uint8_t num_motor,uint8_t PWM_num)
 	//-----------------------------------------------------------------------------------------------
 	while (StepPeriod[num_motor] > start.periodRange[num_motor])
 	{
-		while (Match_Cnt < StepPeriod[0]);//Delay hasta la siguiente conmutación (bloqueante solo durante arranque)
+		while (Match_Cnt < StepPeriod[num_motor]);//Delay hasta la siguiente conmutación (bloqueante solo durante arranque)
 		NextPWM(num_motor,PWM_num);						//Siguiente conmutación
 
 		DutyCycle[num_motor] = start.powerRange[0] + t * dPwr;//Incremento Duty de manera lineal desde powerRange0 a powerRange1
