@@ -141,7 +141,7 @@ static void Motor(void * p)
 	while(1)
 	{
 		NextPWM(*motor_number);
-		vTaskDelay(StepPeriod[0] / portTICK_RATE_MS);
+		vTaskDelay(100 / portTICK_RATE_MS);
 	}
 }
 
