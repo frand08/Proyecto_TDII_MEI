@@ -31,7 +31,6 @@
 #define 	PIN_Z03			0
 /*===================================================================*/
 
-
 /*===========================[P9]====================================*/
 #define 	PORT_Q10		1
 #define 	PORT_Q11		0
@@ -159,7 +158,7 @@ struct StartParams_s {		// params for startup seq.
 //-----------------------------------------------------------------------------------------------
 
 void PWM1_IRQHandler(void);
-void InitPWM(void);
+void InitPWM(uint8_t);
 void InitGPIO(uint8_t);
 void Stop_and_Default(uint8_t);
 void Start_Up_Brushless(uint8_t);

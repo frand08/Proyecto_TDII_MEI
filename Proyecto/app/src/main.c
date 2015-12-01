@@ -67,7 +67,9 @@ volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins ar
 volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
-uint8_t mot_1 = 1;
+uint8_t motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=0;	//motor: cada uno de los motores
+																//PWM_number: el pwm para cada uno
+																//sel_motor: elijo cual motor voy a ver
 
 
 /*==================[internal functions definition]==========================*/
@@ -79,9 +81,9 @@ static void initHardware(void)
     //Board_Init();
 
 
-	InitPWM();			//Función inicialización modulo PWM
-	InitGPIO(0);			//Llamo función para inicializar GPIO
-	Stop_and_Default(0);	//Condiciones iniciales
+	InitPWM(PWM_number[sel_motor]);			//Función inicialización modulo PWM
+	InitGPIO(sel_motor);			//Llamo función para inicializar GPIO
+	Stop_and_Default(sel_motor);	//Condiciones iniciales
 
 
 }
@@ -200,7 +202,7 @@ static void Prueba(void* p)
 int main(void)
 {
 
-	unsigned int motor[4]={0,1,2,3};
+
 	/*
 
 	Chip_GPIO_WriteDirBit(LPC_GPIO, PLED0, LED0 , SALIDA);	//Configuro el pin como salida
@@ -233,9 +235,9 @@ int main(void)
 
 	xTaskCreate(taskLED, (signed const char *)"taskLED", 128, 0, tskIDLE_PRIORITY+1, 0);
 */
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)motor[0],tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)motor[sel_motor],tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)motor[0],tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)motor[sel_motor],tskIDLE_PRIORITY+1,0);
 
 
 
