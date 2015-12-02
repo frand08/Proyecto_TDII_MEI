@@ -62,13 +62,13 @@ struct StartParams_s  start= { 150,   {300, 100},   {60, 150} };	//Cantidad de p
 volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
 		CruceZero0[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 												//-----> 50*20microseg = 1mSeg
-long StepPeriod[4];     			// step duration, us
-volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins are high
+long StepPeriod[4]={0,0,0,0};     			// step duration, us
+volatile uint16_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
 
 volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
-unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=0;	//motor: cada uno de los motores
+unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=1;	//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
 																//sel_motor: elijo cual motor voy a ver
 
@@ -92,7 +92,7 @@ static void initHardware(void)
 
 static void Motor(void * p)
 {
-	unsigned int *motor_number=(unsigned int*)p;
+	uint8_t *motor_number=(uint8_t*)p;
 	while(1)
 	{
 		NextPWM(*motor_number);
@@ -102,7 +102,7 @@ static void Motor(void * p)
 
 static void StartUpMotor(void* p)
 {
-	unsigned int *motor_number=(unsigned int*)p;
+	uint8_t *motor_number=(uint8_t*)p;
 	Start_Up_Brushless(*motor_number);
 
 	vTaskSuspend(NULL);
