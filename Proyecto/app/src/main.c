@@ -66,7 +66,7 @@ uint32_t StepPeriod[4]={0,0,0,0};     			// step duration, us
 volatile uint16_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
 
 volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
-uint8_t Count=0;  					// no full commutation cycles completed
+volatile uint32_t Count=0;  					// no full commutation cycles completed
 
 unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=3;	//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
@@ -96,7 +96,7 @@ static void Motor(void * p)
 	while(1)
 	{
 		NextPWM(*motor_number);
-		vTaskDelay(100 / portTICK_RATE_MS);
+		vTaskDelay(10 / portTICK_RATE_MS);
 	}
 }
 

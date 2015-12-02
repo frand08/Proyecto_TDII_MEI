@@ -17,7 +17,7 @@ extern uint32_t StepPeriod[4];     			// step duration, us
 extern volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins are high
 
 extern volatile int StepID[4];  		// commutation step counter, 0..5
-extern uint8_t Count;  					// no full commutation cycles completed
+extern volatile uint32_t Count;  					// no full commutation cycles completed
 
 
 
@@ -150,12 +150,14 @@ void NextPWM(uint8_t num_motor)
 {
 	//Actualizar DutyCycle
 	//-----------------------------------------------------------------------------------------------
+
 	if (DutyCycle[num_motor] != DutyCycle0[num_motor])
 	{
 		Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 		Chip_PWM_Reset(LPC_PWM1);
 		DutyCycle0[num_motor] = DutyCycle[num_motor];
 	}
+
 	//Conmutaciones MOSfet
 	//-----------------------------------------------------------------------------------------------
 	switch (StepID[num_motor])
@@ -193,7 +195,7 @@ void NextPWM(uint8_t num_motor)
 		StepID[num_motor] = 0;
 		Count++;
 	} else
-		StepID[num_motor]++;//Incremento StepID para la siguiente conmutación (6 conmutaciones)
+		StepID[num_motor]=StepID[num_motor]+1;//Incremento StepID para la siguiente conmutación (6 conmutaciones)
 
 	Match_Cnt = 0;	//Reinicio Match_Cnt
 
