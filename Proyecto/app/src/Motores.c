@@ -13,7 +13,7 @@ extern volatile uint8_t CruceZero[4][3], CruceZero0[4][3];
 
 extern struct StartParams_s start;	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 												//-----> 50*20microseg = 1mSeg
-extern long StepPeriod[4];     			// step duration, us
+extern uint32_t StepPeriod[4];     			// step duration, us
 extern volatile uint16_t DutyCycle[4], DutyCycle0[4]; 	// fraction of period hi pins are high
 
 extern volatile int StepID[4];  		// commutation step counter, 0..5
@@ -25,9 +25,8 @@ extern unsigned int motor[4],PWM_number[4],sel_motor;
 
 
 
-void InitPWM(void)
+void InitPWM(uint8_t num_motor)
 {
-	uint8_t channel;
 	//Initialize PWM peipheral, timer mode
 	//-----------------------------------------------------------------------------------------------
 	Chip_PWM_PrescaleSet(LPC_PWM1, 0);		//Valor preescalar=100 (divisor de clock)
@@ -39,19 +38,17 @@ void InitPWM(void)
 	Chip_PWM_ResetOnMatchEnable(LPC_PWM1, 0);	//Reset auto
 	Chip_PWM_StopOnMatchDisable(LPC_PWM1, 0);	//No stop
 
-	for(channel = 3;channel <=6;channel++)
-	{
 		//Configure PWM channel edge (single) CHANNEL channel={3,4,5,6} (depende el caso)
 		//-----------------------------------------------------------------------------------------------
-		Chip_PWM_SetControlMode(LPC_PWM1, channel, PWM_SINGLE_EDGE_CONTROL_MODE, PWM_OUT_DISABLED);
+		Chip_PWM_SetControlMode(LPC_PWM1, PWM_number[num_motor], PWM_SINGLE_EDGE_CONTROL_MODE, PWM_OUT_DISABLED);
 
 		//Configure match value for channel channel
 		//-----------------------------------------------------------------------------------------------
-		Chip_PWM_SetMatch(LPC_PWM1, channel, 20);		//Establezco el valor en clock del Duty (canal PWM_num) / 20 -> 2%Duty
-		Chip_PWM_MatchEnableInt(LPC_PWM1, channel);		//Habilito interrupción
-		Chip_PWM_ResetOnMatchDisable(LPC_PWM1, channel);	//No reset auto
-		Chip_PWM_StopOnMatchDisable(LPC_PWM1, channel);	//No stop
-	}
+		Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], 20);		//Establezco el valor en clock del Duty (canal PWM_num) / 20 -> 2%Duty
+		Chip_PWM_MatchEnableInt(LPC_PWM1, PWM_number[num_motor]);		//Habilito interrupción
+		Chip_PWM_ResetOnMatchDisable(LPC_PWM1, PWM_number[num_motor]);	//No reset auto
+		Chip_PWM_StopOnMatchDisable(LPC_PWM1, PWM_number[num_motor]);	//No stop
+
 	//Reset and Start Counter
 	//-----------------------------------------------------------------------------------------------
 	Chip_PWM_Reset(LPC_PWM1);
@@ -65,13 +62,10 @@ void InitPWM(void)
 	NVIC_EnableIRQ(PWM1_IRQn);
 }
 
-void InitGPIO(void)
+void InitGPIO(uint8_t num_motor)
 {
 	//CONFIGURAR SALIDAS
 	//-----------------------------------------------------------------------------------------------
-	unsigned int num_motor;
-	for(num_motor=0;num_motor<3;num_motor++)
-	{
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][0], PIN_Qa_[num_motor][0] , SALIDA);	//Configuro el pin como salida
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][1], PIN_Qa_[num_motor][1] , SALIDA);	//Configuro el pin como salida
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Qa_[num_motor][2], PIN_Qa_[num_motor][2] , SALIDA);	//Configuro el pin como salida
@@ -95,10 +89,10 @@ void InitGPIO(void)
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2], 0);
 	*/
 	/*===================================================================*/
-	}
+
 }
 
-void Stop_and_Default(unsigned int num_motor)
+void Stop_and_Default(uint8_t num_motor)
 {
 	//Set Period and PWM
 	//-----------------------------------------------------------------------------------------------
@@ -115,7 +109,7 @@ void Stop_and_Default(unsigned int num_motor)
 	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], (uint8_t)PIN_Qb_[num_motor][2], 1);		//NMOS
 }
 
-void Start_Up_Brushless(unsigned int num_motor)
+void Start_Up_Brushless(uint8_t num_motor)
 {
 	uint32_t t = 1, dr, dPwr;
 
@@ -136,7 +130,7 @@ void Start_Up_Brushless(unsigned int num_motor)
 	t = 0;
 	//Arranque del Motor	(Clock:25MHz, Divisor pwm:1, Ciclos pwm:1000, -> [1 Match_Cnt = 40 MicroSeg]
 	//-----------------------------------------------------------------------------------------------
-	while (StepPeriod[num_motor] > start.periodRange[num_motor])
+	while (StepPeriod[num_motor] > (uint32_t)start.periodRange[num_motor])
 	{
 		while (Match_Cnt < StepPeriod[num_motor]);//Delay hasta la siguiente conmutación (bloqueante solo durante arranque)
 		NextPWM(num_motor);						//Siguiente conmutación
@@ -152,7 +146,7 @@ void Start_Up_Brushless(unsigned int num_motor)
 	Chip_PWM_Reset(LPC_PWM1);
 }
 
-void NextPWM(unsigned int num_motor)
+void NextPWM(uint8_t num_motor)
 {
 	//Actualizar DutyCycle
 	//-----------------------------------------------------------------------------------------------
@@ -225,45 +219,18 @@ void PWM1_IRQHandler(void)
 		Chip_PWM_ClearMatch(LPC_PWM1, 0);	//Limpio interrupción canal PWM 0
 
 		//PWM sobre transistores PMOS
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[0][Cycle], (uint8_t)PIN_Qa_[0][Cycle], 1);	//Encender
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[1][Cycle], (uint8_t)PIN_Qa_[1][Cycle], 1);	//Encender
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[2][Cycle], (uint8_t)PIN_Qa_[2][Cycle], 1);	//Encender
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[3][Cycle], (uint8_t)PIN_Qa_[3][Cycle], 1);	//Encender
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[sel_motor][Cycle], (uint8_t)PIN_Qa_[sel_motor][Cycle], 1);	//Encender
+//		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[1][Cycle], (uint8_t)PIN_Qa_[1][Cycle], 1);	//Encender
+//		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[2][Cycle], (uint8_t)PIN_Qa_[2][Cycle], 1);	//Encender
+//		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[3][Cycle], (uint8_t)PIN_Qa_[3][Cycle], 1);	//Encender
 	}
 	//Interrupción Canal PWM_number[sel_motor] -> DUTYCICLE
 	//-----------------------------------------------------------------------------------------------
-	if (Chip_PWM_MatchPending(LPC_PWM1, 3)) //Reviso interrupción pendiente canal PWM 3
+	if (Chip_PWM_MatchPending(LPC_PWM1, PWM_number[sel_motor])) //Reviso interrupción pendiente canal PWM 3
 	{
-		Chip_PWM_ClearMatch(LPC_PWM1, 3);	//Limpio interrupción canal PWM 3
+		Chip_PWM_ClearMatch(LPC_PWM1, PWM_number[sel_motor]);	//Limpio interrupción canal PWM 3
 
 		//PWM sobre transistores NMOS
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[0][Cycle], (uint8_t)PIN_Qa_[0][Cycle], 0);	//Apagar
-	}
-
-
-	if (Chip_PWM_MatchPending(LPC_PWM1, 4)) //Reviso interrupción pendiente canal PWM 4
-	{
-		Chip_PWM_ClearMatch(LPC_PWM1, 4);	//Limpio interrupción canal PWM 4
-
-		//PWM sobre transistores NMOS
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[1][Cycle], (uint8_t)PIN_Qa_[1][Cycle], 0);	//Apagar
-	}
-
-
-	if (Chip_PWM_MatchPending(LPC_PWM1, 5)) //Reviso interrupción pendiente canal PWM 5
-	{
-		Chip_PWM_ClearMatch(LPC_PWM1, 5);	//Limpio interrupción canal PWM 5
-
-		//PWM sobre transistores NMOS
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[2][Cycle], (uint8_t)PIN_Qa_[2][Cycle], 0);	//Apagar
-	}
-
-
-	if (Chip_PWM_MatchPending(LPC_PWM1, 6)) //Reviso interrupción pendiente canal PWM 6
-	{
-		Chip_PWM_ClearMatch(LPC_PWM1, 6);	//Limpio interrupción canal PWM 6
-
-		//PWM sobre transistores NMOS
-		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[3][Cycle], (uint8_t)PIN_Qa_[3][Cycle], 0);	//Apagar
+		Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qa_[sel_motor][Cycle], (uint8_t)PIN_Qa_[sel_motor][Cycle], 0);	//Apagar
 	}
 }

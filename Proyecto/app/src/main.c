@@ -62,13 +62,13 @@ struct StartParams_s  start= { 150,   {300, 100},   {60, 150} };	//Cantidad de p
 volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
 		CruceZero0[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 												//-----> 50*20microseg = 1mSeg
-long StepPeriod[4]={0,0,0,0};     			// step duration, us
+uint32_t StepPeriod[4]={0,0,0,0};     			// step duration, us
 volatile uint16_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
 
 volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 uint8_t Count=0;  					// no full commutation cycles completed
 
-unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=0;	//motor: cada uno de los motores
+unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=3;	//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
 																//sel_motor: elijo cual motor voy a ver
 
@@ -82,8 +82,8 @@ static void initHardware(void)
     //Board_Init();
 
 
-	InitPWM();			//Función inicialización modulo PWM
-	InitGPIO();			//Llamo función para inicializar GPIO
+	InitPWM(sel_motor);			//Función inicialización modulo PWM
+	InitGPIO(sel_motor);			//Llamo función para inicializar GPIO
 	Stop_and_Default(sel_motor);	//Condiciones iniciales
 
 
@@ -117,9 +117,9 @@ int main(void)
 
 	initHardware();
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)sel_motor,tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)&sel_motor,tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)sel_motor,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)&sel_motor,tskIDLE_PRIORITY+1,0);
 
 	vTaskStartScheduler();
 
