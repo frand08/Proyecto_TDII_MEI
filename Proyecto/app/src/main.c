@@ -21,9 +21,9 @@ static void initHardware(void);
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
 
-uint32_t  Cycle=0, AntiRebo=REBOTE_;
+uint32_t  Cycle[4]={0,0,0,0}, AntiRebo=REBOTE_;
 
-volatile uint32_t Match_Cnt=0;
+volatile uint32_t Match_Cnt[4]={0,0,0,0};
 
 uint32_t PORT_Qa_[4][3]={{PORT_Q01,PORT_Q03,PORT_Q05},
 		{PORT_Q11,PORT_Q13,PORT_Q15},
@@ -65,10 +65,10 @@ volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
 uint32_t StepPeriod[4]={0,0,0,0};     			// step duration, us
 volatile uint16_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
 
-volatile int StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
-volatile uint32_t Count=0;  					// no full commutation cycles completed
+volatile uint32_t StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
+volatile uint32_t Count[4]={0,0,0,0};  					// no full commutation cycles completed
 
-unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6},sel_motor=3;	//motor: cada uno de los motores
+unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
 																//sel_motor: elijo cual motor voy a ver
 
@@ -82,9 +82,19 @@ static void initHardware(void)
     //Board_Init();
 
 
-	InitPWM(sel_motor);			//Función inicialización modulo PWM
-	InitGPIO(sel_motor);			//Llamo función para inicializar GPIO
-	Stop_and_Default(sel_motor);	//Condiciones iniciales
+	InitPWM_motores(0);			//Función inicialización modulo PWM
+	InitPWM_motores(1);			//Función inicialización modulo PWM
+	InitPWM_motores(2);			//Función inicialización modulo PWM
+	InitPWM_motores(3);			//Función inicialización modulo PWM
+	InitPWM0();
+	InitGPIO(0);			//Llamo función para inicializar GPIO
+	InitGPIO(1);			//Llamo función para inicializar GPIO
+	InitGPIO(2);			//Llamo función para inicializar GPIO
+	InitGPIO(3);			//Llamo función para inicializar GPIO
+	Stop_and_Default(0);	//Condiciones iniciales
+	Stop_and_Default(1);	//Condiciones iniciales
+	Stop_and_Default(2);	//Condiciones iniciales
+	Stop_and_Default(3);	//Condiciones iniciales
 
 
 }
@@ -96,7 +106,7 @@ static void Motor(void * p)
 	while(1)
 	{
 		NextPWM(*motor_number);
-		vTaskDelay(10 / portTICK_RATE_MS);
+		vTaskDelay(1 / portTICK_RATE_MS);
 	}
 }
 
@@ -117,9 +127,21 @@ int main(void)
 
 	initHardware();
 
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor",1024,(void*)&sel_motor,tskIDLE_PRIORITY+2,0);
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+2,0);
 
-	xTaskCreate(Motor, (signed const char *)"Motor",1024,(void*)&sel_motor,tskIDLE_PRIORITY+1,0);
+	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+2,0);
+
+	xTaskCreate(Motor, (signed const char *)"Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
+
+	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
+
+	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
+
+	xTaskCreate(Motor, (signed const char *)"Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 
 	vTaskStartScheduler();
 
