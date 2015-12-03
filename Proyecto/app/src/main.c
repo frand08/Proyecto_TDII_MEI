@@ -73,7 +73,7 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 																//sel_motor: elijo cual motor voy a ver
 
 
-xSemaphoreHandle sem_motor[4];
+xSemaphoreHandle sem_motor[4],sem_startup[4];
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -118,9 +118,13 @@ static void StartUpMotor(void* p)
 	static uint8_t Task_suspend=0;
 	while(1)
 	{
+		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 			vTaskSuspend(NULL);
+
+
+		xSemaphoreGive(sem_startup[*motor_number]);
 	}
 }
 
@@ -129,12 +133,15 @@ static void Conmutation(void *p)
 	uint8_t *zero_motor=(uint8_t*)p;
 	while(1)
 	{
+		xSemaphoreTake(sem_startup[*zero_motor],portMAX_DELAY);
 		CruceZero[*zero_motor][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][0], PIN_Z_[*zero_motor][0]);
 		CruceZero[*zero_motor][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][1], PIN_Z_[*zero_motor][1]);
 		CruceZero[*zero_motor][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][2], PIN_Z_[*zero_motor][2]);
 
 		if((CruceZero0[*zero_motor][0] != CruceZero[*zero_motor][0]) || (CruceZero0[*zero_motor][1] != CruceZero[*zero_motor][1]) || (CruceZero0[*zero_motor][2] != CruceZero[*zero_motor][2]))
 			xSemaphoreGive(sem_motor[*zero_motor]);
+
+		xSemaphoreGive(sem_startup[*zero_motor]);
 	}
 
 }
@@ -182,6 +189,11 @@ int main(void)
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();
 	sem_motor[3] = xSemaphoreCreateMutex();
+
+	sem_startup[0] = xSemaphoreCreateMutex();
+	sem_startup[1] = xSemaphoreCreateMutex();
+	sem_startup[2] = xSemaphoreCreateMutex();
+	sem_startup[3] = xSemaphoreCreateMutex();
 
 vTaskStartScheduler();
 
