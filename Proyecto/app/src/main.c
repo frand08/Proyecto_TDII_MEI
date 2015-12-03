@@ -106,8 +106,12 @@ static void Motor(void * p)
 	uint8_t *motor_number=(uint8_t*)p;
 	while(1)
 	{
-		xSemaphoreTake(sem_motor[*motor_number],portMAX_DELAY);
-		NextPWM(*motor_number);
+		CruceZero[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
+		CruceZero[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
+		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
+
+		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
+			NextPWM(*motor_number);
 		//		vTaskDelay(10/portTICK_RATE_MS);
 	}
 }
@@ -118,19 +122,19 @@ static void StartUpMotor(void* p)
 	static uint8_t Task_suspend=0;
 	while(1)
 	{
-		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
+//		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 		{
-			xSemaphoreGive(sem_startup[*motor_number]);
+//			xSemaphoreGive(sem_startup[*motor_number]);
 			vTaskSuspend(NULL);
 		}
 
 
-		xSemaphoreGive(sem_startup[*motor_number]);
+//		xSemaphoreGive(sem_startup[*motor_number]);
 	}
 }
-
+/*
 static void Conmutation(void *p)
 {
 	uint8_t *zero_motor=(uint8_t*)p;
@@ -148,7 +152,7 @@ static void Conmutation(void *p)
 	}
 
 }
-
+*/
 /*==================[external functions definition]==========================*/
 
 int main(void)
@@ -161,7 +165,7 @@ int main(void)
 
 	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
-	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
+//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
 
 
@@ -188,6 +192,8 @@ int main(void)
 
 	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 */
+
+/*
 	sem_motor[0] = xSemaphoreCreateMutex();
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();
@@ -197,7 +203,7 @@ int main(void)
 	sem_startup[1] = xSemaphoreCreateMutex();
 	sem_startup[2] = xSemaphoreCreateMutex();
 	sem_startup[3] = xSemaphoreCreateMutex();
-
+*/
 vTaskStartScheduler();
 
 	while(1);
