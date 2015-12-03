@@ -74,6 +74,7 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 
 
 //xSemaphoreHandle sem_motor[4];
+xSemaphoreHandle sem_startup_motor[4];
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -114,12 +115,12 @@ static void Motor(void * p)
 
 static void StartUpMotor(void* p)
 {
-	uint8_t *motor_number=(uint8_t*)p;
+	uint8_t *motor_number=(uint8_t*)p,Task_suspend;
 	while(1)
 	{
-		Start_Up_Brushless(*motor_number);
-
-		vTaskSuspend(NULL);
+		Task_suspend=Start_Up_Brushless(*motor_number);
+		if(Task_suspend)
+			vTaskSuspend(NULL);
 	}
 }
 /*
@@ -184,7 +185,12 @@ int main(void)
 	sem_motor[3] = xSemaphoreCreateMutex();
 */
 
-	vTaskStartScheduler();
+	sem_startup_motor[0] = xSemaphoreCreateMutex();
+	sem_startup_motor[1] = xSemaphoreCreateMutex();
+	sem_startup_motor[2] = xSemaphoreCreateMutex();
+	sem_startup_motor[3] = xSemaphoreCreateMutex();
+
+vTaskStartScheduler();
 
 	while(1);
 

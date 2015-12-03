@@ -113,15 +113,73 @@ void Stop_and_Default(uint8_t num_motor)
 	Chip_GPIO_WritePortBit(LPC_GPIO, PORT_Qb_[num_motor][2], (uint8_t)PIN_Qb_[num_motor][2], 1);		//NMOS
 }
 
-void Start_Up_Brushless(uint8_t num_motor)
+uint8_t Start_Up_Brushless(uint8_t num_motor)
 {
-	uint32_t t=1, dr, dPwr;
+	static uint32_t t=1, dr=0, dPwr=0;
+	static uint32_t estado_motorstartup=0;
+	static uint8_t Suspender_Task=0;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
+
+	switch(estado_motorstartup)
+	{
+		case 0:
+			NextPWM(num_motor);				//Siguiente conmutación
+			Count[num_motor]=0;				//Inicio el conteo para el arranque
+			estado_motorstartup++;
+			break;
+
+		case 1:
+			if(Count[num_motor]<10)
+			{
+				if(Match_Cnt[num_motor]>=StepPeriod[num_motor])		//Delay hasta la siguiente conmutación
+					NextPWM(num_motor);								//Siguiente conmutación
+			}
+			else
+			{
+				dPwr = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
+				dr = (start.periodRange[0] -start.periodRange[1])/start.duration;
+
+				t = 0;
+
+				estado_motorstartup++;
+			}
+			break;
+
+		case 2:
+			if(StepPeriod[num_motor] > (uint32_t)start.periodRange[num_motor])
+			{
+				if(Match_Cnt[num_motor] >= StepPeriod[num_motor])
+				{
+					NextPWM(num_motor);
+					DutyCycle[num_motor] = start.powerRange[0] + t * dPwr;//Incremento Duty de manera lineal desde powerRange0 a powerRange1
+					StepPeriod[num_motor] =start.periodRange[0] - t * dr;	//Disminuye período entre conmutaciones de manera exponencial decreciente
+					t++;																					//desde periodRange0 hasta periodRange1
+				}
+			}
+			else
+			{
+				DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
+
+				Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
+				Chip_PWM_Reset(LPC_PWM1);
+				Suspender_Task = 1;
+			}
+			break;
+		default:
+			DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
+
+			Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
+			Chip_PWM_Reset(LPC_PWM1);
+			Suspender_Task = 1;
+			break;
+	}
+	return Suspender_Task;
+	/*
 	Count[num_motor] = 0;
 	NextPWM(num_motor);	//Siguiente conmutación
-	while (Count[num_motor] < 10)				//Primeras 3 conmutaciones a período inicial (lentas) por sincronizmo
+	while (Count[num_motor] < 10)				//Primeras 3 conmutaciones a período inicial (lentas) por sincronismo
 	{
 		while (Match_Cnt[num_motor] < StepPeriod[num_motor]);	//Delay hasta sig conmutación
 		NextPWM(num_motor);						//Siguiente conmutación
@@ -148,6 +206,7 @@ void Start_Up_Brushless(uint8_t num_motor)
 
 	Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 	Chip_PWM_Reset(LPC_PWM1);
+	*/
 }
 
 void NextPWM(uint8_t num_motor)
