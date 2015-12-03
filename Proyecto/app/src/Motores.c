@@ -148,7 +148,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 			break;
 
 		case 2:
-			if(StepPeriod[num_motor] > (uint32_t)start.periodRange[num_motor])
+			if(StepPeriod[num_motor] > (uint32_t)start.periodRange[1])
 			{
 				if(Match_Cnt[num_motor] >= StepPeriod[num_motor])
 				{
