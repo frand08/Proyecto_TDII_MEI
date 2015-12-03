@@ -146,13 +146,13 @@ int main(void)
 
 
 	initHardware();
-
+/*
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
 	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-
+*/
 
 
 
@@ -161,7 +161,7 @@ int main(void)
 	xTaskCreate(Motor, (signed const char *)"Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
 
 	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
-
+/*
 
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
@@ -177,7 +177,7 @@ int main(void)
 	xTaskCreate(Motor, (signed const char *)"Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 
 	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-
+*/
 	sem_motor[0] = xSemaphoreCreateMutex();
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();

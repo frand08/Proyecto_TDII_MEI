@@ -127,7 +127,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 		case 0:
 			NextPWM(num_motor);				//Siguiente conmutación
 			Count[num_motor]=0;				//Inicio el conteo para el arranque
-			estado_motorstartup++;
+			estado_motorstartup = 1;
 			break;
 
 		case 1:
@@ -143,7 +143,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 
 				t = 0;
 
-				estado_motorstartup++;
+				estado_motorstartup = 2;
 			}
 			break;
 
@@ -165,14 +165,17 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 				Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 				Chip_PWM_Reset(LPC_PWM1);
 				Suspender_Task = 1;
+				estado_motorstartup = 0;
 			}
 			break;
+
 		default:
 			DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
 
 			Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 			Chip_PWM_Reset(LPC_PWM1);
 			Suspender_Task = 1;
+			estado_motorstartup = 0;
 			break;
 	}
 
