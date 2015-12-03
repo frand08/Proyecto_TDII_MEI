@@ -108,6 +108,7 @@ static void Motor(void * p)
 	{
 		xSemaphoreTake(sem_motor[*motor_number],portMAX_DELAY);
 		NextPWM(*motor_number);
+		//		vTaskDelay(10/portTICK_RATE_MS);
 	}
 }
 
@@ -119,7 +120,6 @@ static void StartUpMotor(void* p)
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 			vTaskSuspend(NULL);
-//		vTaskDelay(10/portTICK_RATE_MS);
 	}
 }
 
