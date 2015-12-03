@@ -78,6 +78,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 static void initHardware(void)
 {
+	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_120MHZ_CPU);
     SystemCoreClockUpdate();
 
     //Board_Init();
