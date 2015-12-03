@@ -64,6 +64,8 @@ void InitPWM_motores(uint8_t num_motor)
 	Chip_PWM_MatchEnableInt(LPC_PWM1, PWM_number[num_motor]);		//Habilito interrupción
 	Chip_PWM_ResetOnMatchDisable(LPC_PWM1, PWM_number[num_motor]);	//No reset auto
 	Chip_PWM_StopOnMatchDisable(LPC_PWM1, PWM_number[num_motor]);	//No stop
+	Chip_PWM_LatchEnable(LPC_PWM1, PWM_number[num_motor], PWM_OUT_ENABLED);
+	Chip_PWM_Reset(LPC_PWM1);
 }
 
 void InitGPIO(uint8_t num_motor)
@@ -163,7 +165,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 				DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
 
 				Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
-				Chip_PWM_Reset(LPC_PWM1);
+				//Chip_PWM_Reset(LPC_PWM1);
 				Suspender_Task = 1;
 				estado_motorstartup = 0;
 			}
@@ -173,7 +175,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 			DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
 
 			Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
-			Chip_PWM_Reset(LPC_PWM1);
+			//Chip_PWM_Reset(LPC_PWM1);
 			Suspender_Task = 1;
 			estado_motorstartup = 0;
 			break;
@@ -224,7 +226,7 @@ void NextPWM(uint8_t num_motor)
 	if (DutyCycle[num_motor] != DutyCycle0[num_motor])
 	{
 		Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
-		Chip_PWM_Reset(LPC_PWM1);
+		//Chip_PWM_Reset(LPC_PWM1);
 		DutyCycle0[num_motor] = DutyCycle[num_motor];
 	}
 
