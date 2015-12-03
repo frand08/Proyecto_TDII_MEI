@@ -114,7 +114,8 @@ static void Motor(void * p)
 
 static void StartUpMotor(void* p)
 {
-	uint8_t *motor_number=(uint8_t*)p,Task_suspend=0;
+	uint8_t *motor_number=(uint8_t*)p;
+	static uint8_t Task_suspend=0;
 	while(1)
 	{
 		Task_suspend=Start_Up_Brushless(*motor_number);
