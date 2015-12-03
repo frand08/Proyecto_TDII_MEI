@@ -23,12 +23,13 @@
 #define 	PIN_Q04			30
 #define 	PIN_Q05			26
 
-#define 	PORT_Z01		0
-#define 	PORT_Z02		0
-#define 	PORT_Z03		0
-#define 	PIN_Z01			0
-#define 	PIN_Z02			0
-#define 	PIN_Z03			0
+//K1
+#define 	PORT_Z01		1
+#define 	PORT_Z02		1
+#define 	PORT_Z03		1
+#define 	PIN_Z01			18
+#define 	PIN_Z02			19
+#define 	PIN_Z03			20
 /*===================================================================*/
 
 /*===========================[P9]====================================*/
@@ -46,12 +47,13 @@
 #define 	PIN_Q14			24
 #define 	PIN_Q15			27
 
-#define 	PORT_Z11		0
-#define 	PORT_Z12		0
-#define 	PORT_Z13		0
-#define 	PIN_Z11			0
-#define 	PIN_Z12			0
-#define 	PIN_Z13			0
+//K2
+#define 	PORT_Z11		1
+#define 	PORT_Z12		1
+#define 	PORT_Z13		1
+#define 	PIN_Z11			21
+#define 	PIN_Z12			22
+#define 	PIN_Z13			23
 /*===================================================================*/
 
 /*===========================[P10]===================================*/
@@ -69,12 +71,13 @@
 #define 	PIN_Q24			17
 #define 	PIN_Q25			20
 
+//K3
 #define 	PORT_Z21		0
 #define 	PORT_Z22		0
-#define 	PORT_Z23		0
-#define 	PIN_Z21			0
-#define 	PIN_Z22			0
-#define 	PIN_Z23			0
+#define 	PORT_Z23		2
+#define 	PIN_Z21			15
+#define 	PIN_Z22			16
+#define 	PIN_Z23			9
 /*===================================================================*/
 
 /*===========================[P11]===================================*/
@@ -92,12 +95,13 @@
 #define 	PIN_Q34			5
 #define 	PIN_Q35			2
 
-#define 	PORT_Z31		0
-#define 	PORT_Z32		0
-#define 	PORT_Z33		0
-#define 	PIN_Z31			0
-#define 	PIN_Z32			0
-#define 	PIN_Z33			0
+//K4
+#define 	PORT_Z31		2
+#define 	PORT_Z32		2
+#define 	PORT_Z33		2
+#define 	PIN_Z31			6		//seis
+#define 	PIN_Z32			7		//en el siete
+#define 	PIN_Z33			8		//a las ocho (spe)
 /*===================================================================*/
 
 #define 	PULS1 			18
