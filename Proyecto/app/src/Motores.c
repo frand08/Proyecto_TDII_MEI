@@ -116,12 +116,12 @@ void Stop_and_Default(uint8_t num_motor)
 uint8_t Start_Up_Brushless(uint8_t num_motor)
 {
 	static uint32_t t=1, dr=0, dPwr=0;
-//	static uint32_t estado_motorstartup=0;
+	static uint32_t estado_motorstartup=0;
 	static uint8_t Suspender_Task=0;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
-/*
+
 	switch(estado_motorstartup)
 	{
 		case 0:
@@ -179,7 +179,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 			break;
 	}
 
-	*/
+	/*
 
 	Count[num_motor] = 0;
 	NextPWM(num_motor);	//Siguiente conmutación
@@ -212,7 +212,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 	Chip_PWM_Reset(LPC_PWM1);
 
 	Suspender_Task = 1;
-
+	 */
 	return Suspender_Task;
 }
 
