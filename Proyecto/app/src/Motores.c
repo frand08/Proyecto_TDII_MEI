@@ -115,7 +115,7 @@ void Stop_and_Default(uint8_t num_motor)
 
 void Start_Up_Brushless(uint8_t num_motor)
 {
-	uint32_t t[4] = {1,1,1,1}, dr[4], dPwr[4];
+	uint32_t t=1, dr, dPwr;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
@@ -128,10 +128,10 @@ void Start_Up_Brushless(uint8_t num_motor)
 	}
 	//Set variables para ecuaciones de arranque
 	//-----------------------------------------------------------------------------------------------
-	dPwr[num_motor] = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
-	dr[num_motor] = (start.periodRange[0] -start.periodRange[1])/start.duration;
+	dPwr = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
+	dr = (start.periodRange[0] -start.periodRange[1])/start.duration;
 
-	t[num_motor] = 0;
+	t = 0;
 	//Arranque del Motor	(Clock:25MHz, Divisor pwm:1, Ciclos pwm:1000, -> [1 Match_Cnt = 40 MicroSeg]
 	//-----------------------------------------------------------------------------------------------
 	while (StepPeriod[num_motor] > (uint32_t)start.periodRange[num_motor])
@@ -139,9 +139,9 @@ void Start_Up_Brushless(uint8_t num_motor)
 		while (Match_Cnt[num_motor] < StepPeriod[num_motor]);//Delay hasta la siguiente conmutación (bloqueante solo durante arranque)
 		NextPWM(num_motor);						//Siguiente conmutación
 
-		DutyCycle[num_motor] = start.powerRange[0] + t[num_motor] * dPwr[num_motor];//Incremento Duty de manera lineal desde powerRange0 a powerRange1
-		StepPeriod[num_motor] =start.periodRange[0] - t[num_motor] * dr[num_motor];	//Disminuye período entre conmutaciones de manera exponencial decreciente
-		t[num_motor]++;																					//desde periodRange0 hasta periodRange1
+		DutyCycle[num_motor] = start.powerRange[0] + t * dPwr;//Incremento Duty de manera lineal desde powerRange0 a powerRange1
+		StepPeriod[num_motor] =start.periodRange[0] - t * dr;	//Disminuye período entre conmutaciones de manera exponencial decreciente
+		t++;																					//desde periodRange0 hasta periodRange1
 	}
 
 	DutyCycle[num_motor] = 150;		// (150/1000)-> 15% Duty
