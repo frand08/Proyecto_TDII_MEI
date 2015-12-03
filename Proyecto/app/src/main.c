@@ -105,6 +105,7 @@ static void Motor(void * p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
 	while(1)
+
 	{
 		CruceZero[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 		CruceZero[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
@@ -161,14 +162,14 @@ int main(void)
 
 	initHardware();
 
-/*
+
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
-*/
+
 
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+2,0);
