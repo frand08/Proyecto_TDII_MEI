@@ -121,7 +121,10 @@ static void StartUpMotor(void* p)
 		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
+		{
+			xSemaphoreGive(sem_startup[*motor_number]);
 			vTaskSuspend(NULL);
+		}
 
 
 		xSemaphoreGive(sem_startup[*motor_number]);
