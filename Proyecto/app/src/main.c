@@ -56,7 +56,7 @@ uint32_t PIN_Z_[4][3]={{PIN_Z01, PIN_Z02, PIN_Z03},
 		{PIN_Z31, PIN_Z32, PIN_Z33}
 };
 
-struct StartParams_s  start= { 10000,   {180, 30},   {20, 320} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
+struct StartParams_s  start= { 300,   {180, 30},   {20, 320} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 
 
 volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
