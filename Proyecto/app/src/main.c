@@ -115,9 +115,12 @@ static void Motor(void * p)
 static void StartUpMotor(void* p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
-	Start_Up_Brushless(*motor_number);
+	while(1)
+	{
+		Start_Up_Brushless(*motor_number);
 
-	vTaskSuspend(NULL);
+		vTaskSuspend(NULL);
+	}
 }
 /*
 static void Conmutation(void *p)
