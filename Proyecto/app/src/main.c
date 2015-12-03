@@ -79,11 +79,11 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 static void initHardware(void)
 {
 	Chip_SetupXtalClocking();
-	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_120MHZ_CPU);
+	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock/1000);
 
-    //Board_Init();
+    Board_Init();
 
 
 	InitPWM_motores(0);			//Función inicialización modulo PWM
