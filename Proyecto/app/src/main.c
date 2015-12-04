@@ -75,7 +75,7 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 
 xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
-uint32_t estado_motorstartup[4]={0,0,0,0};
+uint32_t estado_motorstartup[4]={0,0,0,0},motor_state[4]={ARRANQUE,ARRANQUE,ARRANQUE,ARRANQUE};
 
 /*==================[internal functions definition]==========================*/
 
@@ -106,7 +106,7 @@ static void initHardware(void)
 
 }
 
-
+/*
 static void Motor(void * p)
 {
 	uint8_t *motor_number=(uint8_t*)p;
@@ -143,6 +143,9 @@ static void StartUpMotor(void* p)
 //		xSemaphoreGive(sem_startup[*motor_number]);
 	}
 }
+*/
+
+
 /*
 static void Conmutation(void *p)
 {
@@ -162,6 +165,42 @@ static void Conmutation(void *p)
 
 }
 */
+
+
+void zero_Motor(uint8_t num_motor)
+{
+	CruceZero[num_motor][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][0], PIN_Z_[num_motor][0]);
+	CruceZero[num_motor][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][1], PIN_Z_[num_motor][1]);
+	CruceZero[num_motor][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2]);
+
+	if((CruceZero0[num_motor][0] != CruceZero[num_motor][0]) || (CruceZero0[num_motor][1] != CruceZero[num_motor][1]) || (CruceZero0[num_motor][2] != CruceZero[num_motor][2]))
+		NextPWM(num_motor);
+}
+
+void Mde_Motor(uint8_t num_motor)
+{
+	static uint8_t end = 0;
+	switch(motor_state[num_motor])
+	{
+		case ARRANQUE:
+			end = Start_Up_Brushless(num_motor);
+			if(end)
+			{
+				motor_state[num_motor]=GIRANDO;
+				end = 0;
+			}
+			break;
+
+		case GIRANDO:
+			zero_Motor(num_motor);
+			break;
+
+		default:
+			motor_state[num_motor]=GIRANDO;
+	}
+}
+
+
 /*==================[external functions definition]==========================*/
 
 int main(void)
@@ -176,7 +215,7 @@ int main(void)
 	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-*/
+
 
 
 
@@ -187,7 +226,7 @@ int main(void)
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
 
 
-/*
+
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
@@ -213,11 +252,14 @@ int main(void)
 	sem_startup[1] = xSemaphoreCreateMutex();
 	sem_startup[2] = xSemaphoreCreateMutex();
 	sem_startup[3] = xSemaphoreCreateMutex();
-*/
-	sem_cruces = xSemaphoreCreateMutex();
-vTaskStartScheduler();
 
-	while(1);
+	sem_cruces = xSemaphoreCreateMutex();
+	vTaskStartScheduler();
+*/
+	while(1)
+	{
+		Mde_Motor(1);
+	}
 
 }
 

@@ -136,8 +136,12 @@
 
 
 
+/*==================[Maquina de estados]=============================*/
 
+#define	ARRANQUE	1
+#define	GIRANDO		2
 
+/*===================================================================*/
 struct StartParams_s {		// params for startup seq.
 	long duration; 			// duration of accel phase of startup, us
 	long periodRange[2]; 	// commutation period range for startup, us
