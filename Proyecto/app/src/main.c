@@ -75,7 +75,7 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 
 xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
-uint32_t estado_motorstartup[4]={0,0,0,0},motor_state[4]={ARRANQUE,ARRANQUE,ARRANQUE,ARRANQUE};
+uint8_t estado_motorstartup[4]={0,0,0,0},motor_state[4]={ARRANQUE,ARRANQUE,ARRANQUE,ARRANQUE};
 
 /*==================[internal functions definition]==========================*/
 
@@ -196,7 +196,7 @@ void Mde_Motor(uint8_t num_motor)
 			break;
 
 		default:
-			motor_state[num_motor]=GIRANDO;
+			motor_state[num_motor]=ARRANQUE;
 	}
 }
 

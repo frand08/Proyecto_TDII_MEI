@@ -23,7 +23,7 @@ extern volatile uint32_t Count[4];  					// no full commutation cycles completed
 
 extern unsigned int motor[4],PWM_number[4],sel_motor;
 
-extern uint32_t estado_motorstartup[4];
+extern uint8_t estado_motorstartup[4];
 
 void InitPWM0(void)
 {
