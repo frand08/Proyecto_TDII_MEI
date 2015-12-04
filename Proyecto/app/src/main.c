@@ -186,14 +186,14 @@ int main(void)
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
 
-
+*/
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
-*/
+
 
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
