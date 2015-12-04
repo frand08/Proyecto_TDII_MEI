@@ -74,6 +74,9 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 
 
 xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
+
+uint32_t estado_motorstartup[4]={0,0,0,0};
+
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)

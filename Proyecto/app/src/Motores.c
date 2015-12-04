@@ -23,7 +23,7 @@ extern volatile uint32_t Count[4];  					// no full commutation cycles completed
 
 extern unsigned int motor[4],PWM_number[4],sel_motor;
 
-
+extern uint32_t estado_motorstartup[4];
 
 void InitPWM0(void)
 {
@@ -118,18 +118,17 @@ void Stop_and_Default(uint8_t num_motor)
 uint8_t Start_Up_Brushless(uint8_t num_motor)
 {
 	static uint32_t t=1, dr=0, dPwr=0;
-	static uint32_t estado_motorstartup=0;
 	static uint8_t Suspender_Task=0;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
 
-	switch(estado_motorstartup)
+	switch(estado_motorstartup[num_motor])
 	{
 		case 0:
 			NextPWM(num_motor);				//Siguiente conmutación
 			Count[num_motor]=0;				//Inicio el conteo para el arranque
-			estado_motorstartup = 1;
+			estado_motorstartup[num_motor] = 1;
 			break;
 
 		case 1:
@@ -145,7 +144,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 
 				t = 0;
 
-				estado_motorstartup = 2;
+				estado_motorstartup[num_motor] = 2;
 			}
 			break;
 
@@ -167,7 +166,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 				Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 				//Chip_PWM_Reset(LPC_PWM1);
 				Suspender_Task = 1;
-				estado_motorstartup = 0;
+				estado_motorstartup[num_motor] = 0;
 			}
 			break;
 
@@ -177,7 +176,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 			Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 			//Chip_PWM_Reset(LPC_PWM1);
 			Suspender_Task = 1;
-			estado_motorstartup = 0;
+			estado_motorstartup[num_motor] = 0;
 			break;
 	}
 
