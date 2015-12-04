@@ -25,6 +25,10 @@ extern unsigned int motor[4],PWM_number[4],sel_motor;
 
 extern uint8_t estado_motorstartup[4];
 
+extern uint32_t t[4], dr[4], dPwr[4];
+extern uint8_t Suspender_Task[4];
+
+
 void InitPWM0(void)
 {
 	//Initialize PWM peipheral, timer mode
@@ -117,8 +121,6 @@ void Stop_and_Default(uint8_t num_motor)
 
 uint8_t Start_Up_Brushless(uint8_t num_motor)
 {
-	static uint32_t t=1, dr=0, dPwr=0;
-	static uint8_t Suspender_Task=0;
 
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
@@ -139,10 +141,10 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 			}
 			else
 			{
-				dPwr = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
-				dr = (start.periodRange[0] -start.periodRange[1])/start.duration;
+				dPwr[num_motor] = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
+				dr[num_motor] = (start.periodRange[0] -start.periodRange[1])/start.duration;
 
-				t = 0;
+				t[num_motor] = 0;
 
 				estado_motorstartup[num_motor] = 2;
 			}
@@ -154,9 +156,9 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 				if(Match_Cnt[num_motor] >= StepPeriod[num_motor])
 				{
 					NextPWM(num_motor);
-					DutyCycle[num_motor] = start.powerRange[0] + t * dPwr;//Incremento Duty de manera lineal desde powerRange0 a powerRange1
-					StepPeriod[num_motor] =start.periodRange[0] - t * dr;	//Disminuye período entre conmutaciones de manera exponencial decreciente
-					t++;																					//desde periodRange0 hasta periodRange1
+					DutyCycle[num_motor] = start.powerRange[0] + t[num_motor] * dPwr[num_motor];//Incremento Duty de manera lineal desde powerRange0 a powerRange1
+					StepPeriod[num_motor] =start.periodRange[0] - t[num_motor] * dr[num_motor];	//Disminuye período entre conmutaciones de manera exponencial decreciente
+					t[num_motor]++;																					//desde periodRange0 hasta periodRange1
 				}
 			}
 			else
@@ -165,7 +167,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 
 				Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 				//Chip_PWM_Reset(LPC_PWM1);
-				Suspender_Task = 1;
+				Suspender_Task[num_motor] = 1;
 				estado_motorstartup[num_motor] = 0;
 			}
 			break;
@@ -175,7 +177,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 
 			Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 			//Chip_PWM_Reset(LPC_PWM1);
-			Suspender_Task = 1;
+			Suspender_Task[num_motor] = 1;
 			estado_motorstartup[num_motor] = 0;
 			break;
 	}
@@ -214,7 +216,7 @@ uint8_t Start_Up_Brushless(uint8_t num_motor)
 
 	Suspender_Task = 1;
 	 */
-	return Suspender_Task;
+	return Suspender_Task[num_motor];
 }
 
 void NextPWM(uint8_t num_motor)

@@ -77,6 +77,10 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint8_t estado_motorstartup[4]={0,0,0,0},motor_state[4]={ARRANQUE,ARRANQUE,ARRANQUE,ARRANQUE};
 
+uint32_t t[4]={1,1,1,1}, dr[4]={0,0,0,0}, dPwr[4]={0,0,0,0};
+uint8_t Suspender_Task[4]={0,0,0,0};
+
+
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -179,7 +183,7 @@ void zero_Motor(uint8_t num_motor)
 
 void Mde_Motor(uint8_t num_motor)
 {
-	static uint8_t end = 0;
+	uint8_t end = 0;
 	switch(motor_state[num_motor])
 	{
 		case ARRANQUE:
@@ -187,7 +191,7 @@ void Mde_Motor(uint8_t num_motor)
 			if(end)
 			{
 				motor_state[num_motor]=GIRANDO;
-				end = 0;
+				Suspender_Task[num_motor]=0;
 			}
 			break;
 
