@@ -226,6 +226,7 @@ void NextPWM(uint8_t num_motor)
 	{
 		Chip_PWM_SetMatch(LPC_PWM1, PWM_number[num_motor], DutyCycle[num_motor]);
 		//Chip_PWM_Reset(LPC_PWM1);
+		Chip_PWM_LatchEnable(LPC_PWM1, PWM_number[num_motor], PWM_OUT_ENABLED);
 		DutyCycle0[num_motor] = DutyCycle[num_motor];
 	}
 
