@@ -73,8 +73,6 @@ unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de lo
 																//sel_motor: elijo cual motor voy a ver
 
 
-xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
-
 uint8_t estado_motorstartup[4]={0,0,0,0},motor_state[4]={ARRANQUE,ARRANQUE,ARRANQUE,ARRANQUE};
 
 uint32_t t[4]={1,1,1,1}, dr[4]={0,0,0,0}, dPwr[4]={0,0,0,0};
@@ -90,7 +88,7 @@ static void initHardware(void)
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock/1000);
 
-    Board_Init();
+//    Board_Init();
 
 
 	InitPWM_motores(0);			//Función inicialización modulo PWM

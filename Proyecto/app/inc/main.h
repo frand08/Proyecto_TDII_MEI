@@ -3,11 +3,8 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "FreeRTOS.h"
 #include "board.h"
 #include "chip.h"
-#include "task.h"
-#include "semphr.h"
 
 #include "Defines.h"
 
