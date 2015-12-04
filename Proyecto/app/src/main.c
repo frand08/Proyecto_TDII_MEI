@@ -198,7 +198,13 @@ void Mde_Motor(uint8_t num_motor)
 			break;
 
 		default:
-			motor_state[num_motor]=ARRANQUE;
+			end = Start_Up_Brushless(num_motor);
+			if(end)
+			{
+				motor_state[num_motor]=GIRANDO;
+				Suspender_Task[num_motor]=0;
+			}
+			break;
 	}
 }
 
@@ -211,53 +217,6 @@ int main(void)
 
 	initHardware();
 
-/*
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-
-
-
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
-
-
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
-
-	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
-
-
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-
-	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-*/
-
-/*
-	sem_motor[0] = xSemaphoreCreateMutex();
-	sem_motor[1] = xSemaphoreCreateMutex();
-	sem_motor[2] = xSemaphoreCreateMutex();
-	sem_motor[3] = xSemaphoreCreateMutex();
-
-	sem_startup[0] = xSemaphoreCreateMutex();
-	sem_startup[1] = xSemaphoreCreateMutex();
-	sem_startup[2] = xSemaphoreCreateMutex();
-	sem_startup[3] = xSemaphoreCreateMutex();
-
-	sem_cruces = xSemaphoreCreateMutex();
-	vTaskStartScheduler();
-*/
 	while(1)
 	{
 		Mde_Motor(1);
