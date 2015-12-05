@@ -114,7 +114,6 @@ static void initHardware(void)
     P2_6ER = 1;
     P2_7ER = 1;
     P2_8ER = 1;
-    NVIC_EnableIRQ(EINT3_IRQn);
 
 
 }
@@ -164,6 +163,7 @@ static void StartUpMotor(void* p)
 //			xSemaphoreGive(sem_startup[*motor_number]);
 			End=1;
 			vTaskSuspend(NULL);
+		    NVIC_EnableIRQ(EINT3_IRQn);
 		}
 
 
