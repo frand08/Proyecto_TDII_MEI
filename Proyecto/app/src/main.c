@@ -77,7 +77,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
-volatile uint8_t Conmutar = 0;
+volatile uint8_t Conmutar = 0,End=0;
 
 /*==================[internal functions definition]==========================*/
 
@@ -158,6 +158,7 @@ static void StartUpMotor(void* p)
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
+			End=1;
 			vTaskSuspend(NULL);
 		}
 
@@ -255,7 +256,8 @@ void EINT3_IRQHandler(void)
 	 if(P2_8REI)
 		 P2_8CI=0;
 
-	 Conmutar = 1;
+	 if(End)
+		 Conmutar = 1;
 }
 
 /*==================[end of file]============================================*/
