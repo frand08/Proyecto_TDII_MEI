@@ -77,7 +77,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
-volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
+volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0},aux[4]={0,0,0,0};
 
 /*==================[internal functions definition]==========================*/
 
@@ -111,21 +111,15 @@ static void initHardware(void)
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
-    P2_6ER = 1;
-    P2_7ER = 1;
-    P2_8ER = 1;
+    P2_6ER = 1;    P2_7ER = 1;    P2_8ER = 1;
 
-    P2_6EF = 1;
-    P2_7EF = 1;
-    P2_8EF = 1;
+    P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
 
-    P0_15ER = 1;
-    P0_16ER = 1;
-    P2_9ER = 1;
 
-    P0_15EF = 1;
-    P0_16EF = 1;
-    P2_9EF = 1;
+    P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
+
+    P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
+
 
     NVIC_EnableIRQ(EINT3_IRQn);
 
@@ -175,6 +169,7 @@ static void StartUpMotor(void* p)
 			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
 			End[*motor_number]=1;
+			Conmutar[*motor_number] = 0;
 			vTaskSuspend(NULL);
 		}
 
@@ -264,18 +259,49 @@ vTaskStartScheduler();
 void EINT3_IRQHandler(void)
 {
 
-	 if((P2_6REI || P2_6FEI) || (P2_7REI || P2_7FEI) || (P2_8REI || P2_8FEI))
+	 if(P2_6REI || P2_6FEI)
 	 {
-		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
-		 if(End[3])
-			 Conmutar[3]=1;
+		 P2_6CI=1;
+		 aux[3]=1;
 	 }
 
-	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
+	 if(P2_7REI || P2_7FEI)
 	 {
-		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
-		 if(End[2])
-			 Conmutar[2]=1;
+		 P2_7CI=1;
+		 aux[3]=1;
+	 }
+
+	 if(P2_8REI || P2_8FEI)
+	 {
+		 P2_8CI=1;
+		 aux[3]=1;
+	 }
+
+	 if(P0_15REI || P0_15FEI)
+	 {
+		 P0_15CI=1;
+		 aux[2]=1;
+	 }
+
+	 if(P0_16REI || P0_16FEI)
+	 {
+		 P0_16CI=1;
+		 aux[2]=1;
+	 }
+
+	 if(P2_9REI || P2_9FEI)
+	 {
+		 P2_9CI=1;
+		 aux[2]=1;
+	 }
+
+	 if(aux[3])
+	 {
+		 Conmutar[3] = aux[3];aux[3]=0;
+	 }
+	 if(aux[2])
+	 {
+		 Conmutar[2] = aux[2];aux[2]=0;
 	 }
 }
 
