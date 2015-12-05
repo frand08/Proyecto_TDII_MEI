@@ -10,7 +10,7 @@ typedef struct
 	volatile uint32_t 	_RESERVED1:29;
 } IOIntStatus_t;
 
-#define 	IOIntStatus		((IOIntStatus_t *)		(0x40028080))
+#define 	IOIntStatus		((IOIntStatus_t *)		(0x40028080UL))
 
 #define		P0Int		IOIntStatus->_P0Int
 #define 	P2Int		IOIntStatus->_P2Int
@@ -52,7 +52,7 @@ typedef struct
 	volatile uint32_t	_RESERVED1:1;
 } IO0IntEnR_t;
 
-#define 	IO0IntEnR		((IO0IntEnR_t *) 		(0x40028090))
+#define 	IO0IntEnR		((IO0IntEnR_t *) 		(0x40028090UL))
 
 #define		P0_0ER			IO0IntEnR->_P0_0ER
 #define		P0_1ER			IO0IntEnR->_P0_1ER
@@ -105,7 +105,7 @@ typedef struct
 	volatile uint32_t	_RESERVED:18;
 } IO2IntEnR_t;
 
-#define 	IO2IntEnR		((IO2IntEnR_t *) 		(0x400280B0))
+#define 	IO2IntEnR		((IO2IntEnR_t *) 		(0x400280B0UL))
 
 #define		P2_0ER			IO2IntEnR->_P2_0ER
 #define		P2_1ER			IO2IntEnR->_P2_1ER
@@ -159,7 +159,7 @@ typedef struct
 	volatile uint32_t	_RESERVED1:1;
 } IO0IntEnF_t;
 
-#define 	IO0IntEnF		((IO0IntEnF_t *) 		(0x40028094))
+#define 	IO0IntEnF		((IO0IntEnF_t *) 		(0x40028094UL))
 
 #define		P0_0EF			IO0IntEnF->_P0_0EF
 #define		P0_1EF			IO0IntEnF->_P0_1EF
@@ -212,7 +212,7 @@ typedef struct
 	volatile uint32_t	_RESERVED:18;
 } IO2IntEnF_t;
 
-#define 	IO2IntEnF		((IO2IntEnF_t *) 		(0x400280B4))
+#define 	IO2IntEnF		((IO2IntEnF_t *) 		(0x400280B4UL))
 
 #define		P2_0EF			IO2IntEnF->_P2_0EF
 #define		P2_1EF			IO2IntEnF->_P2_1EF
@@ -266,7 +266,7 @@ typedef struct
 	volatile uint32_t	_RESERVED1:1;
 } IO0IntStatR_t;
 
-#define		IO0IntStatR		((IO0IntStatR_t *) 		(0x40028084))
+#define		IO0IntStatR		((IO0IntStatR_t *) 		(0x40028084UL))
 
 #define		P0_0REI			IO0IntStatR->_P0_0REI
 #define		P0_1REI			IO0IntStatR->_P1_1REI
@@ -319,7 +319,7 @@ typedef struct
 	volatile uint32_t	_RESERVED:18;
 } IO2IntStatR_t;
 
-#define 	IO2IntStatR		((IO2IntStatR_t *) 		(0x400280A4))
+#define 	IO2IntStatR		((IO2IntStatR_t *) 		(0x400280A4UL))
 
 #define		P2_0REI			IO2IntStatR->_P2_0REI
 #define		P2_1REI			IO2IntStatR->_P2_1REI
@@ -373,7 +373,7 @@ typedef struct
 	volatile uint32_t	_RESERVED1:1;
 } IO0IntStatF_t;
 
-#define		IO0IntStatF		((IO0IntStatF_t *) 		(0x40028088))
+#define		IO0IntStatF		((IO0IntStatF_t *) 		(0x40028088UL))
 
 #define		P0_0FEI			IO0IntStatF->_P0_0FEI
 #define		P0_1FEI			IO0IntStatF->_P0_1FEI
@@ -426,7 +426,7 @@ typedef struct
 	volatile uint32_t	_RESERVED:18;
 } IO2IntStatF_t;
 
-#define		IO2IntStatF		((IO2IntStatF_t *) 		(0x400280A8))
+#define		IO2IntStatF		((IO2IntStatF_t *) 		(0x400280A8UL))
 
 #define		P2_0FEI			IO2IntStatF->_P2_0FEI
 #define		P2_1FEI			IO2IntStatF->_P2_1FEI
@@ -481,7 +481,7 @@ typedef struct
 	volatile uint32_t	_RESERVED1:1;
 } IO0IntClr_t;
 
-#define		IO0IntClr		((IO0IntClr_t *) 		(0x4002808C))
+#define		IO0IntClr		((IO0IntClr_t *) 		(0x4002808CUL))
 
 #define		P0_0CI			IO0IntClr->_P0_0CI
 #define		P0_1CI			IO0IntClr->_P0_1CI
@@ -534,7 +534,7 @@ typedef struct
 	volatile uint32_t	_RESERVED:18;
 } IO2IntClr_t;
 
-#define 	IO2IntClr		((IO2IntClr_t *) 		(0x400280AC))
+#define 	IO2IntClr		((IO2IntClr_t *) 		(0x400280ACUL))
 
 #define		P2_0CI			IO2IntClr->_P2_0CI
 #define		P2_1CI			IO2IntClr->_P2_1CI
