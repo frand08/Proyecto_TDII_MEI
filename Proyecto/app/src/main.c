@@ -252,13 +252,13 @@ vTaskStartScheduler();
 void EINT3_IRQHandler(void)
 {
 	 if(P2_6REI)
-		 P2_6CI=0;
+		 P2_6CI=1;
 
 	 if(P2_7REI)
-		 P2_7CI=0;
+		 P2_7CI=1;
 
 	 if(P2_8REI)
-		 P2_8CI=0;
+		 P2_8CI=1;
 
 	 if(End)
 		 Conmutar = 1;
