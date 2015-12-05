@@ -238,12 +238,12 @@ int main(void)
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 */
 
-/*
+
 	sem_motor[0] = xSemaphoreCreateMutex();
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();
 	sem_motor[3] = xSemaphoreCreateMutex();
-
+/*
 	sem_startup[0] = xSemaphoreCreateMutex();
 	sem_startup[1] = xSemaphoreCreateMutex();
 	sem_startup[2] = xSemaphoreCreateMutex();
