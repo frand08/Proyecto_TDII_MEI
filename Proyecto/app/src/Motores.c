@@ -274,15 +274,15 @@ void NextPWM(uint8_t num_motor)
 	//Estado anterior cruces zeros
 	//-----------------------------------------------------------------------------------------------
 /*=============[TODAVIA NO ESTA IMPLEMENTADO]========================*/
-
+/*
 	CruceZero0[num_motor][0] = GETPIN(PORT_Z_[num_motor][0], PIN_Z_[num_motor][0]);
 	CruceZero0[num_motor][1] = GETPIN(PORT_Z_[num_motor][1], PIN_Z_[num_motor][1]);
 	CruceZero0[num_motor][2] = GETPIN(PORT_Z_[num_motor][2], PIN_Z_[num_motor][2]);
-	/*
+*/
 	CruceZero0[num_motor][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][0], PIN_Z_[num_motor][0]);
 	CruceZero0[num_motor][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][1], PIN_Z_[num_motor][1]);
 	CruceZero0[num_motor][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2]);
-	 */
+
 /*===================================================================*/
 }
 
