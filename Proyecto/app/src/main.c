@@ -77,7 +77,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
-volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0},aux[4]={0,0,0,0};
+volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 /*==================[internal functions definition]==========================*/
 
@@ -111,15 +111,21 @@ static void initHardware(void)
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
-    P2_6ER = 1;    P2_7ER = 1;    P2_8ER = 1;
+    P2_6ER = 1;
+    P2_7ER = 1;
+    P2_8ER = 1;
 
-    P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
+    P2_6EF = 1;
+    P2_7EF = 1;
+    P2_8EF = 1;
 
+    P0_15ER = 1;
+    P0_16ER = 1;
+    P2_9ER = 1;
 
-    P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
-
-    P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
-
+    P0_15EF = 1;
+    P0_16EF = 1;
+    P2_9EF = 1;
 
     NVIC_EnableIRQ(EINT3_IRQn);
 
@@ -143,12 +149,11 @@ static void Motor(void * p)
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 		 */
 //		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
-		//if(Conmutar[*motor_number])
-		//{
-		xSemaphoreTake(sem_motor[*motor_number],portTICK_RATE_MS);
+		if(Conmutar[*motor_number])
+		{
 			NextPWM(*motor_number);
-		//	Conmutar[*motor_number] = 0;
-		//}
+			Conmutar[*motor_number] = 0;
+		}
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
@@ -169,8 +174,7 @@ static void StartUpMotor(void* p)
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
-//			End[*motor_number]=1;
-//			Conmutar[*motor_number] = 0;
+			End[*motor_number]=1;
 			vTaskSuspend(NULL);
 		}
 
@@ -222,28 +226,28 @@ int main(void)
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
 
 
-*/
+
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
+*/
 
-/*
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-*/
 
 
+/*
 	sem_motor[0] = xSemaphoreCreateMutex();
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();
 	sem_motor[3] = xSemaphoreCreateMutex();
-/*
+
 	sem_startup[0] = xSemaphoreCreateMutex();
 	sem_startup[1] = xSemaphoreCreateMutex();
 	sem_startup[2] = xSemaphoreCreateMutex();
@@ -260,49 +264,16 @@ vTaskStartScheduler();
 void EINT3_IRQHandler(void)
 {
 
-	 if(P2_6REI || P2_6FEI)
+	 if((P2_6REI || P2_6FEI) || (P2_7REI || P2_7FEI) || (P2_8REI || P2_8FEI))
 	 {
-		 P2_6CI=1;
-		 aux[3]=1;
+		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
+		 Conmutar[3]=1;
 	 }
 
-	 if(P2_7REI || P2_7FEI)
+	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
-		 P2_7CI=1;
-		 aux[3]=1;
-	 }
-
-	 if(P2_8REI || P2_8FEI)
-	 {
-		 P2_8CI=1;
-		 aux[3]=1;
-	 }
-
-	 if(P0_15REI || P0_15FEI)
-	 {
-		 P0_15CI=1;
-		 aux[2]=1;
-	 }
-
-	 if(P0_16REI || P0_16FEI)
-	 {
-		 P0_16CI=1;
-		 aux[2]=1;
-	 }
-
-	 if(P2_9REI || P2_9FEI)
-	 {
-		 P2_9CI=1;
-		 aux[2]=1;
-	 }
-
-	 if(aux[3])
-	 {
-		 xSemaphoreGive(sem_motor[3]);aux[3]=0;
-	 }
-	 if(aux[2])
-	 {
-		 xSemaphoreGive(sem_motor[2]);aux[2]=0;
+		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
+		 Conmutar[2]=1;
 	 }
 }
 
