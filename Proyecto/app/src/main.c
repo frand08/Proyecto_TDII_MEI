@@ -89,12 +89,10 @@ static void initHardware(void)
     SysTick_Config(SystemCoreClock/1000);
 
 
-//    P2_6ER = 1;
-//    P2_7ER = 1;
-//    P2_8ER = 1;
-//    NVIC_EnableIRQ(EINT3_IRQn);
 
-    Board_Init();
+
+
+//    Board_Init();
 
 
 
@@ -113,6 +111,12 @@ static void initHardware(void)
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
+    P2_6ER = 1;
+    P2_7ER = 1;
+    P2_8ER = 1;
+    NVIC_EnableIRQ(EINT3_IRQn);
+
+
 }
 
 
@@ -127,20 +131,16 @@ static void Motor(void * p)
 		CruceZero0[*motor_number][1] = GETPIN(PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 		CruceZero0[*motor_number][2] = GETPIN(PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 */
-
+		/*
 		CruceZero[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 		CruceZero[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-
-		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
-//		if(Conmutar)
+		 */
+//		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
+		if(Conmutar)
 		{
 			NextPWM(*motor_number);
-//			Conmutar = 0;
-			CruceZero0[*motor_number][0] = CruceZero[*motor_number][0];
-			CruceZero0[*motor_number][1] = CruceZero[*motor_number][1];
-			CruceZero0[*motor_number][2] = CruceZero[*motor_number][2];
-
+			Conmutar = 0;
 		}
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
@@ -156,13 +156,13 @@ static void StartUpMotor(void* p)
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 		{
-
+			/*
 			CruceZero0[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 			CruceZero0[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-
+			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
-			//End=1;
+			End=1;
 			vTaskSuspend(NULL);
 		}
 
@@ -248,7 +248,7 @@ vTaskStartScheduler();
 
 }
 
-/*
+
 void EINT3_IRQHandler(void)
 {
 	 if(P2_6REI)
@@ -263,5 +263,5 @@ void EINT3_IRQHandler(void)
 	 if(End)
 		 Conmutar = 1;
 }
-*/
+
 /*==================[end of file]============================================*/
