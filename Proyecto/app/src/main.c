@@ -113,7 +113,6 @@ static void Motor(void * p)
 	while(1)
 
 	{
-		xSemaphoreTake(sem_cruces,portMAX_DELAY);
 /*
 		CruceZero0[*motor_number][0] = GETPIN(PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 		CruceZero0[*motor_number][1] = GETPIN(PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
@@ -124,9 +123,13 @@ static void Motor(void * p)
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 
 		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
+		{
 			NextPWM(*motor_number);
-		//		vTaskDelay(10/portTICK_RATE_MS);
-		xSemaphoreGive(sem_cruces);
+			CruceZero0[*motor_number][0]=CruceZero[*motor_number][0];
+			CruceZero0[*motor_number][1]=CruceZero[*motor_number][1];
+			CruceZero0[*motor_number][2]=CruceZero[*motor_number][2];
+		}
+		vTaskDelay(10/portTICK_RATE_MS);
 	}
 }
 
@@ -140,6 +143,10 @@ static void StartUpMotor(void* p)
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 		{
+			CruceZero0[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
+			CruceZero0[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
+			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
+
 //			xSemaphoreGive(sem_startup[*motor_number]);
 			vTaskSuspend(NULL);
 		}
