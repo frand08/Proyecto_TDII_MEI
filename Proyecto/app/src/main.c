@@ -143,11 +143,12 @@ static void Motor(void * p)
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 		 */
 //		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
-		if(Conmutar[*motor_number])
-		{
+		//if(Conmutar[*motor_number])
+		//{
+		xSemaphoreTake(sem_motor[*motor_number],portTICK_RATE_MS);
 			NextPWM(*motor_number);
-			Conmutar[*motor_number] = 0;
-		}
+		//	Conmutar[*motor_number] = 0;
+		//}
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
@@ -168,8 +169,8 @@ static void StartUpMotor(void* p)
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
-			End[*motor_number]=1;
-			Conmutar[*motor_number] = 0;
+//			End[*motor_number]=1;
+//			Conmutar[*motor_number] = 0;
 			vTaskSuspend(NULL);
 		}
 
@@ -297,11 +298,11 @@ void EINT3_IRQHandler(void)
 
 	 if(aux[3])
 	 {
-		 Conmutar[3] = aux[3];aux[3]=0;
+		 xSemaphoreGive(sem_motor[3]);aux[3]=0;
 	 }
 	 if(aux[2])
 	 {
-		 Conmutar[2] = aux[2];aux[2]=0;
+		 xSemaphoreGive(sem_motor[2]);aux[2]=0;
 	 }
 }
 
