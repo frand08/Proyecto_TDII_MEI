@@ -85,7 +85,7 @@ STATIC INLINE void Chip_GPIO_DeInit(LPC_GPIO_T *pGPIO)
  * @return	Nothing
  * @note	This function replaces Chip_GPIO_WritePortBit()
  */
-STATIC INLINE void Chip_GPIO_SetPinState(LPC_GPIO_T *pGPIO, uint8_t port, uint8_t pin, bool setting)
+__attribute__((always_inline)) STATIC INLINE void Chip_GPIO_SetPinState(LPC_GPIO_T *pGPIO, uint8_t port, uint8_t pin, bool setting)
 {
 	if (setting) {	/* Set Port */
 		pGPIO[port].SET |= 1UL << pin;
@@ -103,7 +103,7 @@ STATIC INLINE void Chip_GPIO_SetPinState(LPC_GPIO_T *pGPIO, uint8_t port, uint8_
  * @param	setting	: true for high, false for low
  * @return	Nothing
  */
-STATIC INLINE void Chip_GPIO_WritePortBit(LPC_GPIO_T *pGPIO, uint32_t port, uint8_t pin, bool setting)
+__attribute__((always_inline)) STATIC INLINE void Chip_GPIO_WritePortBit(LPC_GPIO_T *pGPIO, uint32_t port, uint8_t pin, bool setting)
 {
 	Chip_GPIO_SetPinState(pGPIO, port, pin, setting);
 }
