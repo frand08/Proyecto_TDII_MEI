@@ -135,7 +135,8 @@
 #define	LED0		17
 
 
-
+#define GPIOs				((volatile uint32_t *)0x2009C000UL)
+#define GETPIN(port,pin) 	((GPIOs[port*8+5]>>pin)&0x01)
 
 
 struct StartParams_s {		// params for startup seq.
