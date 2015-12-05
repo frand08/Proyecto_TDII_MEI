@@ -88,12 +88,12 @@ static void initHardware(void)
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock/1000);
 
-/*
-    LPC_GPIOINT->IO2IntEnR |=(2<<6);
-    LPC_GPIOINT->IO2IntEnR |=(2<<7);
-    LPC_GPIOINT->IO2IntEnR |=(2<<8);
+
+    P2_6ER = 1;
+    P2_7ER = 1;
+    P2_6ER = 1;
     NVIC_EnableIRQ(EINT3_IRQn);
-    */
+
     Board_Init();
 
 
