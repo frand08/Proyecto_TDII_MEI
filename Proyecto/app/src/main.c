@@ -129,7 +129,7 @@ static void Motor(void * p)
 			CruceZero0[*motor_number][1]=CruceZero[*motor_number][1];
 			CruceZero0[*motor_number][2]=CruceZero[*motor_number][2];
 		}
-		vTaskDelay(10/portTICK_RATE_MS);
+		vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
 
