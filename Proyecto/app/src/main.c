@@ -115,6 +115,10 @@ static void initHardware(void)
     P2_7ER = 1;
     P2_8ER = 1;
 
+    P2_6EF = 1;
+    P2_7EF = 1;
+    P2_8EF = 1;
+
     NVIC_EnableIRQ(EINT3_IRQn);
 
 }
@@ -251,13 +255,13 @@ vTaskStartScheduler();
 
 void EINT3_IRQHandler(void)
 {
-	 if(P2_6REI)
+	 if(P2_6REI || P2_6FEI)
 		 P2_6CI=1;
 
-	 if(P2_7REI)
+	 if(P2_7REI || P2_7FEI)
 		 P2_7CI=1;
 
-	 if(P2_8REI)
+	 if(P2_8REI || P2_8FEI)
 		 P2_8CI=1;
 
 	 if(End)
