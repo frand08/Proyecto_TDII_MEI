@@ -91,7 +91,7 @@ static void initHardware(void)
 
     P2_6ER = 1;
     P2_7ER = 1;
-    P2_6ER = 1;
+    P2_8ER = 1;
     NVIC_EnableIRQ(EINT3_IRQn);
 
     Board_Init();
@@ -243,24 +243,19 @@ vTaskStartScheduler();
 
 }
 
-/*
+
 void EINT3_IRQHandler(void)
 {
- if(LPC_GPIOINT->IO2IntStatR & (2<<6))
- {
-	  LPC_GPIOINT->IO2IntClr=(2<<6);
-	  Conmutar = 1;
- }
- if(LPC_GPIOINT->IO2IntStatR & (2<<7))
- {
-	  LPC_GPIOINT->IO2IntClr=(2<<7);
-	  Conmutar = 1;
- }
- if(LPC_GPIOINT->IO2IntStatR & (2<<8))
- {
-	  LPC_GPIOINT->IO2IntClr=(2<<8);
-	  Conmutar = 1;
- }
+	 if(P2_6REI)
+		 P2_6CI=0;
+
+	 if(P2_7REI)
+		 P2_7CI=0;
+
+	 if(P2_8REI)
+		 P2_8CI=0;
+
+	 Conmutar = 1;
 }
-*/
+
 /*==================[end of file]============================================*/
