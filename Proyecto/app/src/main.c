@@ -77,6 +77,8 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
+volatile uint8_t Conmutar = 0;
+
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -86,8 +88,12 @@ static void initHardware(void)
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock/1000);
 
-
-
+/*
+    LPC_GPIOINT->IO2IntEnR |=(2<<6);
+    LPC_GPIOINT->IO2IntEnR |=(2<<7);
+    LPC_GPIOINT->IO2IntEnR |=(2<<8);
+    NVIC_EnableIRQ(EINT3_IRQn);
+    */
     Board_Init();
 
 
@@ -121,16 +127,16 @@ static void Motor(void * p)
 		CruceZero0[*motor_number][1] = GETPIN(PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 		CruceZero0[*motor_number][2] = GETPIN(PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 */
+		/*
 		CruceZero[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 		CruceZero[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-
-		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
+		 */
+//		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
+		if(Conmutar)
 		{
 			NextPWM(*motor_number);
-			CruceZero0[*motor_number][0]=CruceZero[*motor_number][0];
-			CruceZero0[*motor_number][1]=CruceZero[*motor_number][1];
-			CruceZero0[*motor_number][2]=CruceZero[*motor_number][2];
+			Conmutar = 0;
 		}
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
@@ -146,10 +152,11 @@ static void StartUpMotor(void* p)
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 		{
+			/*
 			CruceZero0[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
 			CruceZero0[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-
+			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
 			vTaskSuspend(NULL);
 		}
@@ -236,4 +243,24 @@ vTaskStartScheduler();
 
 }
 
+/*
+void EINT3_IRQHandler(void)
+{
+ if(LPC_GPIOINT->IO2IntStatR & (2<<6))
+ {
+	  LPC_GPIOINT->IO2IntClr=(2<<6);
+	  Conmutar = 1;
+ }
+ if(LPC_GPIOINT->IO2IntStatR & (2<<7))
+ {
+	  LPC_GPIOINT->IO2IntClr=(2<<7);
+	  Conmutar = 1;
+ }
+ if(LPC_GPIOINT->IO2IntStatR & (2<<8))
+ {
+	  LPC_GPIOINT->IO2IntClr=(2<<8);
+	  Conmutar = 1;
+ }
+}
+*/
 /*==================[end of file]============================================*/

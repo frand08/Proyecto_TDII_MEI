@@ -145,6 +145,7 @@ struct StartParams_s {		// params for startup seq.
 	long powerRange[2];  	// frac of full power over startup accel
 };
 
+
 //FUNCIONES
 //-----------------------------------------------------------------------------------------------
 

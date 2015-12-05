@@ -89,11 +89,11 @@ void InitGPIO(uint8_t num_motor)
 		//CONFIGURAR ENTRADAS
 		//-----------------------------------------------------------------------------------------------
 	/*=============[TODAVIA NO ESTA IMPLEMENTADO]========================*/
-
+/*
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][0], PIN_Z_[num_motor][0], ENTRADA);
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][1], PIN_Z_[num_motor][1], ENTRADA);
 		Chip_GPIO_WriteDirBit(LPC_GPIO, PORT_Z_[num_motor][2], PIN_Z_[num_motor][2], ENTRADA);
-
+*/
 	/*===================================================================*/
 
 }

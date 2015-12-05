@@ -11,6 +11,7 @@
 
 #include "Defines.h"
 
+#include "Estructuras_InitsIntGPIO.h"
 /*==================[cplusplus]==============================================*/
 
 #ifdef __cplusplus
