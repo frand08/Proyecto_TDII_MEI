@@ -77,7 +77,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
-volatile uint8_t Conmutar = 0,End=0;
+volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 /*==================[internal functions definition]==========================*/
 
@@ -119,6 +119,14 @@ static void initHardware(void)
     P2_7EF = 1;
     P2_8EF = 1;
 
+    P0_15ER = 1;
+    P0_16ER = 1;
+    P2_9ER = 1;
+
+    P0_15EF = 1;
+    P0_16EF = 1;
+    P2_9EF = 1;
+
     NVIC_EnableIRQ(EINT3_IRQn);
 
 }
@@ -141,10 +149,10 @@ static void Motor(void * p)
 		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 		 */
 //		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
-		if(Conmutar)
+		if(Conmutar[*motor_number])
 		{
 			NextPWM(*motor_number);
-			Conmutar = 0;
+			Conmutar[*motor_number] = 0;
 		}
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
@@ -166,7 +174,7 @@ static void StartUpMotor(void* p)
 			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
 			 */
 //			xSemaphoreGive(sem_startup[*motor_number]);
-			End=1;
+			End[*motor_number]=1;
 			vTaskSuspend(NULL);
 		}
 
@@ -218,14 +226,14 @@ int main(void)
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
 
 
-
+*/
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
 
 	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
-*/
+
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
 
@@ -256,18 +264,19 @@ vTaskStartScheduler();
 void EINT3_IRQHandler(void)
 {
 
-	 if(P2_6REI || P2_6FEI)
-		 P2_6CI=1;
+	 if((P2_6REI || P2_6FEI) || (P2_7REI || P2_7FEI) || (P2_8REI || P2_8FEI))
+	 {
+		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
+		 if(End[4])
+			 Conmutar[4]=1;
+	 }
 
-	 if(P2_7REI || P2_7FEI)
-		 P2_7CI=1;
-
-	 if(P2_8REI || P2_8FEI)
-		 P2_8CI=1;
-
-//	P2_6CI=1;P2_7CI=1;P2_8CI=1;
-	 if(End)
-		 Conmutar = 1;
+	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
+	 {
+		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
+		 if(End[3])
+			 Conmutar[3]=1;
+	 }
 }
 
 /*==================[end of file]============================================*/

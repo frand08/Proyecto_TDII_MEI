@@ -269,33 +269,33 @@ typedef struct
 #define		IO0IntStatR		((IO0IntStatR_t *) 		(0x40028084UL))
 
 #define		P0_0REI			IO0IntStatR->_P0_0REI
-#define		P0_1REI			IO0IntStatR->_P1_1REI
-#define		P0_2REI			IO0IntStatR->_P2_2REI
-#define		P0_3REI			IO0IntStatR->_P3_3REI
-#define		P0_4REI			IO0IntStatR->_P4_4REI
-#define		P0_5REI			IO0IntStatR->_P5_5REI
-#define		P0_6REI			IO0IntStatR->_P6_6REI
-#define		P0_7REI			IO0IntStatR->_P7_7REI
-#define		P0_8REI			IO0IntStatR->_P8_8REI
-#define		P0_9REI			IO0IntStatR->_P9_9REI
-#define		P0_10REI		IO0IntStatR->_P10_10REI
-#define		P0_11REI		IO0IntStatR->_P11_11REI
-#define		P0_15REI		IO0IntStatR->_P15_15REI
-#define		P0_16REI		IO0IntStatR->_P16_16REI
-#define		P0_17REI		IO0IntStatR->_P17_17REI
-#define		P0_18REI		IO0IntStatR->_P18_18REI
-#define		P0_19REI		IO0IntStatR->_P19_19REI
-#define		P0_20REI		IO0IntStatR->_P20_20REI
-#define		P0_21REI		IO0IntStatR->_P21_21REI
-#define		P0_22REI		IO0IntStatR->_P22_22REI
-#define		P0_23REI		IO0IntStatR->_P23_23REI
-#define		P0_24REI		IO0IntStatR->_P24_24REI
-#define		P0_25REI		IO0IntStatR->_P25_25REI
-#define		P0_26REI		IO0IntStatR->_P26_26REI
-#define		P0_27REI		IO0IntStatR->_P27_27REI
-#define		P0_28REI		IO0IntStatR->_P28_28REI
-#define		P0_29REI		IO0IntStatR->_P29_29REI
-#define		P0_30REI		IO0IntStatR->_P30_30REI
+#define		P0_1REI			IO0IntStatR->_P0_1REI
+#define		P0_2REI			IO0IntStatR->_P0_2REI
+#define		P0_3REI			IO0IntStatR->_P0_3REI
+#define		P0_4REI			IO0IntStatR->_P0_4REI
+#define		P0_5REI			IO0IntStatR->_P0_5REI
+#define		P0_6REI			IO0IntStatR->_P0_6REI
+#define		P0_7REI			IO0IntStatR->_P0_7REI
+#define		P0_8REI			IO0IntStatR->_P0_8REI
+#define		P0_9REI			IO0IntStatR->_P0_9REI
+#define		P0_10REI		IO0IntStatR->_P0_10REI
+#define		P0_11REI		IO0IntStatR->_P0_11REI
+#define		P0_15REI		IO0IntStatR->_P0_15REI
+#define		P0_16REI		IO0IntStatR->_P0_16REI
+#define		P0_17REI		IO0IntStatR->_P0_17REI
+#define		P0_18REI		IO0IntStatR->_P0_18REI
+#define		P0_19REI		IO0IntStatR->_P0_19REI
+#define		P0_20REI		IO0IntStatR->_P0_20REI
+#define		P0_21REI		IO0IntStatR->_P0_21REI
+#define		P0_22REI		IO0IntStatR->_P0_22REI
+#define		P0_23REI		IO0IntStatR->_P0_23REI
+#define		P0_24REI		IO0IntStatR->_P0_24REI
+#define		P0_25REI		IO0IntStatR->_P0_25REI
+#define		P0_26REI		IO0IntStatR->_P0_26REI
+#define		P0_27REI		IO0IntStatR->_P0_27REI
+#define		P0_28REI		IO0IntStatR->_P0_28REI
+#define		P0_29REI		IO0IntStatR->_P0_29REI
+#define		P0_30REI		IO0IntStatR->_P0_30REI
 
 
 
