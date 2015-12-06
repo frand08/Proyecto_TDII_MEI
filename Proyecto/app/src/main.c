@@ -111,21 +111,15 @@ static void initHardware(void)
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
-    P2_6ER = 1;
-    P2_7ER = 1;
-    P2_8ER = 1;
+    P2_6ER = 1;    P2_7ER = 1;    P2_8ER = 1;
 
-    P2_6EF = 1;
-    P2_7EF = 1;
-    P2_8EF = 1;
+    P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
 
-    P0_15ER = 1;
-    P0_16ER = 1;
-    P2_9ER = 1;
 
-    P0_15EF = 1;
-    P0_16EF = 1;
-    P2_9EF = 1;
+
+    P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
+
+    P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
 
     NVIC_EnableIRQ(EINT3_IRQn);
 
