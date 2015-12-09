@@ -151,10 +151,10 @@ struct StartParams_s {		// params for startup seq.
 
 void PWM1_IRQHandler(void);
 void InitPWM0(void);
-void InitPWM_motores(uint8_t);
-void InitGPIO(uint8_t);
-void Stop_and_Default(uint8_t);
-uint8_t Start_Up_Brushless(uint8_t);
-void NextPWM(uint8_t);
+void InitPWM_motores(uint32_t);
+void InitGPIO(uint32_t);
+void Stop_and_Default(uint32_t);
+uint32_t Start_Up_Brushless(uint32_t);
+void NextPWM(uint32_t);
 void Zero_Detect(void);
 

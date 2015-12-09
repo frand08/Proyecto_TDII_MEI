@@ -59,16 +59,16 @@ uint32_t PIN_Z_[4][3]={{PIN_Z01, PIN_Z02, PIN_Z03},
 struct StartParams_s  start= { 150,   {180, 30},   {20, 320} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
 
 
-volatile uint8_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+volatile uint32_t CruceZero[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
 		CruceZero0[4][3]={{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 												//-----> 50*20microseg = 1mSeg
 uint32_t StepPeriod[4]={0,0,0,0};     			// step duration, us
-volatile uint16_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
+volatile uint32_t DutyCycle[4]={0,0,0,0}, DutyCycle0[4]={0,0,0,0}; 	// fraction of period hi pins are high
 
 volatile uint32_t StepID[4]={0,0,0,0};  		// commutation step counter, 0..5
 volatile uint32_t Count[4]={0,0,0,0};  					// no full commutation cycles completed
 
-unsigned int motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};	//motor: cada uno de los motores
+uint32_t motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};			//motor: cada uno de los motores
 																//PWM_number: el pwm para cada uno
 																//sel_motor: elijo cual motor voy a ver
 
@@ -77,7 +77,7 @@ xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
-volatile uint8_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
+volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 /*==================[internal functions definition]==========================*/
 
@@ -121,6 +121,7 @@ static void initHardware(void)
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
 
+    NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
 }
@@ -128,7 +129,7 @@ static void initHardware(void)
 
 static void Motor(void * p)
 {
-	uint8_t *motor_number=(uint8_t*)p;
+	uint32_t *motor_number=(uint32_t*)p;
 	while(1)
 
 	{
@@ -154,8 +155,8 @@ static void Motor(void * p)
 
 static void StartUpMotor(void* p)
 {
-	uint8_t *motor_number=(uint8_t*)p;
-	static uint8_t Task_suspend=0;
+	uint32_t *motor_number=(uint32_t*)p;
+	static uint32_t Task_suspend=0;
 	while(1)
 	{
 //		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
