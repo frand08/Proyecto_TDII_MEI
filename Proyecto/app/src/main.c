@@ -116,11 +116,11 @@ static void initHardware(void)
     P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
 
 
-
+/*
     P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
-
+*/
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
@@ -264,12 +264,12 @@ void EINT3_IRQHandler(void)
 		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
 		 Conmutar[3]=1;
 	 }
-
+/*
 	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
 		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
 		 Conmutar[2]=1;
-	 }
+	 }*/
 }
 
 /*==================[end of file]============================================*/
