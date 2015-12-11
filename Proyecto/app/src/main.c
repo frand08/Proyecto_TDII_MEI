@@ -138,8 +138,8 @@ int main(void)
 	initHardware();
 
 
-	while(1)
-	{
+	while(1);
+/*	{
 		switch(estado)
 		{
 			case 0:
@@ -160,7 +160,7 @@ int main(void)
 
 		}
 	}
-
+*/
 }
 
 
