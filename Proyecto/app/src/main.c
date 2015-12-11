@@ -80,11 +80,6 @@ uint32_t estado_motorstartup[4]={0,0,0,0};
 volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 
-uint32_t t=1, dr=0, dPwr=0;
-uint32_t Suspender_Task=0;
-
-
-
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -127,7 +122,7 @@ static void initHardware(void)
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
 
-//    NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
+    NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
 }
@@ -137,7 +132,7 @@ static void initHardware(void)
 int main(void)
 {
 
-	uint32_t Fin_StartUp = 0, estado = 0,i;
+	uint32_t Fin_StartUp = 0, estado = 0;
 
 
 	initHardware();
@@ -145,7 +140,7 @@ int main(void)
 
 	while(1)
 	{
-/*		switch(estado)
+		switch(estado)
 		{
 			case 0:
 				Fin_StartUp = Start_Up_Brushless(3);
@@ -158,13 +153,12 @@ int main(void)
 			case 1:
 				if(Conmutar[3])
 				{
-*/					NextPWM(3);
-					for(i=0;i<40000;i++);
-//					Conmutar[3] = 0;
-//				}
+					NextPWM(3);
+					Conmutar[3] = 0;
+				}
 
 
-//		}
+		}
 	}
 
 }
