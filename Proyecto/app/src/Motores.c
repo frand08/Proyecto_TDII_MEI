@@ -25,6 +25,10 @@ extern uint32_t motor[4],PWM_number[4],sel_motor;
 
 extern uint32_t estado_motorstartup[4];
 
+extern uint32_t t, dr, dPwr;
+extern uint32_t Suspender_Task;
+
+
 void InitPWM0(void)
 {
 	//Initialize PWM peipheral, timer mode
@@ -117,9 +121,6 @@ void Stop_and_Default(uint32_t num_motor)
 
 uint32_t Start_Up_Brushless(uint32_t num_motor)
 {
-	static uint32_t t=1, dr=0, dPwr=0;
-	static uint32_t Suspender_Task=0;
-
 	//Drive at const rate for a few cycles to make sure rotor is synched.
 	//-----------------------------------------------------------------------------------------------
 

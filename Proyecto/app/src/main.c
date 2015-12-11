@@ -80,6 +80,11 @@ uint32_t estado_motorstartup[4]={0,0,0,0};
 volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 
+uint32_t t=1, dr=0, dPwr=0;
+uint32_t Suspender_Task=0;
+
+
+
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -138,8 +143,8 @@ int main(void)
 	initHardware();
 
 
-	while(1);
-/*	{
+	while(1)
+	{
 		switch(estado)
 		{
 			case 0:
@@ -160,7 +165,7 @@ int main(void)
 
 		}
 	}
-*/
+
 }
 
 
