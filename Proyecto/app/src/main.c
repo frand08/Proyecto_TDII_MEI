@@ -137,7 +137,7 @@ static void initHardware(void)
 int main(void)
 {
 
-	uint32_t Fin_StartUp = 0, estado = 0;
+	uint32_t Fin_StartUp = 0, estado = 0,i;
 
 
 	initHardware();
@@ -145,7 +145,7 @@ int main(void)
 
 	while(1)
 	{
-		switch(estado)
+/*		switch(estado)
 		{
 			case 0:
 				Fin_StartUp = Start_Up_Brushless(3);
@@ -158,12 +158,13 @@ int main(void)
 			case 1:
 				if(Conmutar[3])
 				{
-					NextPWM(3);
-					Conmutar[3] = 0;
-				}
+*/					NextPWM(3);
+					for(i=0;i<40000;i++);
+//					Conmutar[3] = 0;
+//				}
 
 
-		}
+//		}
 	}
 
 }
