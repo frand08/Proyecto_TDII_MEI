@@ -122,7 +122,7 @@ static void initHardware(void)
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
 
-    NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
+//    NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
 }
