@@ -88,7 +88,7 @@ static void initHardware(void)
 	Chip_SetupXtalClocking();
 	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
-    SysTick_Config(SystemCoreClock/10);		//10 ticks por segundo
+    SysTick_Config(100000000/10);		//10 ticks por segundo
 
 
 
