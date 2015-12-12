@@ -88,7 +88,7 @@ static void initHardware(void)
 	Chip_SetupXtalClocking();
 	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
-    SysTick_Config(SystemCoreClock/10);		//10 ticks por segundo
+    SysTick_Config(SystemCoreClock/1000);		//1000 ticks por segundo
 
 
 
@@ -244,9 +244,8 @@ vTaskStartScheduler();
 */
 	while(1)
 	{
-		switch(estado)
+		if(estado = 0)
 		{
-			case 0:
 				if(msTick)
 				{
 					msTick=0;
@@ -258,8 +257,9 @@ vTaskStartScheduler();
 					}
 				}
 				break;
-
-			case 1:
+		}
+		else
+		{
 				if(Conmutar[3])
 				{
 					Conmutar[3] = 0;
