@@ -88,28 +88,28 @@ static void initHardware(void)
 	Chip_SetupXtalClocking();
 	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
-    SysTick_Config(SystemCoreClock/1000);		//1000 ticks por segundo
+    SysTick_Config(SystemCoreClock/10);		//10 ticks por segundo
 
 
 
 
 
-//    Board_Init();
+    Board_Init();
 
 
 
-	InitPWM_motores(0);			//Función inicialización modulo PWM
-	InitPWM_motores(1);			//Función inicialización modulo PWM
-	InitPWM_motores(2);			//Función inicialización modulo PWM
+//	InitPWM_motores(0);			//Función inicialización modulo PWM
+//	InitPWM_motores(1);			//Función inicialización modulo PWM
+//	InitPWM_motores(2);			//Función inicialización modulo PWM
 	InitPWM_motores(3);			//Función inicialización modulo PWM
 	InitPWM0();
-	InitGPIO(0);			//Llamo función para inicializar GPIO
-	InitGPIO(1);			//Llamo función para inicializar GPIO
-	InitGPIO(2);			//Llamo función para inicializar GPIO
+//	InitGPIO(0);			//Llamo función para inicializar GPIO
+//	InitGPIO(1);			//Llamo función para inicializar GPIO
+//	InitGPIO(2);			//Llamo función para inicializar GPIO
 	InitGPIO(3);			//Llamo función para inicializar GPIO
-	Stop_and_Default(0);	//Condiciones iniciales
-	Stop_and_Default(1);	//Condiciones iniciales
-	Stop_and_Default(2);	//Condiciones iniciales
+//	Stop_and_Default(0);	//Condiciones iniciales
+//	Stop_and_Default(1);	//Condiciones iniciales
+//	Stop_and_Default(2);	//Condiciones iniciales
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
@@ -291,5 +291,6 @@ void EINT3_IRQHandler(void)
 void Systick_Handler(void)
 {
 	msTick = 1;
+	Board_LED_Toggle(0);
 }
 /*==================[end of file]============================================*/
