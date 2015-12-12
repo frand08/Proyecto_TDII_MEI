@@ -126,24 +126,13 @@ static void initHardware(void)
 
 }
 
-
+/*
 static void Motor(void * p)
 {
 	uint32_t *motor_number=(uint32_t*)p;
 	while(1)
 
 	{
-/*
-		CruceZero0[*motor_number][0] = GETPIN(PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
-		CruceZero0[*motor_number][1] = GETPIN(PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
-		CruceZero0[*motor_number][2] = GETPIN(PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-*/
-		/*
-		CruceZero[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
-		CruceZero[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
-		CruceZero[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-		 */
-//		if((CruceZero0[*motor_number][0] != CruceZero[*motor_number][0]) || (CruceZero0[*motor_number][1] != CruceZero[*motor_number][1]) || (CruceZero0[*motor_number][2] != CruceZero[*motor_number][2]))
 		if(Conmutar[*motor_number])
 		{
 			NextPWM(*motor_number);
@@ -152,7 +141,9 @@ static void Motor(void * p)
 		//vTaskDelay(1/portTICK_RATE_MS);
 	}
 }
+*/
 
+/*
 static void StartUpMotor(void* p)
 {
 	uint32_t *motor_number=(uint32_t*)p;
@@ -163,11 +154,7 @@ static void StartUpMotor(void* p)
 		Task_suspend=Start_Up_Brushless(*motor_number);
 		if(Task_suspend)
 		{
-			/*
-			CruceZero0[*motor_number][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][0], PIN_Z_[*motor_number][0]);
-			CruceZero0[*motor_number][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][1], PIN_Z_[*motor_number][1]);
-			CruceZero0[*motor_number][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*motor_number][2], PIN_Z_[*motor_number][2]);
-			 */
+
 //			xSemaphoreGive(sem_startup[*motor_number]);
 			End[*motor_number]=1;
 			vTaskSuspend(NULL);
@@ -177,6 +164,8 @@ static void StartUpMotor(void* p)
 //		xSemaphoreGive(sem_startup[*motor_number]);
 	}
 }
+*/
+
 /*
 static void Conmutation(void *p)
 {
@@ -200,7 +189,7 @@ static void Conmutation(void *p)
 
 int main(void)
 {
-
+	uint32_t estado = 0,suspender=0;
 
 	initHardware();
 
@@ -228,7 +217,7 @@ int main(void)
 
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
 
-*/
+
 
 	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
 
@@ -237,7 +226,7 @@ int main(void)
 //	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
 
 
-/*
+
 	sem_motor[0] = xSemaphoreCreateMutex();
 	sem_motor[1] = xSemaphoreCreateMutex();
 	sem_motor[2] = xSemaphoreCreateMutex();
@@ -247,11 +236,32 @@ int main(void)
 	sem_startup[1] = xSemaphoreCreateMutex();
 	sem_startup[2] = xSemaphoreCreateMutex();
 	sem_startup[3] = xSemaphoreCreateMutex();
-*/
+
 	sem_cruces = xSemaphoreCreateMutex();
 vTaskStartScheduler();
+*/
+	while(1)
+	{
+		switch(estado)
+		{
+			case 0:
+				suspender=Start_Up_Brushless(3);
+				if(suspender)
+				{
+					suspender = 0;
+					estado = 1;
+				}
+				break;
 
-	while(1);
+			case 1:
+				if(Conmutar[3])
+				{
+					Conmutar[3] = 0;
+					NextPWM(3);
+				}
+				break;
+		}
+	}
 
 }
 
