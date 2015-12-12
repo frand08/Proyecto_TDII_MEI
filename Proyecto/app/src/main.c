@@ -98,7 +98,7 @@ static void initHardware(void)
 
     Board_LED_Set(0, false);
 
-    SysTick_Config(SystemCoreClock/10);		//1000 ticks por segundo
+    SysTick_Config(SystemCoreClock/1000);		//1000 ticks por segundo
 
 //	InitPWM_motores(0);			//Función inicialización modulo PWM
 //	InitPWM_motores(1);			//Función inicialización modulo PWM
