@@ -191,7 +191,7 @@ static void Conmutation(void *p)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0;
+	uint32_t estado = 0,suspender=0,i=0;
 
 	initHardware();
 
@@ -247,8 +247,6 @@ vTaskStartScheduler();
 		switch(estado)
 		{
 			case 0:
-				if(msTick==10)
-				{
 					msTick=0;
 					suspender=Start_Up_Brushless(3);
 					if(suspender)
@@ -256,7 +254,7 @@ vTaskStartScheduler();
 						suspender = 0;
 						estado = 1;
 					}
-				}
+					for(i=0;i<1000;i++);
 				break;
 
 			case 1:
