@@ -73,11 +73,13 @@ uint32_t motor[4]={0,1,2,3},PWM_number[4]={3,4,5,6};			//motor: cada uno de los 
 																//sel_motor: elijo cual motor voy a ver
 
 
-xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
+//xSemaphoreHandle sem_motor[4],sem_startup[4],sem_cruces;
 
 uint32_t estado_motorstartup[4]={0,0,0,0};
 
 volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
+
+volatile uint32_t msTick=0;
 
 /*==================[internal functions definition]==========================*/
 
@@ -245,11 +247,15 @@ vTaskStartScheduler();
 		switch(estado)
 		{
 			case 0:
-				suspender=Start_Up_Brushless(3);
-				if(suspender)
+				if(msTick==10)
 				{
-					suspender = 0;
-					estado = 1;
+					msTick=0;
+					suspender=Start_Up_Brushless(3);
+					if(suspender)
+					{
+						suspender = 0;
+						estado = 1;
+					}
 				}
 				break;
 
@@ -282,4 +288,8 @@ void EINT3_IRQHandler(void)
 	 }*/
 }
 
+void Systick_Handler(void)
+{
+	msTick++;
+}
 /*==================[end of file]============================================*/
