@@ -88,7 +88,7 @@ static void initHardware(void)
 	Chip_SetupXtalClocking();
 	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
-    SysTick_Config(SystemCoreClock/1000);
+    SysTick_Config(SystemCoreClock/10);		//10 ticks por segundo
 
 
 
@@ -191,7 +191,7 @@ static void Conmutation(void *p)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0,i=0;
+	uint32_t estado = 0,suspender=0;
 
 	initHardware();
 
@@ -247,6 +247,8 @@ vTaskStartScheduler();
 		switch(estado)
 		{
 			case 0:
+				if(msTick)
+				{
 					msTick=0;
 					suspender=Start_Up_Brushless(3);
 					if(suspender)
@@ -254,7 +256,7 @@ vTaskStartScheduler();
 						suspender = 0;
 						estado = 1;
 					}
-					for(i=0;i<1000000;i++);
+				}
 				break;
 
 			case 1:
@@ -288,6 +290,6 @@ void EINT3_IRQHandler(void)
 
 void Systick_Handler(void)
 {
-	msTick++;
+	msTick = 1;
 }
 /*==================[end of file]============================================*/
