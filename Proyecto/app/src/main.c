@@ -102,16 +102,16 @@ static void initHardware(void)
 
 //	InitPWM_motores(0);			//Función inicialización modulo PWM
 //	InitPWM_motores(1);			//Función inicialización modulo PWM
-	InitPWM_motores(2);			//Función inicialización modulo PWM
+//	InitPWM_motores(2);			//Función inicialización modulo PWM
 	InitPWM_motores(3);			//Función inicialización modulo PWM
 	InitPWM0();
 //	InitGPIO(0);			//Llamo función para inicializar GPIO
 //	InitGPIO(1);			//Llamo función para inicializar GPIO
-	InitGPIO(2);			//Llamo función para inicializar GPIO
+//	InitGPIO(2);			//Llamo función para inicializar GPIO
 	InitGPIO(3);			//Llamo función para inicializar GPIO
 //	Stop_and_Default(0);	//Condiciones iniciales
 //	Stop_and_Default(1);	//Condiciones iniciales
-	Stop_and_Default(2);	//Condiciones iniciales
+//	Stop_and_Default(2);	//Condiciones iniciales
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
@@ -159,27 +159,15 @@ int main(void)
 						suspender = 0;
 						estado = 1;
 					}
-
-					suspender=Start_Up_Brushless(2);
-					if(suspender)
-					{
-						suspender = 0;
-						estado = 1;
-					}
 				}
 		}
 		else
 		{
-			if(Conmutar[3])
-			{
-				Conmutar[3] = 0;
-				NextPWM(3);
-			}
-			if(Conmutar[2])
-			{
-				Conmutar[2] = 0;
-				NextPWM(2);
-			}
+				if(Conmutar[3])
+				{
+					Conmutar[3] = 0;
+					NextPWM(3);
+				}
 		}
 	}
 	return 1;
@@ -194,12 +182,12 @@ void EINT3_IRQHandler(void)
 		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
 		 Conmutar[3]=1;
 	 }
-
+/*
 	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
 		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
 		 Conmutar[2]=1;
-	 }
+	 }*/
 }
 
 
