@@ -244,7 +244,7 @@ vTaskStartScheduler();
 */
 	while(1)
 	{
-		if(estado = 0)
+		if(estado == 0)
 		{
 				if(msTick)
 				{
@@ -268,7 +268,7 @@ vTaskStartScheduler();
 				break;
 		}
 	}
-
+	return 1;
 }
 
 
