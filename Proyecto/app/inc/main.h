@@ -3,11 +3,9 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "FreeRTOS.h"
+
 #include "board.h"
 #include "chip.h"
-#include "task.h"
-#include "semphr.h"
 
 #include "Defines.h"
 
@@ -30,6 +28,7 @@ extern "C" {
  * @return main function should never return
  */
 int main(void);
+void SysTick_Handler(void);
 
 /*==================[cplusplus]==============================================*/
 

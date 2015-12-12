@@ -81,6 +81,7 @@ volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 volatile uint32_t msTick=0;
 
+
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void)
@@ -88,7 +89,6 @@ static void initHardware(void)
 	Chip_SetupXtalClocking();
 	Chip_SYSCTL_SetFLASHAccess(FLASHTIM_100MHZ_CPU);
     SystemCoreClockUpdate();
-    SysTick_Config(100000000/10);		//10 ticks por segundo
 
 
 
@@ -96,7 +96,9 @@ static void initHardware(void)
 
     Board_Init();
 
+    Board_LED_Set(0, false);
 
+    SysTick_Config(SystemCoreClock/10);		//1000 ticks por segundo
 
 //	InitPWM_motores(0);			//Función inicialización modulo PWM
 //	InitPWM_motores(1);			//Función inicialización modulo PWM
@@ -128,66 +130,15 @@ static void initHardware(void)
 
 }
 
-/*
-static void Motor(void * p)
-{
-	uint32_t *motor_number=(uint32_t*)p;
-	while(1)
-
-	{
-		if(Conmutar[*motor_number])
-		{
-			NextPWM(*motor_number);
-			Conmutar[*motor_number] = 0;
-		}
-		//vTaskDelay(1/portTICK_RATE_MS);
-	}
-}
-*/
-
-/*
-static void StartUpMotor(void* p)
-{
-	uint32_t *motor_number=(uint32_t*)p;
-	static uint32_t Task_suspend=0;
-	while(1)
-	{
-//		xSemaphoreTake(sem_startup[*motor_number],portMAX_DELAY);
-		Task_suspend=Start_Up_Brushless(*motor_number);
-		if(Task_suspend)
-		{
-
-//			xSemaphoreGive(sem_startup[*motor_number]);
-			End[*motor_number]=1;
-			vTaskSuspend(NULL);
-		}
 
 
-//		xSemaphoreGive(sem_startup[*motor_number]);
-	}
-}
-*/
 
-/*
-static void Conmutation(void *p)
-{
-	uint8_t *zero_motor=(uint8_t*)p;
-	while(1)
-	{
-		xSemaphoreTake(sem_startup[*zero_motor],portMAX_DELAY);
-		CruceZero[*zero_motor][0] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][0], PIN_Z_[*zero_motor][0]);
-		CruceZero[*zero_motor][1] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][1], PIN_Z_[*zero_motor][1]);
-		CruceZero[*zero_motor][2] = Chip_GPIO_ReadPortBit(LPC_GPIO, PORT_Z_[*zero_motor][2], PIN_Z_[*zero_motor][2]);
-
-		if((CruceZero0[*zero_motor][0] != CruceZero[*zero_motor][0]) || (CruceZero0[*zero_motor][1] != CruceZero[*zero_motor][1]) || (CruceZero0[*zero_motor][2] != CruceZero[*zero_motor][2]))
-			xSemaphoreGive(sem_motor[*zero_motor]);
-
-		xSemaphoreGive(sem_startup[*zero_motor]);
-	}
-
-}
-*/
 /*==================[external functions definition]==========================*/
+
+void SysTick_Handler(void)
+{
+	msTick = 1;
+}
 
 int main(void)
 {
@@ -195,53 +146,6 @@ int main(void)
 
 	initHardware();
 
-/*
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 0",128,(void*)&motor[0],tskIDLE_PRIORITY+1,0);
-*/
-
-
-/*
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 1",128,(void*)&motor[1],tskIDLE_PRIORITY+1,0);
-
-
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 2",128,(void*)&motor[2],tskIDLE_PRIORITY+1,0);
-
-
-
-	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+2,0);
-
-	xTaskCreate(Motor, (signed const char *)"Motor 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-
-//	xTaskCreate(Conmutation,(signed const char *)"Conmutacion 3",128,(void*)&motor[3],tskIDLE_PRIORITY+1,0);
-
-
-
-	sem_motor[0] = xSemaphoreCreateMutex();
-	sem_motor[1] = xSemaphoreCreateMutex();
-	sem_motor[2] = xSemaphoreCreateMutex();
-	sem_motor[3] = xSemaphoreCreateMutex();
-
-	sem_startup[0] = xSemaphoreCreateMutex();
-	sem_startup[1] = xSemaphoreCreateMutex();
-	sem_startup[2] = xSemaphoreCreateMutex();
-	sem_startup[3] = xSemaphoreCreateMutex();
-
-	sem_cruces = xSemaphoreCreateMutex();
-vTaskStartScheduler();
-*/
 	while(1)
 	{
 		if(estado == 0)
@@ -256,7 +160,6 @@ vTaskStartScheduler();
 						estado = 1;
 					}
 				}
-				break;
 		}
 		else
 		{
@@ -265,7 +168,6 @@ vTaskStartScheduler();
 					Conmutar[3] = 0;
 					NextPWM(3);
 				}
-				break;
 		}
 	}
 	return 1;
@@ -288,9 +190,5 @@ void EINT3_IRQHandler(void)
 	 }*/
 }
 
-void Systick_Handler(void)
-{
-	msTick = 1;
-	Board_LED_Toggle(0);
-}
+
 /*==================[end of file]============================================*/
