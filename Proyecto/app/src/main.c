@@ -254,7 +254,7 @@ vTaskStartScheduler();
 						suspender = 0;
 						estado = 1;
 					}
-					for(i=0;i<1000;i++);
+					for(i=0;i<1000000;i++);
 				break;
 
 			case 1:
