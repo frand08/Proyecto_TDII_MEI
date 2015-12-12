@@ -132,20 +132,20 @@ uint32_t Start_Up_Brushless(uint32_t num_motor)
 			break;
 
 		case 1:
-			if(Count[num_motor]<10)
+/*			if(Count[num_motor]<10)
 			{
 				if(Match_Cnt[num_motor]>=StepPeriod[num_motor])		//Delay hasta la siguiente conmutación
 					NextPWM(num_motor);								//Siguiente conmutación
 			}
 			else
-			{
+			{*/
 				dPwr = (start.powerRange[1] - start.powerRange[0])/start.duration; 	//Diferencia de Duty
 				dr = (start.periodRange[0] -start.periodRange[1])/start.duration;
 
 				t = 0;
 
 				estado_motorstartup[num_motor] = 2;
-			}
+//			}
 			break;
 
 		case 2:
