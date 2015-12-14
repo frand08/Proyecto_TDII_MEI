@@ -161,7 +161,7 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0;
+	uint32_t estado = 0,suspender=0, StartMotores = 1;
 
 	initHardware();
 
@@ -176,8 +176,9 @@ int main(void)
 			 data=(data<<8)|data_led[3];
 		}
 
-		if(data == 0xAABBCCDD && estado == 0)
-			 estado = 1;
+		if(data == 0xAABBCCDD)
+			 StartMotores = 1;
+
 
 /*		if(data == 0xEEFF0123)
 		{
@@ -185,6 +186,11 @@ int main(void)
 			 Stop_and_Default(3);	//Condiciones iniciales
 		}
 */
+		if (StartMotores && !estado)
+		{
+			StartMotores = 0;
+			estado = 1;
+		}
 		if(estado == 1)
 		{
 				if(msTick)
