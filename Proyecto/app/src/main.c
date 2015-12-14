@@ -161,7 +161,7 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0, StartMotores = 1;
+	uint32_t estado = 0,suspender=0, StartMotores = 0;
 
 	initHardware();
 
@@ -186,7 +186,7 @@ int main(void)
 			 Stop_and_Default(3);	//Condiciones iniciales
 		}
 */
-		if (StartMotores && !estado)
+		if (StartMotores && estado == 0)
 		{
 			StartMotores = 0;
 			estado = 1;
