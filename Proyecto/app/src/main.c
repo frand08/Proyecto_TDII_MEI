@@ -182,14 +182,14 @@ int main(void)
 		if(data == 0xAABBCCDD)
 		{
 			Chip_GPIO_SetPinOutLow(LPC_GPIO, 2,10); //led isp
-			//StartMotores = 1;
+			StartMotores = 1;
 
 		}
 		if(data == 0xEEFF0123)
 		{
 			Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10); //led isp
-			 //estado = 0;
-			 //Stop_and_Default(3);	//Condiciones iniciales
+			estado = 0;
+			Stop_and_Default(3);	//Condiciones iniciales
 		}
 
 		if (StartMotores && estado == 0)
@@ -198,7 +198,7 @@ int main(void)
 			estado = 1;
 		}
 
-/*
+
 		if(estado == 1)
 		{
 				if(msTick)
@@ -219,7 +219,7 @@ int main(void)
 					Conmutar[3] = 0;
 					NextPWM(3);
 				}
-		}*/
+		}
 	}
 	return 1;
 }
