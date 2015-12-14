@@ -161,7 +161,7 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0, StartMotores = 0;
+	uint32_t estado = 1,suspender=0/*, StartMotores = 0*/;
 
 	initHardware();
 	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
@@ -169,7 +169,7 @@ int main(void)
 
 	while(1)
 	{
-
+/*
 		if(available())
 		{
 			 read( &data_led[0], 4 );
@@ -197,7 +197,7 @@ int main(void)
 			StartMotores = 0;
 			estado = 1;
 		}
-
+*/
 
 		if(estado == 1)
 		{
