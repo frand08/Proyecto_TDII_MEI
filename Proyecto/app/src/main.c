@@ -81,6 +81,11 @@ volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
 volatile uint32_t msTick=0;
 
+/*====================[PARA MODULO RF]====================*/
+uint32_t data=0;
+uint8_t data_led[4]={0,0,0,0};
+uint8_t addresses1[5] = {"edoN1"}, addresses2[5] = {"edoN2"};
+/*========================================================*/
 
 /*==================[internal functions definition]==========================*/
 
@@ -128,6 +133,18 @@ static void initHardware(void)
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
+/*====================[PARA MODULO RF]====================*/
+	InitSPI ();
+
+	begin();
+	setPALevel(RF24_PA_LOW);
+	openWritingPipe(&addresses2[0]);
+	openReadingPipe(1,&addresses1[0]);	//1Node: Transmite paquetes el tx por este pide (addres)
+
+	startListening();
+
+/*========================================================*/
+
 }
 
 
@@ -142,13 +159,31 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0;
+	uint32_t estado = 1,suspender=0;
 
 	initHardware();
 
 	while(1)
 	{
-		if(estado == 0)
+		if(available())
+		{
+			 read( &data_led[0], 4 );
+			 data=data_led[0];
+			 data=(data<<8)|data_led[1];
+			 data=(data<<8)|data_led[2];
+			 data=(data<<8)|data_led[3];
+		}
+
+		 if(data == 0xAABBCCDD && estado == 0)
+			 estado = 1;
+
+		 if(data == 0xEEFF0123)
+		 {
+			 estado = 0;
+			 Stop_and_Default(3);	//Condiciones iniciales
+		 }
+
+		if(estado == 1)
 		{
 				if(msTick)
 				{
@@ -157,11 +192,11 @@ int main(void)
 					if(suspender)
 					{
 						suspender = 0;
-						estado = 1;
+						estado = 2;
 					}
 				}
 		}
-		else
+		if(estado == 2)
 		{
 				if(Conmutar[3])
 				{

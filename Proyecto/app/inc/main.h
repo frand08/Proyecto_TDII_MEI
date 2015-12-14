@@ -10,6 +10,12 @@
 #include "Defines.h"
 
 #include "Estructuras_InitsIntGPIO.h"
+
+#include "SPI_RF.h"
+#include "nRF24L01.h"
+#include "RF24.h"
+
+
 /*==================[cplusplus]==============================================*/
 
 #ifdef __cplusplus
