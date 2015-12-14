@@ -118,17 +118,17 @@ static void initHardware(void)
 
     SysTick_Config(SystemCoreClock/1000);		//1000 ticks por segundo
 
-//	InitPWM_motores(0);			//Función inicialización modulo PWM
-//	InitPWM_motores(1);			//Función inicialización modulo PWM
+	InitPWM_motores(0);			//Función inicialización modulo PWM
+	InitPWM_motores(1);			//Función inicialización modulo PWM
 	InitPWM_motores(2);			//Función inicialización modulo PWM
 	InitPWM_motores(3);			//Función inicialización modulo PWM
 	InitPWM0();
-//	InitGPIO(0);			//Llamo función para inicializar GPIO
-//	InitGPIO(1);			//Llamo función para inicializar GPIO
+	InitGPIO(0);			//Llamo función para inicializar GPIO
+	InitGPIO(1);			//Llamo función para inicializar GPIO
 	InitGPIO(2);			//Llamo función para inicializar GPIO
 	InitGPIO(3);			//Llamo función para inicializar GPIO
-//	Stop_and_Default(0);	//Condiciones iniciales
-//	Stop_and_Default(1);	//Condiciones iniciales
+	Stop_and_Default(0);	//Condiciones iniciales
+	Stop_and_Default(1);	//Condiciones iniciales
 	Stop_and_Default(2);	//Condiciones iniciales
 	Stop_and_Default(3);	//Condiciones iniciales
 
@@ -192,6 +192,8 @@ int main(void)
 			Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10); //led isp
 			estado[2] = 0;
 			estado[3] = 0;
+			Stop_and_Default(0);	//Condiciones iniciales
+			Stop_and_Default(1);	//Condiciones iniciales
 			Stop_and_Default(2);	//Condiciones iniciales
 			Stop_and_Default(3);	//Condiciones iniciales
 		}
@@ -215,6 +217,7 @@ int main(void)
 				{
 					msTick[2]=0;
 					suspender[2]=Start_Up_Brushless(2);
+					suspender[0]=Start_Up_Brushless(0);
 					if(suspender[2])
 					{
 						suspender[2] = 0;
@@ -228,6 +231,7 @@ int main(void)
 				{
 					Conmutar[2] = 0;
 					NextPWM(2);
+					NextPWM(0);
 				}
 		}
 
@@ -239,6 +243,7 @@ int main(void)
 				{
 					msTick[3]=0;
 					suspender[3]=Start_Up_Brushless(3);
+					suspender[1]=Start_Up_Brushless(1);
 					if(suspender[3])
 					{
 						suspender[3] = 0;
@@ -252,6 +257,7 @@ int main(void)
 				{
 					Conmutar[3] = 0;
 					NextPWM(3);
+					NextPWM(1);
 				}
 		}
 	}
@@ -270,7 +276,8 @@ void EINT3_IRQHandler(void)
 
 	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
-		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
+		 P0_15CI=1
+				 ;P0_16CI=1;P2_9CI=1;
 		 Conmutar[2]=1;
 	 }
 }
