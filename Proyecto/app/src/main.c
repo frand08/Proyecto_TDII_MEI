@@ -96,6 +96,21 @@ static void initHardware(void)
     SystemCoreClockUpdate();
 
 
+/*====================[PARA MODULO RF]====================*/
+	Chip_GPIO_WriteDirBit(LPC_GPIO, CE_PIN, 1); //Puerto CE
+	Chip_GPIO_SetPinOutLow(LPC_GPIO, CE_PIN); //Puerto CE
+	InitSPI ();
+
+	begin();
+	setPALevel(RF24_PA_LOW);
+	openWritingPipe(&addresses2[0]);
+	openReadingPipe(1,&addresses1[0]);	//1Node: Transmite paquetes el tx por este pide (addres)
+
+	startListening();
+
+/*========================================================*/
+
+
 
 //    Board_Init();
 
@@ -131,19 +146,6 @@ static void initHardware(void)
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
-/*====================[PARA MODULO RF]====================
-	Chip_GPIO_WriteDirBit(LPC_GPIO, CE_PIN, 1); //Puerto CE
-	Chip_GPIO_SetPinOutLow(LPC_GPIO, CE_PIN); //Puerto CE
-	InitSPI ();
-
-	begin();
-	setPALevel(RF24_PA_LOW);
-	openWritingPipe(&addresses2[0]);
-	openReadingPipe(1,&addresses1[0]);	//1Node: Transmite paquetes el tx por este pide (addres)
-
-	startListening();
-
-========================================================*/
 
 }
 
@@ -159,15 +161,15 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 1,suspender=0/*, StartMotores = 0*/;
+	uint32_t estado = 0,suspender=0, StartMotores = 0;
 
 	initHardware();
-	//Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
-	//Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10);
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
+	Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10);
 
 	while(1)
 	{
-/*
+
 		if(available())
 		{
 			 read( &data_led[0], 4 );
@@ -195,7 +197,7 @@ int main(void)
 			StartMotores = 0;
 			estado = 1;
 		}
-*/
+
 
 		if(estado == 1)
 		{
