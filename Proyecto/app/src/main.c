@@ -79,7 +79,7 @@ uint32_t estado_motorstartup[4]={0,0,0,0};
 
 volatile uint32_t Conmutar[4]={0,0,0,0},End[4]={0,0,0,0};
 
-volatile uint32_t msTick=0;
+volatile uint32_t msTick[4]={0,0,0,0};
 
 /*====================[PARA MODULO RF]====================*/
 uint32_t data=0;
@@ -120,16 +120,16 @@ static void initHardware(void)
 
 //	InitPWM_motores(0);			//Función inicialización modulo PWM
 //	InitPWM_motores(1);			//Función inicialización modulo PWM
-//	InitPWM_motores(2);			//Función inicialización modulo PWM
+	InitPWM_motores(2);			//Función inicialización modulo PWM
 	InitPWM_motores(3);			//Función inicialización modulo PWM
 	InitPWM0();
 //	InitGPIO(0);			//Llamo función para inicializar GPIO
 //	InitGPIO(1);			//Llamo función para inicializar GPIO
-//	InitGPIO(2);			//Llamo función para inicializar GPIO
+	InitGPIO(2);			//Llamo función para inicializar GPIO
 	InitGPIO(3);			//Llamo función para inicializar GPIO
 //	Stop_and_Default(0);	//Condiciones iniciales
 //	Stop_and_Default(1);	//Condiciones iniciales
-//	Stop_and_Default(2);	//Condiciones iniciales
+	Stop_and_Default(2);	//Condiciones iniciales
 	Stop_and_Default(3);	//Condiciones iniciales
 
 
@@ -138,11 +138,11 @@ static void initHardware(void)
     P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
 
 
-/*
+
     P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
-*/
+
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
@@ -156,12 +156,13 @@ static void initHardware(void)
 
 void SysTick_Handler(void)
 {
-	msTick = 1;
+	msTick[2] = 1;
+	msTick[3] = 1;
 }
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0, StartMotores = 0;
+	uint32_t estado[4] ={0,0,0,0},suspender[4]={0,0,0,0}, StartMotores = 0;
 
 	initHardware();
 	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
@@ -188,31 +189,56 @@ int main(void)
 		if(data == 0xEEFF0123)
 		{
 			Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10); //led isp
-			estado = 0;
+			estado[2] = 0;
+			estado[3] = 0;
+			Stop_and_Default(2);	//Condiciones iniciales
 			Stop_and_Default(3);	//Condiciones iniciales
 		}
 
 		if (StartMotores && estado == 0)
 		{
 			StartMotores = 0;
-			estado = 1;
+			estado[2] = 1;
+			estado[3] = 1;
 		}
 
 
-		if(estado == 1)
+		if(estado[2] == 1)
 		{
-				if(msTick)
+				if(msTick[2])
 				{
-					msTick=0;
-					suspender=Start_Up_Brushless(3);
-					if(suspender)
+					msTick[2]=0;
+					suspender[2]=Start_Up_Brushless(2);
+					if(suspender[2])
 					{
-						suspender = 0;
-						estado = 2;
+						suspender[2] = 0;
+						estado[2] = 2;
 					}
 				}
 		}
-		if(estado == 2)
+		if(estado[2] == 2)
+		{
+				if(Conmutar[2])
+				{
+					Conmutar[2] = 0;
+					NextPWM(2);
+				}
+		}
+
+		if(estado[3] == 1)
+		{
+				if(msTick[3])
+				{
+					msTick[3]=0;
+					suspender[3]=Start_Up_Brushless(3);
+					if(suspender[3])
+					{
+						suspender[3] = 0;
+						estado[3] = 2;
+					}
+				}
+		}
+		if(estado[3] == 2)
 		{
 				if(Conmutar[3])
 				{
@@ -233,12 +259,12 @@ void EINT3_IRQHandler(void)
 		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
 		 Conmutar[3]=1;
 	 }
-/*
+
 	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
 		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
 		 Conmutar[2]=1;
-	 }*/
+	 }
 }
 
 
