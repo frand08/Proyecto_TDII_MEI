@@ -134,8 +134,8 @@ static void initHardware(void)
     NVIC_EnableIRQ(EINT3_IRQn);
 
 /*====================[PARA MODULO RF]====================*/
-    Chip_GPIO_WriteDirBit(LPC_GPIO, 0, 5, 1); //Puerto CE
-    Chip_GPIO_SetPinOutLow(LPC_GPIO, 0, 5); //Puerto CE
+    Chip_GPIO_WriteDirBit(LPC_GPIO, CE_PIN, 1); //Puerto CE
+    Chip_GPIO_SetPinOutLow(LPC_GPIO, CE_PIN); //Puerto CE
     InitSPI ();
 
 	begin();
@@ -161,12 +161,14 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 0,suspender=0, StartMotores = 0;
+	uint32_t estado = 1,suspender=0, StartMotores = 0;
 
 	initHardware();
+	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
 
 	while(1)
 	{
+
 		if(available())
 		{
 			 read( &data_led[0], 4 );
@@ -177,20 +179,25 @@ int main(void)
 		}
 
 		if(data == 0xAABBCCDD)
-			 StartMotores = 1;
-
-
-/*		if(data == 0xEEFF0123)
 		{
-			 estado = 0;
-			 Stop_and_Default(3);	//Condiciones iniciales
+			Chip_GPIO_SetPinOutLow(LPC_GPIO, 2,10); //led isp
+			//StartMotores = 1;
+
 		}
-*/
+		if(data == 0xEEFF0123)
+		{
+			Chip_GPIO_SetPinOutHigh(LPC_GPIO, 2,10); //led isp
+			 //estado = 0;
+			 //Stop_and_Default(3);	//Condiciones iniciales
+		}
+
 		if (StartMotores && estado == 0)
 		{
 			StartMotores = 0;
 			estado = 1;
 		}
+
+/*
 		if(estado == 1)
 		{
 				if(msTick)
@@ -211,7 +218,7 @@ int main(void)
 					Conmutar[3] = 0;
 					NextPWM(3);
 				}
-		}
+		}*/
 	}
 	return 1;
 }

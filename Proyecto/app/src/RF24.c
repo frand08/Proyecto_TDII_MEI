@@ -114,9 +114,13 @@ uint8_t read_payload(void* buf, uint8_t data_len)
 {
   uint8_t status;
   uint8_t* current = buf;
+  uint8_t blank_len =0;
 
   if(data_len > payload_size) data_len = payload_size;
-  uint8_t blank_len = dynamic_payloads_enabled ? 0 : (payload_size - data_len);
+  if(dynamic_payloads_enabled)
+	  blank_len = payload_size - data_len;
+  else
+	  blank_len =0;
 
   beginTransaction();
   status = SPI_ReadWrite( R_RX_PAYLOAD );
