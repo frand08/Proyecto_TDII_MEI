@@ -134,7 +134,9 @@ static void initHardware(void)
     NVIC_EnableIRQ(EINT3_IRQn);
 
 /*====================[PARA MODULO RF]====================*/
-	InitSPI ();
+    Chip_GPIO_WriteDirBit(LPC_GPIO, 0, 5, 1); //Puerto CE
+    Chip_GPIO_SetPinOutLow(LPC_GPIO, 0, 5); //Puerto CE
+    InitSPI ();
 
 	begin();
 	setPALevel(RF24_PA_LOW);

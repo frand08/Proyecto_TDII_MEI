@@ -208,7 +208,7 @@ uint8_t getPayloadSize(void)
 void begin(void)
 {
 	uint8_t i=0xFF;
-	Chip_GPIO_SetPinOutLow(LPC_GPIO, 0, 1); //Puerto CE
+	Chip_GPIO_SetPinOutLow(LPC_GPIO, CE_PIN); //Puerto CE
 	Chip_GPIO_SetPinOutHigh(LPC_GPIO,TOUCH_E);
 
   // Must allow the radio time to settle else configuration bits will not necessarily stick.
@@ -303,7 +303,7 @@ void startListening(void)
 
 void stopListening(void)
 {
-	Chip_GPIO_SetPinOutLow(LPC_GPIO, 0, 1); //Puerto CE
+	Chip_GPIO_SetPinOutLow(LPC_GPIO, CE_PIN); //Puerto CE
   flush_tx();
   flush_rx();
 }

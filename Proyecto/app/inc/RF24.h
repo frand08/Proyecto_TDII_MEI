@@ -45,7 +45,7 @@ typedef enum { RF24_CRC_DISABLED = 0, RF24_CRC_8, RF24_CRC_16 } rf24_crclength_e
  */
 
 
-#define 	CE_PIN 		0,1 /**< "Chip Enable" pin, activates the RX or TX role */
+#define 	CE_PIN 		0,5 /**< "Chip Enable" pin, activates the RX or TX role */
  /**< SPI Chip select TOUCH_E*/
 
   bool p_variant; /* False for RF24L01 and true for RF24L01P */
