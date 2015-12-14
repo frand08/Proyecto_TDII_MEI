@@ -161,7 +161,7 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado = 1,suspender=0, StartMotores = 0;
+	uint32_t estado = 0,suspender=0, StartMotores = 0;
 
 	initHardware();
 	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
