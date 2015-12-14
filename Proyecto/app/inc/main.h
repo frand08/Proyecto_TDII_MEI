@@ -34,6 +34,7 @@ extern "C" {
  * @return main function should never return
  */
 int main(void);
+
 void SysTick_Handler(void);
 
 /*==================[cplusplus]==============================================*/
