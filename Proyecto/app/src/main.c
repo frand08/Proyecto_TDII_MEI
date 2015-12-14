@@ -176,15 +176,15 @@ int main(void)
 			 data=(data<<8)|data_led[3];
 		}
 
-		 if(data == 0xAABBCCDD && estado == 0)
+		if(data == 0xAABBCCDD && estado == 0)
 			 estado = 1;
 
-		 if(data == 0xEEFF0123)
-		 {
+/*		if(data == 0xEEFF0123)
+		{
 			 estado = 0;
 			 Stop_and_Default(3);	//Condiciones iniciales
-		 }
-
+		}
+*/
 		if(estado == 1)
 		{
 				if(msTick)
