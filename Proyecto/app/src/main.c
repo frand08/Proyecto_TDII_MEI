@@ -94,9 +94,9 @@ static void initHardware(void)
 
 
 
-    Board_Init();
+//    Board_Init();
 
-    Board_LED_Set(0, false);
+//    Board_LED_Set(0, false);
 
     SysTick_Config(SystemCoreClock/1000);		//1000 ticks por segundo
 
@@ -120,11 +120,11 @@ static void initHardware(void)
     P2_6EF = 1;    P2_7EF = 1;    P2_8EF = 1;
 
 
-
+/*
     P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
-
+*/
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
