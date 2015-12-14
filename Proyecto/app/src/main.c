@@ -162,7 +162,7 @@ void SysTick_Handler(void)
 
 int main(void)
 {
-	uint32_t estado[4] ={0,0,0,0},suspender[4]={0,0,0,0}, StartMotores = 0;
+	uint32_t estado[4] ={0,0,0,0},suspender[4]={0,0,0,0}, StartMotores[4] = {0,0,0,0};
 
 	initHardware();
 	Chip_GPIO_WriteDirBit(LPC_GPIO, 2, 10, 1); //led isp
@@ -183,7 +183,8 @@ int main(void)
 		if(data == 0xAABBCCDD)
 		{
 			Chip_GPIO_SetPinOutLow(LPC_GPIO, 2,10); //led isp
-			StartMotores = 1;
+			StartMotores[2] = 1;
+			StartMotores[3] = 1;
 
 		}
 		if(data == 0xEEFF0123)
@@ -195,10 +196,15 @@ int main(void)
 			Stop_and_Default(3);	//Condiciones iniciales
 		}
 
-		if (StartMotores && estado == 0)
+		if (StartMotores[2] && estado[2] == 0)
 		{
-			StartMotores = 0;
+			StartMotores[2] = 0;
 			estado[2] = 1;
+		}
+
+		if (StartMotores[3] && estado[3] == 0)
+		{
+			StartMotores[3] = 0;
 			estado[3] = 1;
 		}
 
@@ -224,6 +230,8 @@ int main(void)
 					NextPWM(2);
 				}
 		}
+
+
 
 		if(estado[3] == 1)
 		{
