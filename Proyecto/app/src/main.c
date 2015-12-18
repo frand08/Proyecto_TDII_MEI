@@ -217,7 +217,6 @@ int main(void)
 				{
 					msTick[2]=0;
 					suspender[2]=Start_Up_Brushless(2);
-					suspender[0]=Start_Up_Brushless(0);
 					if(suspender[2])
 					{
 						suspender[2] = 0;
@@ -231,7 +230,6 @@ int main(void)
 				{
 					Conmutar[2] = 0;
 					NextPWM(2);
-					NextPWM(0);
 				}
 		}
 
@@ -243,7 +241,6 @@ int main(void)
 				{
 					msTick[3]=0;
 					suspender[3]=Start_Up_Brushless(3);
-					suspender[1]=Start_Up_Brushless(1);
 					if(suspender[3])
 					{
 						suspender[3] = 0;
@@ -257,11 +254,10 @@ int main(void)
 				{
 					Conmutar[3] = 0;
 					NextPWM(3);
-					NextPWM(1);
 				}
 		}
 	}
-	return 1;
+	return 0;
 }
 
 
@@ -276,8 +272,7 @@ void EINT3_IRQHandler(void)
 
 	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
 	 {
-		 P0_15CI=1
-				 ;P0_16CI=1;P2_9CI=1;
+		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
 		 Conmutar[2]=1;
 	 }
 }
