@@ -202,12 +202,14 @@ int main(void)
 		{
 			StartMotores[2] = 0;
 			estado[2] = 1;
+			msTick[2] = 0;
 		}
 
 		if (StartMotores[3] && estado[3] == 0)
 		{
 			StartMotores[3] = 0;
 			estado[3] = 1;
+			msTick[3] = 0;
 		}
 
 
@@ -264,17 +266,17 @@ int main(void)
 void EINT3_IRQHandler(void)
 {
 
-	 if((P2_6REI || P2_6FEI) || (P2_7REI || P2_7FEI) || (P2_8REI || P2_8FEI))
-	 {
-		 P2_6CI=1;P2_7CI=1;P2_8CI=1;
-		 Conmutar[3]=1;
-	 }
+	if((P2_6REI || P2_6FEI) || (P2_7REI || P2_7FEI) || (P2_8REI || P2_8FEI))
+	{
+		P2_6CI=1;P2_7CI=1;P2_8CI=1;
+		Conmutar[3]=1;
+	}
 
-	 if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
-	 {
-		 P0_15CI=1;P0_16CI=1;P2_9CI=1;
-		 Conmutar[2]=1;
-	 }
+	if((P0_15REI || P0_15FEI) || (P0_16REI || P0_16FEI) || (P2_9REI || P2_9FEI))
+	{
+		P0_15CI=1;P0_16CI=1;P2_9CI=1;
+		Conmutar[2]=1;
+	}
 }
 
 
