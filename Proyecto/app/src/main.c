@@ -205,13 +205,13 @@ int main(void)
 			msTick[2] = 0;
 		}
 
-		if (StartMotores[3] && estado[3] == 0)
+/*		if (StartMotores[3] && estado[3] == 0)
 		{
 			StartMotores[3] = 0;
 			estado[3] = 1;
 			msTick[3] = 0;
 		}
-
+*/
 
 		if(estado[2] == 1)
 		{
@@ -237,7 +237,7 @@ int main(void)
 
 
 
-		if(estado[3] == 1)
+/*		if(estado[3] == 1)
 		{
 				if(msTick[3])
 				{
@@ -257,7 +257,7 @@ int main(void)
 					Conmutar[3] = 0;
 					NextPWM(3);
 				}
-		}
+		}*/
 	}
 	return 0;
 }
