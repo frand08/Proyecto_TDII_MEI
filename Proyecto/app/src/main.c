@@ -21,47 +21,6 @@ static void initHardware(void);
 //GLOBALES
 //-----------------------------------------------------------------------------------------------
 
-<<<<<<< HEAD
-uint32_t Match_Cnt[4]={0,0,0,0}, Cycle[4]={0,0,0,0}, AntiRebo=REBOTE_,StepPeriod_arranque=0,DutyCycle_arranque=0,Match_Cnt_arranque=0;
-/*
-uint32_t PORT_Qa[3]={PORT_Q1,PORT_Q3,PORT_Q5},
-PIN_Qa[3]={PIN_Q1,PIN_Q3,PIN_Q5},
-PORT_Qb[3]={PORT_Q0,PORT_Q2,PORT_Q4},
-PIN_Qb[3]={PIN_Q0,PIN_Q2,PIN_Q4},
-PORT_Z[3]={PORT_Z1, PORT_Z2, PORT_Z3},
-PIN_Z[3]={PIN_Z1, PIN_Z2, PIN_Z3};
-*/
-
-uint32_t PORT_Qa_[4][3]={{PORT_Q11,PORT_Q13,PORT_Q15},
-		{PORT_Q21,PORT_Q23,PORT_Q25},
-		{PORT_Q31,PORT_Q33,PORT_Q35},
-		{PORT_Q41,PORT_Q43,PORT_Q45}
-};
-uint32_t PIN_Qa_[4][3]={{PIN_Q11,PIN_Q13,PIN_Q15},
-		{PIN_Q21,PIN_Q23,PIN_Q25},
-		{PIN_Q31,PIN_Q33,PIN_Q35},
-		{PIN_Q41,PIN_Q43,PIN_Q45}
-};
-uint32_t PORT_Qb_[4][3]={{PORT_Q10,PORT_Q12,PORT_Q14},
-		{PORT_Q20,PORT_Q22,PORT_Q24},
-		{PORT_Q30,PORT_Q32,PORT_Q34},
-		{PORT_Q40,PORT_Q42,PORT_Q44}
-};
-uint32_t PIN_Qb_[4][3]={{PIN_Q10,PIN_Q12,PIN_Q14},
-		{PIN_Q20,PIN_Q22,PIN_Q24},
-		{PIN_Q30,PIN_Q32,PIN_Q34},
-		{PIN_Q40,PIN_Q42,PIN_Q44}
-};
-uint32_t PORT_Z_[4][3]={{PORT_Z11, PORT_Z12, PORT_Z13},
-		{PORT_Z21, PORT_Z22, PORT_Z23},
-		{PORT_Z31, PORT_Z32, PORT_Z33},
-		{PORT_Z41, PORT_Z42, PORT_Z43}
-};
-uint32_t PIN_Z_[4][3]={{PIN_Z11, PIN_Z12, PIN_Z13},
-		{PIN_Z21, PIN_Z22, PIN_Z23},
-		{PIN_Z31, PIN_Z32, PIN_Z33},
-		{PIN_Z41, PIN_Z42, PIN_Z43}
-=======
 uint32_t  Cycle[4]={0,0,0,0}, AntiRebo=REBOTE_;
 
 volatile uint32_t Match_Cnt[4]={0,0,0,0};
@@ -95,7 +54,6 @@ uint32_t PIN_Z_[4][3]={{PIN_Z01, PIN_Z02, PIN_Z03},
 		{PIN_Z11, PIN_Z12, PIN_Z13},
 		{PIN_Z21, PIN_Z22, PIN_Z23},
 		{PIN_Z31, PIN_Z32, PIN_Z33}
->>>>>>> Sin_SO
 };
 
 struct StartParams_s  start= { 50,   {115, 15},   {20, 320} };	//Cantidad de pasos, período inicial y final, pwm inicial y final para startup
@@ -181,43 +139,6 @@ static void initHardware(void)
 
 
 
-<<<<<<< HEAD
-static void Motor(void * p)
-{
-	uint8_t *motor_number=(uint8_t*)p;
-	while(1)
-	{
-		if (Match_Cnt[*motor_number]>=StepPeriod[*motor_number])
-			NextPWM(*motor_number);		//Conmutación
-
-		//vTaskDelay(StepPeriod[*motor_number] / portTICK_RATE_MS);
-	}
-}
-
-static void StartUpMotores(void* p)
-{
-	//uint8_t *motor_number=(uint8_t*)p;
-	Start_Up_Brushless();
-/*
-	switch (*motor_number)
-	{
-	case 0:
-		vTaskSuspend(stup_motor0_task);
-		break;
-	case 1:
-		vTaskSuspend(stup_motor1_task);
-		break;
-	case 2:
-		vTaskSuspend(stup_motor2_task);
-		break;
-	case 3:
-		vTaskSuspend(stup_motor3_task);
-		break;
-	default:
-		break;
-	}
-	*/
-=======
     P0_15ER = 1;    P0_16ER = 1;    P2_9ER = 1;
 
     P0_15EF = 1;    P0_16EF = 1;    P2_9EF = 1;
@@ -225,7 +146,6 @@ static void StartUpMotores(void* p)
     NVIC_SetPriority(EINT3_IRQn,1);			//Le pongo la mayor prioridad a la interrupcion
     NVIC_EnableIRQ(EINT3_IRQn);
 
->>>>>>> Sin_SO
 
 }
 
@@ -260,15 +180,11 @@ int main(void)
 			 data=(data<<8)|data_led[3];
 		}
 
-<<<<<<< HEAD
-	xTaskCreate(StartUpMotores,(signed const char*)"StartUp Motores",1024,(void*)motor[0],tskIDLE_PRIORITY+2,stup_motor0_task);
-=======
 		if(data == 0xAABBCCDD)
 		{
 			Chip_GPIO_SetPinOutLow(LPC_GPIO, 2,10); //led isp
 			StartMotores[2] = 1;
 			StartMotores[3] = 1;
->>>>>>> Sin_SO
 
 		}
 		if(data == 0xEEFF0123)
@@ -282,17 +198,12 @@ int main(void)
 			Stop_and_Default(3);	//Condiciones iniciales
 		}
 
-<<<<<<< HEAD
-
-//	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 1",1024,(void*)motor[1],tskIDLE_PRIORITY+2,stup_motor1_task);
-=======
 		if (StartMotores[2] && estado[2] == 0)
 		{
 			StartMotores[2] = 0;
 			estado[2] = 1;
 			msTick[2] = 0;
 		}
->>>>>>> Sin_SO
 
 /*		if (StartMotores[3] && estado[3] == 0)
 		{
@@ -302,9 +213,6 @@ int main(void)
 		}
 */
 
-<<<<<<< HEAD
-//	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 2",1024,(void*)motor[2],tskIDLE_PRIORITY+2,stup_motor2_task);
-=======
 		if(estado[2] == 1)
 		{
 				if(msTick[2])
@@ -326,14 +234,8 @@ int main(void)
 					NextPWM(2);
 				}
 		}
->>>>>>> Sin_SO
 
 
-<<<<<<< HEAD
-//	xTaskCreate(StartUpMotor,(signed const char*)"StartUp Motor 3",1024,(void*)motor[3],tskIDLE_PRIORITY+2,stup_motor3_task);
-
-	xTaskCreate(Motor, (signed const char *)"Motor3",1024,(void*)motor[3],tskIDLE_PRIORITY+1,0);
-=======
 
 /*		if(estado[3] == 1)
 		{
@@ -359,7 +261,6 @@ int main(void)
 	}
 	return 0;
 }
->>>>>>> Sin_SO
 
 
 void EINT3_IRQHandler(void)
